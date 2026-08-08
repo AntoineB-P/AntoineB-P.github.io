@@ -4,35 +4,40 @@ import Navigation from '../components/Navigation.astro';
 import Footer from '../components/Footer.astro';
 import { siteConfig } from '../config';
 
-
+// Para agregar contenido, llena el arreglo "items" de la categoría correspondiente:
+// { titulo: 'Nombre del trabajo', fecha: 'Ago 2026', link: '/ruta-o-url' }
 
 const categorias = [
   {
     key: 'modelado',
     titulo: 'Modelado',
-    color: 'orange',
+    color: '#f97316',
     icon: '🧩',
+    desc: 'Diagramas entidad-relación y modelado conceptual.',
     items: [] as { titulo: string; fecha: string; link: string }[],
   },
   {
     key: 'normalizacion',
     titulo: 'Normalización',
-    color: 'blue',
+    color: '#3b82f6',
     icon: '🧮',
+    desc: 'Ejercicios de 1FN, 2FN y 3FN.',
     items: [] as { titulo: string; fecha: string; link: string }[],
   },
   {
     key: 'sql',
     titulo: 'SQL',
-    color: 'green',
+    color: '#22c55e',
     icon: '🗄️',
+    desc: 'Consultas y scripts prácticos.',
     items: [] as { titulo: string; fecha: string; link: string }[],
   },
   {
     key: 'proyecto',
     titulo: 'Proyecto',
-    color: 'purple',
+    color: '#8b5cf6',
     icon: '🚀',
+    desc: 'Avances del proyecto final.',
     items: [] as { titulo: string; fecha: string; link: string }[],
   },
 ];
@@ -46,29 +51,33 @@ const categorias = [
     <section class="page-hero">
       <span class="eyebrow">Bases de Datos 1</span>
       <h1>Trabajos</h1>
-      <p>El mapa de evidencias del semestre, organizado por tema.</p>
+      <p>Toca cada categoría para ver el contenido. Se irá llenando durante el semestre.</p>
     </section>
 
-    <section class="categorias">
-      {categorias.map(cat => (
-        <div class={`cat cat-${cat.color}`}>
-          <div class="cat-header">
-            <span class="cat-icon">{cat.icon}</span>
-            <h2>{cat.titulo}</h2>
-            <span class="cat-count">{cat.items.length}</span>
-          </div>
+    <section class="accordion">
+      {categorias.map((cat, i) => (
+        <div class="acc-item" style={`--c: ${cat.color}`} data-index={i}>
+          <button class="acc-trigger">
+            <span class="acc-icon">{cat.icon}</span>
+            <span class="acc-title">{cat.titulo}</span>
+            <span class="acc-desc">{cat.desc}</span>
+            <span class="acc-count">{cat.items.length}</span>
+            <span class="acc-chevron">⌄</span>
+          </button>
 
-          <div class="cat-items">
-            {cat.items.length === 0 ? (
-              <div class="empty">Aún sin contenido — se irá llenando pronto</div>
-            ) : (
-              cat.items.map(item => (
-                <a href={item.link} class="item-card">
-                  <span class="item-title">{item.titulo}</span>
-                  <span class="item-date">{item.fecha}</span>
-                </a>
-              ))
-            )}
+          <div class="acc-panel">
+            <div class="acc-panel-inner">
+              {cat.items.length === 0 ? (
+                <p class="empty">Aún sin contenido — próximamente.</p>
+              ) : (
+                cat.items.map(item => (
+                  <a href={item.link} class="item-row">
+                    <span>{item.titulo}</span>
+                    <span class="item-date">{item.fecha}</span>
+                  </a>
+                ))
+              )}
+            </div>
           </div>
         </div>
       ))}
@@ -95,7 +104,7 @@ const categorias = [
   }
 
   .page-hero h1 {
-    font-size: 2.5rem;
+    font-size: 2.75rem;
     margin: 0 0 0.5rem;
     letter-spacing: -0.02em;
   }
@@ -105,105 +114,111 @@ const categorias = [
     font-size: 0.95rem;
   }
 
-  .categorias {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.25rem;
+  .accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
     padding-bottom: 3rem;
   }
 
-  .cat {
-    border-radius: 20px;
-    padding: 1.5rem;
+  .acc-item {
+    border-radius: 18px;
     border: 1px solid var(--border-color);
     background: var(--bg-secondary);
-    position: relative;
     overflow: hidden;
   }
 
-  .cat::before {
-    content: '';
-    position: absolute;
-    top: -30%;
-    right: -20%;
-    width: 160px;
-    height: 160px;
-    border-radius: 50%;
-    opacity: 0.15;
-    filter: blur(10px);
-  }
-
-  .cat-orange::before { background: #f97316; }
-  .cat-blue::before { background: #3b82f6; }
-  .cat-green::before { background: #22c55e; }
-  .cat-purple::before { background: #8b5cf6; }
-
-  .cat-header {
-    display: flex;
+  .acc-trigger {
+    width: 100%;
+    display: grid;
+    grid-template-columns: auto auto 1fr auto auto;
     align-items: center;
-    gap: 0.6rem;
-    margin-bottom: 1rem;
-    position: relative;
-    z-index: 1;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    color: var(--text-primary);
+    border-left: 4px solid var(--c);
   }
 
-  .cat-icon {
+  .acc-icon {
     font-size: 1.5rem;
   }
 
-  .cat-header h2 {
-    font-size: 1.2rem;
-    margin: 0;
-    flex: 1;
+  .acc-title {
+    font-size: 1.15rem;
+    font-weight: 700;
   }
 
-  .cat-count {
-    font-size: 0.75rem;
-    font-weight: 700;
-    padding: 0.2rem 0.6rem;
-    border-radius: 999px;
-    background: var(--bg-primary);
-    border: 1px solid var(--border-color);
+  .acc-desc {
+    font-size: 0.85rem;
     color: var(--text-tertiary);
   }
 
-  .cat-items {
-    position: relative;
-    z-index: 1;
+  .acc-count {
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.2rem 0.65rem;
+    border-radius: 999px;
+    background: var(--c);
+    color: white;
+    opacity: 0.85;
+  }
+
+  .acc-chevron {
+    font-size: 1.1rem;
+    color: var(--text-tertiary);
+    transition: transform 0.25s ease;
+  }
+
+  .acc-item.open .acc-chevron {
+    transform: rotate(180deg);
+  }
+
+  .acc-panel {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+  .acc-item.open .acc-panel {
+    max-height: 500px;
+  }
+
+  .acc-panel-inner {
+    padding: 0 1.5rem 1.5rem;
     display: flex;
     flex-direction: column;
-    gap: 0.6rem;
+    gap: 0.5rem;
   }
 
   .empty {
     font-size: 0.85rem;
     color: var(--text-tertiary);
-    padding: 1.25rem;
+    padding: 1rem;
     text-align: center;
     border: 1px dashed var(--border-color);
-    border-radius: 12px;
+    border-radius: 10px;
+    margin: 0;
   }
 
-  .item-card {
+  .item-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.85rem 1rem;
+    padding: 0.75rem 1rem;
     background: var(--bg-primary);
     border: 1px solid var(--border-color);
-    border-radius: 12px;
+    border-radius: 10px;
     color: var(--text-primary);
-    transition: border-color 0.2s ease, transform 0.2s ease;
-  }
-
-  .item-card:hover {
-    border-color: var(--color-primary);
-    transform: translateX(3px);
-  }
-
-  .item-title {
     font-size: 0.9rem;
-    font-weight: 500;
+    transition: border-color 0.2s ease;
+  }
+
+  .item-row:hover {
+    border-color: var(--c);
   }
 
   .item-date {
@@ -211,9 +226,32 @@ const categorias = [
     color: var(--text-tertiary);
   }
 
-  @media (max-width: 720px) {
-    .categorias {
-      grid-template-columns: 1fr;
+  @media (max-width: 640px) {
+    .acc-trigger {
+      grid-template-columns: auto 1fr auto;
+      grid-template-areas:
+        "icon title chevron"
+        "icon desc chevron"
+        "count count count";
+      row-gap: 0.25rem;
     }
+
+    .acc-icon { grid-area: icon; }
+    .acc-title { grid-area: title; }
+    .acc-desc { grid-area: desc; }
+    .acc-chevron { grid-area: chevron; }
+    .acc-count { grid-area: count; justify-self: start; margin-top: 0.35rem; }
   }
 </style>
+
+<script>
+  function initAccordion() {
+    document.querySelectorAll('.acc-trigger').forEach(trigger => {
+      trigger.addEventListener('click', () => {
+        trigger.closest('.acc-item')?.classList.toggle('open');
+      });
+    });
+  }
+
+  document.addEventListener('astro:page-load', initAccordion);
+</script>
