@@ -10,26 +10,52 @@ import { siteConfig } from '../config';
 
   <main class="container" style="padding-top: 6rem;">
     <section class="hero">
-      <img src="/images/portada.jpeg" alt="Antoine Blanco" class="cover" />
+      <div class="hero-photo">
+        <img src="/images/portada.jpeg" alt="Antoine Blanco" class="cover" />
+      </div>
 
       <div class="hero-text">
-        <h1>{siteConfig.title}</h1>
+        <span class="eyebrow">Portafolio académico</span>
+        <h1>Antoine Blanco</h1>
+        <p class="role">Ingeniería de Sistemas · Universidad El Bosque</p>
+
         <p class="hero-description">
-          {siteConfig.description}
+          Este espacio documenta mi proceso en <strong>Bases de Datos 1</strong>:
+          ejercicios, evidencias de clase y el avance del proyecto final del semestre.
         </p>
 
-        <div class="hero-details">
-          <p>
-            Este es mi portafolio digital para la materia <strong>Bases de Datos 1</strong>,
-            donde iré documentando todo el proceso del semestre: ejercicios, evidencias
-            de clase y el avance del proyecto final.
-          </p>
-          <ul>
-            <li><strong>¿Qué encontrarás aquí?</strong> Trabajos, ejercicios prácticos y avances organizados por tema.</li>
-            <li><strong>¿Cómo está organizado?</strong> En la sección "Trabajos" vas a encontrar cada entrega, y en "Presentación" mi video de introducción.</li>
-          </ul>
+        <div class="pills">
+          <span class="pill">Semestre 2026-2</span>
+          <span class="pill">Bases de Datos 1</span>
+          <span class="pill">En progreso</span>
         </div>
       </div>
+    </section>
+
+    <section class="quick-links">
+      <a href="/presentacion" class="link-card">
+        <span class="link-icon">🎥</span>
+        <div>
+          <h3>Presentación</h3>
+          <p>Video de introducción y quién soy.</p>
+        </div>
+      </a>
+
+      <a href="/evidencias" class="link-card">
+        <span class="link-icon">📁</span>
+        <div>
+          <h3>Trabajos</h3>
+          <p>Evidencias, ejercicios y avances del semestre.</p>
+        </div>
+      </a>
+
+      <a href="/about" class="link-card">
+        <span class="link-icon">👤</span>
+        <div>
+          <h3>Sobre mí</h3>
+          <p>Un poco más de contexto personal.</p>
+        </div>
+      </a>
     </section>
   </main>
 
@@ -40,63 +66,143 @@ import { siteConfig } from '../config';
   .hero {
     display: flex;
     align-items: center;
-    gap: 2.5rem;
+    gap: 3rem;
     padding: 2rem 0 3rem;
   }
 
+  .hero-photo {
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .hero-photo::before {
+    content: '';
+    position: absolute;
+    inset: -10px;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));
+    border-radius: 50%;
+    opacity: 0.25;
+    filter: blur(18px);
+    z-index: 0;
+  }
+
   .cover {
-    width: 220px;
-    height: 220px;
+    position: relative;
+    z-index: 1;
+    width: 200px;
+    height: 200px;
     object-fit: cover;
     object-position: center 30%;
     border-radius: 50%;
-    flex-shrink: 0;
-    border: 3px solid var(--border-color);
+    border: 3px solid var(--bg-primary);
+    box-shadow: var(--shadow-md);
   }
 
   .hero-text {
     flex: 1;
+    min-width: 0;
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
   }
 
   .hero-text h1 {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
-    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    font-size: 2.75rem;
+    line-height: 1.1;
+    margin-bottom: 0.35rem;
+  }
+
+  .role {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    margin-bottom: 1rem;
   }
 
   .hero-description {
-    font-size: 1.1rem;
     color: var(--text-secondary);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    max-width: 540px;
     margin-bottom: 1.25rem;
   }
 
-  .hero-details p {
+  .pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .pill {
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 0.35rem 0.85rem;
+    border-radius: 999px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
     color: var(--text-secondary);
-    margin-bottom: 1rem;
-    line-height: 1.6;
   }
 
-  .hero-details ul {
-    list-style: disc;
-    padding-left: 1.25rem;
+  .quick-links {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    padding-bottom: 3rem;
+  }
+
+  .link-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+    padding: 1.25rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  }
+
+  .link-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--color-primary);
+  }
+
+  .link-icon {
+    font-size: 1.5rem;
+    line-height: 1;
+  }
+
+  .link-card h3 {
+    font-size: 1rem;
+    margin: 0 0 0.25rem;
+    color: var(--text-primary);
+  }
+
+  .link-card p {
+    font-size: 0.85rem;
     color: var(--text-secondary);
+    margin: 0;
   }
 
-  .hero-details li {
-    margin-bottom: 0.5rem;
-  }
-
-  @media (max-width: 640px) {
+  @media (max-width: 720px) {
     .hero {
       flex-direction: column;
       text-align: center;
+      gap: 1.5rem;
     }
 
-    .hero-details ul {
-      text-align: left;
+    .pills {
+      justify-content: center;
+    }
+
+    .quick-links {
+      grid-template-columns: 1fr;
     }
   }
 </style>
