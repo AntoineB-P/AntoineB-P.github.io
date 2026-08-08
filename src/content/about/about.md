@@ -1,20 +1,12 @@
 ---
-title: "About"
-description: "About CapsuleX"
+title: "Sobre mí"
+description: "Sobre Antoine Blanco"
 ---
 
-## About CapsuleX
+## Sobre mí
 
-CapsuleX is a minimal blog theme built with Astro. It features a clean, modern design with capsule-shaped navigation and automatic dark/light mode support.
+Estudiante de Ingeniería de Sistemas en la Universidad El Bosque, cuarto semestre.
 
-### Features
+### Sobre este portafolio
 
-- Capsule floating navigation
-- Automatic dark/light mode
-- Fast page transitions
-- Mobile responsive
-- SEO friendly
-
-### Getting Started
-
-Edit `src/content/about/about.md` to customize this page.
+Aquí documento mi proceso de aprendizaje en Bases de Datos 1: evidencias, ejercicios y avances del proyecto del semestre.
