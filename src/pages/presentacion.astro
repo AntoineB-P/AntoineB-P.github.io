@@ -11,22 +11,26 @@ import { siteConfig } from '../config';
   <main class="container" style="padding-top: 6rem;">
     <article class="presentacion">
 
-      <h1>Presentación</h1>
 
-      <div class="perfil">
-        <img
-          src="/images/portada.jpeg"
-          alt="Foto de Antoine Blanco Palacio"
-          class="avatar"
-        />
-        <div class="perfil-info">
-          <h2>Antoine Blanco Palacio</h2>
-          <p class="materia">Bases de Datos 1 · Semestre 2026 · Universidad El Bosque</p>
+      <section class="header">
+        <span class="eyebrow">Primera entrega · Bases de Datos 1</span>
+        <h1>Presentación</h1>
+
+        <div class="perfil">
+          <img
+            src="/images/portada.jpeg"
+            alt="Foto de Antoine Blanco Palacio"
+            class="avatar"
+          />
+          <div class="perfil-info">
+            <h2>Antoine Blanco Palacio</h2>
+            <p class="materia">Bases de Datos 1 · Semestre 2026 · Universidad El Bosque</p>
+          </div>
         </div>
-      </div>
+      </section>
 
       <section class="video-section">
-        <h2>Video de presentación</h2>
+        <h2 class="section-label">Video de presentación</h2>
         <div class="video-frame">
           <div class="video-wrapper">
             <iframe
@@ -40,23 +44,25 @@ import { siteConfig } from '../config';
         </div>
       </section>
 
-      <h2>¿Cómo me ayuda Bases de Datos 1 a mi vida profesional?</h2>
-      <p class="why-text">
-       La base de Datos es el centro de cualquier sistema, todo software profesional necesita almacenar, organizar y 
-      consultar información de forma correcta. Y ayuda a diseñar sistemas más eficientes, seguros y fáciles de mantener.
-      Esas son habilidades demandantes, que por supuesto me ayudarán a tener un mayor rango de empleabilidad en un futuro
-      </p>
 
-      <div class="quote-wrap">
-        <section class="quote-section">
-          <span class="quote-mark">"</span>
-          <p class="quote-text">
-            Este semestre quiero ir más allá del pénsum: quiero demostrar dominio real
-            de Bases de Datos 1 y empezar a usarla como una herramienta profesional que
-            aplico en mi día a día, no solo como una materia que apruebo.
-          </p>
-        </section>
-      </div>
+      <section class="why-section">
+        <h2 class="section-label">¿Cómo me ayuda Bases de Datos 1 a mi vida profesional?</h2>
+        <p class="why-text">
+       La base de Datos es el centro de cualquier sistema, todo software profesional necesita almacenar, 
+      organizar y consultar información de forma correcta. Y ayuda a diseñar sistemas más eficientes, seguros 
+      y fáciles de mantener. Esas son habilidades demandantes, que por supuesto me ayudarán a tener un mayor rango 
+      de empleabilidad en un futuro.
+        </p>
+      </section>
+
+      <section class="quote-section">
+        <span class="quote-mark">"</span>
+        <p class="quote-text">
+          Este semestre quiero ir más allá del pénsum: quiero demostrar dominio real
+          de Bases de Datos 1 y empezar a usarla como una herramienta profesional que
+          aplico en mi día a día, no solo como una materia que apruebo.
+        </p>
+      </section>
 
     </article>
   </main>
@@ -66,56 +72,82 @@ import { siteConfig } from '../config';
 
 <style>
   .presentacion {
-    max-width: 700px;
-    padding: 2rem 0;
+    max-width: 720px;
+    padding: 1rem 0 3rem;
+  }
+
+  section {
+    margin-bottom: 3rem;
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .header h1 {
+    font-size: 2.5rem;
+    margin: 0 0 1.5rem;
+    letter-spacing: -0.02em;
+  }
+
+  .section-label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-tertiary);
+    margin-bottom: 1.25rem;
   }
 
   .perfil {
     display: flex;
     align-items: center;
     gap: 1.5rem;
-    margin: 1.5rem 0 2rem;
+    padding: 1.25rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
   }
 
   .avatar {
-    width: 96px;
-    height: 96px;
+    width: 84px;
+    height: 84px;
     border-radius: 50%;
     object-fit: cover;
     object-position: center 30%;
     border: 2px solid var(--border-color);
+    flex-shrink: 0;
   }
 
   .perfil-info h2 {
     margin: 0;
+    font-size: 1.15rem;
   }
 
   .materia {
     color: var(--text-secondary);
     margin: 0.25rem 0 0;
-    font-size: 0.9rem;
-  }
-
-  .video-section {
-    text-align: center;
-    margin: 2rem 0;
+    font-size: 0.85rem;
   }
 
   .video-frame {
     display: flex;
     justify-content: center;
-    padding: 2.5rem;
+    padding: 1.5rem;
     background: var(--bg-secondary);
     border: 1px solid var(--border-color);
-    border-radius: 24px;
-    width: fit-content;
-    margin: 1rem auto 0;
+    border-radius: 20px;
   }
 
   .video-wrapper {
     position: relative;
-    width: 300px;
-    max-width: 100%;
+    width: 100%;
+    max-width: 300px;
     aspect-ratio: 9 / 16;
     border-radius: 14px;
     overflow: hidden;
@@ -131,43 +163,33 @@ import { siteConfig } from '../config';
     border: 0;
   }
 
-  .presentacion h2 {
-    margin-top: 2rem;
-    margin-bottom: 0.75rem;
-  }
-
- 
   .why-text {
     color: var(--text-secondary);
     line-height: 1.7;
-    text-align: justify;
+    font-size: 1rem;
   }
 
-  /* CITA FINAL — card centrada de verdad */
-  .quote-wrap {
-    display: flex;
-    justify-content: center;
-    margin-top: 2rem;
+  .why-text strong {
+    color: var(--text-primary);
   }
 
   .quote-section {
     position: relative;
-    padding: 2rem 2.5rem;
+    padding: 2rem 1.5rem 2rem 3rem;
     background: linear-gradient(135deg, color-mix(in srgb, var(--color-primary) 12%, transparent), transparent);
     border-left: 3px solid var(--color-primary);
     border-radius: 0 16px 16px 0;
-    max-width: 560px;
-    text-align: center;
   }
 
   .quote-mark {
-    display: block;
+    position: absolute;
+    top: 0.5rem;
+    left: 1rem;
     font-size: 3rem;
     line-height: 1;
     color: var(--color-primary);
     opacity: 0.35;
     font-family: Georgia, serif;
-    margin-bottom: 0.25rem;
   }
 
   .quote-text {
@@ -179,17 +201,17 @@ import { siteConfig } from '../config';
   }
 
   @media (max-width: 600px) {
+    .header h1 {
+      font-size: 2rem;
+    }
+
     .perfil {
       flex-direction: column;
       text-align: center;
     }
 
-    .video-frame {
-      padding: 1.5rem;
-    }
-
-    .quote-section {
-      padding: 1.5rem;
+    .facts-grid {
+      grid-template-columns: 1fr;
     }
 
     .quote-text {
