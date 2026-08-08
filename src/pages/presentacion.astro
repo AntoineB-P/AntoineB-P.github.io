@@ -42,20 +42,21 @@ import { siteConfig } from '../config';
 
       <h2>¿Cómo me ayuda Bases de Datos 1 a mi vida profesional?</h2>
       <p class="why-text">
-       La base de Datos es el centro de cualquier sistema, todo software profesional necesita almacenar, 
-      organizar y consultar información de forma correcta. Y ayuda a diseñar sistemas más eficientes, seguros
-      y fáciles de mantener. Esas son habilidades demandantes, que por supuesto me ayudarán a tener un mayor
-      rango de empleabilidad en un futuro
+       La base de Datos es el centro de cualquier sistema, todo software profesional necesita almacenar, organizar y 
+      consultar información de forma correcta. Y ayuda a diseñar sistemas más eficientes, seguros y fáciles de mantener.
+      Esas son habilidades demandantes, que por supuesto me ayudarán a tener un mayor rango de empleabilidad en un futuro
       </p>
 
-      <section class="quote-section">
-        <span class="quote-mark">"</span>
-        <p class="quote-text">
-          Este semestre quiero ir más allá del pénsum: quiero demostrar dominio real
-          de Bases de Datos 1 y empezar a usarla como una herramienta profesional que
-          aplico en mi día a día, no solo como una materia que apruebo.
-        </p>
-      </section>
+      <div class="quote-wrap">
+        <section class="quote-section">
+          <span class="quote-mark">"</span>
+          <p class="quote-text">
+            Este semestre quiero ir más allá del pénsum: quiero demostrar dominio real
+            de Bases de Datos 1 y empezar a usarla como una herramienta profesional que
+            aplico en mi día a día, no solo como una materia que apruebo.
+          </p>
+        </section>
+      </div>
 
     </article>
   </main>
@@ -103,18 +104,18 @@ import { siteConfig } from '../config';
   .video-frame {
     display: flex;
     justify-content: center;
-    padding: 1.5rem;
+    padding: 2.5rem;
     background: var(--bg-secondary);
     border: 1px solid var(--border-color);
-    border-radius: 20px;
+    border-radius: 24px;
+    width: fit-content;
     margin: 1rem auto 0;
-    max-width: 340px;
   }
 
   .video-wrapper {
     position: relative;
-    width: 100%;
-    max-width: 300px;
+    width: 300px;
+    max-width: 100%;
     aspect-ratio: 9 / 16;
     border-radius: 14px;
     overflow: hidden;
@@ -135,18 +136,26 @@ import { siteConfig } from '../config';
     margin-bottom: 0.75rem;
   }
 
+ 
   .why-text {
     color: var(--text-secondary);
     line-height: 1.7;
     text-align: justify;
   }
+
+  /* CITA FINAL — card centrada de verdad */
+  .quote-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+
   .quote-section {
     position: relative;
-    padding: 2rem 1.5rem;
+    padding: 2rem 2.5rem;
     background: linear-gradient(135deg, color-mix(in srgb, var(--color-primary) 12%, transparent), transparent);
     border-left: 3px solid var(--color-primary);
     border-radius: 0 16px 16px 0;
-    margin: 2rem auto 0;
     max-width: 560px;
     text-align: center;
   }
@@ -173,6 +182,14 @@ import { siteConfig } from '../config';
     .perfil {
       flex-direction: column;
       text-align: center;
+    }
+
+    .video-frame {
+      padding: 1.5rem;
+    }
+
+    .quote-section {
+      padding: 1.5rem;
     }
 
     .quote-text {
