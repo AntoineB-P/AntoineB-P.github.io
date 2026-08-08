@@ -25,27 +25,27 @@ import { siteConfig } from '../config';
         </div>
       </div>
 
-      <h2>Video de presentación</h2>
-      <div class="video-frame">
-        <div class="video-wrapper">
-          <iframe
-            src="https://www.youtube.com/embed/qbkLyOmoYbM"
-            title="Video de presentación"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-          ></iframe>
+      <section class="video-section">
+        <h2>Video de presentación</h2>
+        <div class="video-frame">
+          <div class="video-wrapper">
+            <iframe
+              src="https://www.youtube.com/embed/qbkLyOmoYbM"
+              title="Video de presentación"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            ></iframe>
+          </div>
         </div>
-      </div>
+      </section>
 
       <h2>¿Cómo me ayuda Bases de Datos 1 a mi vida profesional?</h2>
       <p class="why-text">
-        La base de Datos es el centro de cualquier sistema, todo software
-        profesional necesita almacenar, organizar y consultar información de forma
-        correcta. Y ayuda a diseñar sistemas más eficientes, seguros y fáciles de
-        mantener.
-        Esas son habilidades demandantes, que porsupuesto me ayudarán a tener un mayor rango de empleabilidad
-        en un futuro.
+       La base de Datos es el centro de cualquier sistema, todo software profesional necesita almacenar, 
+      organizar y consultar información de forma correcta. Y ayuda a diseñar sistemas más eficientes, seguros
+      y fáciles de mantener. Esas son habilidades demandantes, que por supuesto me ayudarán a tener un mayor
+      rango de empleabilidad en un futuro
       </p>
 
       <section class="quote-section">
@@ -95,6 +95,11 @@ import { siteConfig } from '../config';
     font-size: 0.9rem;
   }
 
+  .video-section {
+    text-align: center;
+    margin: 2rem 0;
+  }
+
   .video-frame {
     display: flex;
     justify-content: center;
@@ -102,7 +107,8 @@ import { siteConfig } from '../config';
     background: var(--bg-secondary);
     border: 1px solid var(--border-color);
     border-radius: 20px;
-    margin: 1rem 0 2rem;
+    margin: 1rem auto 0;
+    max-width: 340px;
   }
 
   .video-wrapper {
@@ -132,15 +138,16 @@ import { siteConfig } from '../config';
   .why-text {
     color: var(--text-secondary);
     line-height: 1.7;
+    text-align: justify;
   }
-
   .quote-section {
     position: relative;
     padding: 2rem 1.5rem;
     background: linear-gradient(135deg, color-mix(in srgb, var(--color-primary) 12%, transparent), transparent);
     border-left: 3px solid var(--color-primary);
     border-radius: 0 16px 16px 0;
-    margin-top: 2rem;
+    margin: 2rem auto 0;
+    max-width: 560px;
     text-align: center;
   }
 
@@ -159,8 +166,7 @@ import { siteConfig } from '../config';
     line-height: 1.5;
     font-style: italic;
     color: var(--text-primary);
-    margin: 0 auto;
-    max-width: 560px;
+    margin: 0;
   }
 
   @media (max-width: 600px) {
