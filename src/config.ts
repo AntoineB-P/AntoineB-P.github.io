@@ -21,8 +21,9 @@ export const siteConfig = {
   // Navigation links — displayed in capsule nav bar
   nav: [
     { title: 'Home', href: '/' },
+    { title: 'Presentación', href: '/presentacion' },
+    { title: 'Evidencias', href: '/evidencias' },
     { title: 'About', href: '/about' },
-    { title: 'Tags', href: '/tags' },
   ],
 
   // Social links — leave empty to hide
