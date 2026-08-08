@@ -77,6 +77,28 @@ const roadmap = [
       </p>
     </section>
 
+    <!-- AHORA MISMO -->
+    <section class="now-banner">
+      <span class="now-dot"></span>
+      <span class="now-label">Ahora mismo</span>
+      <span class="now-text">Documentando el modelo entidad-relación del proyecto del semestre</span>
+    </section>
+
+    <!-- STACK -->
+    <section class="stack">
+      <h2 class="section-label">Herramientas que uso</h2>
+      <div class="stack-flow">
+        <span>Angular</span>
+        <span>Spring Boot</span>
+        <span>PostgreSQL</span>
+        <span>Java</span>
+        <span>TypeScript</span>
+        <span>Git</span>
+        <span>Astro</span>
+        <span>Notion</span>
+      </div>
+    </section>
+
     <!-- ROADMAP -->
     <section class="roadmap">
       <h2 class="section-label">Avance del semestre</h2>
@@ -252,6 +274,77 @@ const roadmap = [
     color: var(--text-primary);
   }
 
+  /* NOW BANNER */
+  .now-banner {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 1rem 1.5rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 999px;
+    width: fit-content;
+    max-width: 100%;
+  }
+
+  .now-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #22c55e;
+    flex-shrink: 0;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
+    50% { opacity: 0.7; box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
+  }
+
+  .now-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-tertiary);
+    flex-shrink: 0;
+  }
+
+  .now-text {
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* STACK */
+  .stack-flow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 0.75rem;
+  }
+
+  .stack-flow span {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--text-tertiary);
+    letter-spacing: -0.01em;
+    transition: color 0.2s ease;
+    cursor: default;
+  }
+
+  .stack-flow span:not(:last-child)::after {
+    content: '/';
+    margin-left: 0.75rem;
+    color: var(--border-color-hover);
+    font-weight: 400;
+  }
+
+  .stack-flow span:hover {
+    color: var(--color-primary);
+  }
+
   /* TIMELINE */
   .timeline {
     display: flex;
@@ -351,6 +444,14 @@ const roadmap = [
     }
 
     .quote-block p {
+      font-size: 1.25rem;
+    }
+
+    .now-text {
+      white-space: normal;
+    }
+
+    .stack-flow span {
       font-size: 1.25rem;
     }
   }
