@@ -1,0 +1,76 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navigation from '../components/Navigation.astro';
+import Footer from '../components/Footer.astro';
+import { siteConfig } from '../config';
+
+const categorias = [
+  { titulo: 'Modelado', desc: 'Diagramas entidad-relación y modelado de datos.' },
+  { titulo: 'Normalización', desc: 'Ejercicios y proyectos de normalización (1FN, 2FN, 3FN).' },
+  { titulo: 'SQL', desc: 'Consultas, scripts y ejercicios de SQL.' },
+  { titulo: 'Proyecto', desc: 'Avances del proyecto final del curso.' },
+];
+---
+
+<BaseLayout title={'Evidencias - ' + siteConfig.title}>
+  <Navigation />
+
+  <main class="container" style="padding-top: 6rem;">
+    <h1>Evidencias</h1>
+    <p class="intro">Aquí iré documentando el trabajo del semestre por categoría.</p>
+
+    <div class="grid">
+      {categorias.map(cat => (
+        <div class="card">
+          <h2>{cat.titulo}</h2>
+          <p>{cat.desc}</p>
+          <span class="badge">Próximamente</span>
+        </div>
+      ))}
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .intro {
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.25rem;
+    padding-bottom: 3rem;
+  }
+
+  .card {
+    padding: 1.5rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+  }
+
+  .card h2 {
+    margin: 0 0 0.5rem;
+    font-size: 1.1rem;
+  }
+
+  .card p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin: 0 0 1rem;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    background: var(--bg-primary);
+    border: 1px dashed var(--border-color);
+    border-radius: 999px;
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+  }
+</style>
