@@ -13,7 +13,7 @@ export const siteConfig = {
 
   // Site URL — set before deployment (e.g., https://example.com)
   // Used for RSS feed and SEO
-  site: 'https://capsule-x-brown.vercel.app',
+  site: 'https://AntoineB-P.github.io',
 
   // HTML lang attribute — affects SEO and accessibility
   lang: 'en',
