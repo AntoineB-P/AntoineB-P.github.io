@@ -4,34 +4,36 @@ import Navigation from '../components/Navigation.astro';
 import Footer from '../components/Footer.astro';
 import { siteConfig } from '../config';
 
+
+
 const categorias = [
   {
-    num: '01',
+    key: 'modelado',
     titulo: 'Modelado',
-    desc: 'Diagramas entidad-relación y modelado conceptual de datos.',
-    estado: 'pending',
-    progreso: 0,
+    color: 'orange',
+    icon: '🧩',
+    items: [] as { titulo: string; fecha: string; link: string }[],
   },
   {
-    num: '02',
+    key: 'normalizacion',
     titulo: 'Normalización',
-    desc: 'Ejercicios y proyectos de normalización (1FN, 2FN, 3FN).',
-    estado: 'pending',
-    progreso: 0,
+    color: 'blue',
+    icon: '🧮',
+    items: [] as { titulo: string; fecha: string; link: string }[],
   },
   {
-    num: '03',
+    key: 'sql',
     titulo: 'SQL',
-    desc: 'Consultas, scripts y ejercicios prácticos de SQL.',
-    estado: 'pending',
-    progreso: 0,
+    color: 'green',
+    icon: '🗄️',
+    items: [] as { titulo: string; fecha: string; link: string }[],
   },
   {
-    num: '04',
+    key: 'proyecto',
     titulo: 'Proyecto',
-    desc: 'Avances del proyecto final del curso.',
-    estado: 'pending',
-    progreso: 0,
+    color: 'purple',
+    icon: '🚀',
+    items: [] as { titulo: string; fecha: string; link: string }[],
   },
 ];
 ---
@@ -42,31 +44,31 @@ const categorias = [
   <main class="container" style="padding-top: 6rem;">
 
     <section class="page-hero">
-      <span class="eyebrow">Bases de Datos 1 · Semestre 2026</span>
+      <span class="eyebrow">Bases de Datos 1</span>
       <h1>Trabajos</h1>
-      <p class="page-desc">
-        Cada categoría documenta una parte del curso. Se irán llenando a medida
-        que avance el semestre — por ahora, así arranca el mapa.
-      </p>
+      <p>El mapa de evidencias del semestre, organizado por tema.</p>
     </section>
 
     <section class="categorias">
       {categorias.map(cat => (
-        <div class="cat-row">
-          <span class="cat-num">{cat.num}</span>
+        <div class={`cat cat-${cat.color}`}>
+          <div class="cat-header">
+            <span class="cat-icon">{cat.icon}</span>
+            <h2>{cat.titulo}</h2>
+            <span class="cat-count">{cat.items.length}</span>
+          </div>
 
-          <div class="cat-main">
-            <div class="cat-heading">
-              <h2>{cat.titulo}</h2>
-              <span class={`cat-status ${cat.estado}`}>
-                {cat.estado === 'pending' ? 'Próximamente' : 'En progreso'}
-              </span>
-            </div>
-            <p class="cat-desc">{cat.desc}</p>
-
-            <div class="progress-track">
-              <div class="progress-fill" style={`width: ${cat.progreso}%`}></div>
-            </div>
+          <div class="cat-items">
+            {cat.items.length === 0 ? (
+              <div class="empty">Aún sin contenido — se irá llenando pronto</div>
+            ) : (
+              cat.items.map(item => (
+                <a href={item.link} class="item-card">
+                  <span class="item-title">{item.titulo}</span>
+                  <span class="item-date">{item.fecha}</span>
+                </a>
+              ))
+            )}
           </div>
         </div>
       ))}
@@ -79,9 +81,7 @@ const categorias = [
 
 <style>
   .page-hero {
-    padding: 1.5rem 0 3rem;
-    border-bottom: 1px solid var(--border-color);
-    margin-bottom: 3rem;
+    padding: 1.5rem 0 2.5rem;
   }
 
   .eyebrow {
@@ -91,107 +91,129 @@ const categorias = [
     text-transform: uppercase;
     letter-spacing: 0.08em;
     color: var(--color-primary);
-    margin-bottom: 0.75rem;
-  }
-
-  .page-hero h1 {
-    font-size: 3rem;
-    margin: 0 0 0.75rem;
-    letter-spacing: -0.02em;
-  }
-
-  .page-desc {
-    color: var(--text-secondary);
-    font-size: 1rem;
-    max-width: 520px;
-    line-height: 1.6;
-  }
-
-  .categorias {
-    display: flex;
-    flex-direction: column;
-    padding-bottom: 3rem;
-  }
-
-  .cat-row {
-    display: grid;
-    grid-template-columns: 3.5rem 1fr;
-    gap: 1.5rem;
-    padding: 2rem 0;
-    border-bottom: 1px solid var(--border-color);
-  }
-
-  .cat-num {
-    font-size: 1rem;
-    color: var(--text-tertiary);
-    font-variant-numeric: tabular-nums;
-    padding-top: 0.3rem;
-  }
-
-  .cat-heading {
-    display: flex;
-    align-items: center;
-    gap: 0.85rem;
-    flex-wrap: wrap;
     margin-bottom: 0.5rem;
   }
 
-  .cat-heading h2 {
-    font-size: 1.75rem;
-    margin: 0;
+  .page-hero h1 {
+    font-size: 2.5rem;
+    margin: 0 0 0.5rem;
+    letter-spacing: -0.02em;
   }
 
-  .cat-status {
-    font-size: 0.7rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    padding: 0.25rem 0.7rem;
+  .page-hero p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+  }
+
+  .categorias {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+    padding-bottom: 3rem;
+  }
+
+  .cat {
+    border-radius: 20px;
+    padding: 1.5rem;
+    border: 1px solid var(--border-color);
+    background: var(--bg-secondary);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cat::before {
+    content: '';
+    position: absolute;
+    top: -30%;
+    right: -20%;
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    opacity: 0.15;
+    filter: blur(10px);
+  }
+
+  .cat-orange::before { background: #f97316; }
+  .cat-blue::before { background: #3b82f6; }
+  .cat-green::before { background: #22c55e; }
+  .cat-purple::before { background: #8b5cf6; }
+
+  .cat-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cat-icon {
+    font-size: 1.5rem;
+  }
+
+  .cat-header h2 {
+    font-size: 1.2rem;
+    margin: 0;
+    flex: 1;
+  }
+
+  .cat-count {
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.2rem 0.6rem;
     border-radius: 999px;
-    border: 1px dashed var(--border-color);
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
     color: var(--text-tertiary);
   }
 
-  .cat-status.active {
-    border: 1px solid var(--color-primary);
-    color: var(--color-primary);
+  .cat-items {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
   }
 
-  .cat-desc {
-    color: var(--text-secondary);
-    font-size: 0.95rem;
-    max-width: 520px;
-    margin-bottom: 1rem;
-    line-height: 1.5;
+  .empty {
+    font-size: 0.85rem;
+    color: var(--text-tertiary);
+    padding: 1.25rem;
+    text-align: center;
+    border: 1px dashed var(--border-color);
+    border-radius: 12px;
   }
 
-  .progress-track {
-    height: 4px;
-    background: var(--bg-secondary);
-    border-radius: 999px;
-    overflow: hidden;
-    max-width: 320px;
+  .item-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.85rem 1rem;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    color: var(--text-primary);
+    transition: border-color 0.2s ease, transform 0.2s ease;
   }
 
-  .progress-fill {
-    height: 100%;
-    background: var(--color-primary);
-    border-radius: 999px;
-    transition: width 0.3s ease;
+  .item-card:hover {
+    border-color: var(--color-primary);
+    transform: translateX(3px);
   }
 
-  @media (max-width: 640px) {
-    .page-hero h1 {
-      font-size: 2.25rem;
-    }
+  .item-title {
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
 
-    .cat-row {
-      grid-template-columns: 2rem 1fr;
-      gap: 1rem;
-    }
+  .item-date {
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+  }
 
-    .cat-heading h2 {
-      font-size: 1.4rem;
+  @media (max-width: 720px) {
+    .categorias {
+      grid-template-columns: 1fr;
     }
   }
 </style>

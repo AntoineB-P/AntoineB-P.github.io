@@ -4,18 +4,15 @@ import Navigation from '../components/Navigation.astro';
 import Footer from '../components/Footer.astro';
 import { siteConfig } from '../config';
 
-const secciones = [
-  { num: '01', title: 'Presentación', desc: 'Quién soy y video de introducción.', href: '/presentacion' },
-  { num: '02', title: 'Trabajos', desc: 'Evidencias, ejercicios y avances del semestre.', href: '/evidencias' },
-  { num: '03', title: 'Sobre mí', desc: 'Un poco más de contexto personal.', href: '/about' },
-];
+
+const avance = 20;
 
 const roadmap = [
-  { estado: 'done', label: 'Publicación del portafolio', detalle: 'Espacio creado y en línea' },
-  { estado: 'done', label: 'Video de presentación', detalle: 'Primera entrega del curso' },
-  { estado: 'pending', label: 'Modelado y normalización', detalle: 'Próximas evidencias' },
-  { estado: 'pending', label: 'Consultas SQL', detalle: 'Próximas evidencias' },
-  { estado: 'pending', label: 'Proyecto final', detalle: 'Cierre de semestre' },
+  { label: 'Portafolio publicado', estado: 'done' },
+  { label: 'Video de presentación', estado: 'done' },
+  { label: 'Modelado', estado: 'pending' },
+  { label: 'SQL', estado: 'pending' },
+  { label: 'Proyecto final', estado: 'pending' },
 ];
 ---
 
@@ -24,92 +21,69 @@ const roadmap = [
 
   <main class="container" style="padding-top: 6rem;">
 
-    <!-- HERO -->
+ 
     <section class="hero">
+      <div class="hero-glow"></div>
       <img src="/images/portada.jpeg" alt="Antoine Blanco" class="cover" />
       <div class="hero-text">
-        <span class="eyebrow">Portafolio académico · Semestre 2026</span>
-        <h1>Antoine<br />Blanco</h1>
+        <span class="eyebrow">Portafolio académico · 2026</span>
+        <h1>Antoine Blanco</h1>
         <p class="role">Ingeniería de Sistemas — Universidad El Bosque</p>
       </div>
     </section>
 
-    <!-- FRANJA DE DATOS -->
-    <section class="stats-row">
-      <div class="stat">
-        <span class="stat-value">Bases de Datos 1</span>
-        <span class="stat-label">Materia</span>
+ 
+    <section class="bento">
+
+      <!-- Progreso -->
+      <div class="tile tile-progress">
+        <div class="ring" style={`--p: ${avance}`}>
+          <span>{avance}%</span>
+        </div>
+        <div>
+          <p class="tile-title">Semestre en curso</p>
+          <p class="tile-sub">Bases de Datos 1 · avance documentado</p>
+        </div>
       </div>
-      <div class="stat">
-        <span class="stat-value">4to</span>
-        <span class="stat-label">Semestre</span>
+
+      <a href="/presentacion" class="tile tile-link tile-orange">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+        <p class="tile-title">Presentación</p>
+        <p class="tile-sub">Video y quién soy</p>
+        <span class="tile-arrow">→</span>
+      </a>
+
+  
+      <a href="/evidencias" class="tile tile-link tile-blue">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+        <p class="tile-title">Trabajos</p>
+        <p class="tile-sub">Evidencias del curso</p>
+        <span class="tile-arrow">→</span>
+      </a>
+
+      <a href="/about" class="tile tile-link tile-purple">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <p class="tile-title">Sobre mí</p>
+        <p class="tile-sub">Más contexto personal</p>
+        <span class="tile-arrow">→</span>
+      </a>
+
+
+      <div class="tile tile-chips">
+        <span class="chip">📍 Bogotá</span>
+        <span class="chip">🎓 4to semestre</span>
+        <span class="chip">🟢 En progreso</span>
       </div>
-      <div class="stat">
-        <span class="stat-value">Bogotá</span>
-        <span class="stat-label">Ciudad</span>
-      </div>
-      <div class="stat">
-        <span class="stat-value">En progreso</span>
-        <span class="stat-label">Estado</span>
-      </div>
+
     </section>
 
-    <!-- INDICE -->
-    <section class="index">
-      <h2 class="section-label">Contenido</h2>
-      <div class="index-list">
-        {secciones.map(s => (
-          <a href={s.href} class="index-item">
-            <span class="index-num">{s.num}</span>
-            <span class="index-title">{s.title}</span>
-            <span class="index-desc">{s.desc}</span>
-            <span class="index-arrow">→</span>
-          </a>
-        ))}
-      </div>
-    </section>
-
-    <!-- CITA -->
-    <section class="quote-block">
-      <p>
-        "Este semestre quiero demostrar que puedo pasar de entender las bases de datos
-        en teoría, a diseñarlas y construirlas con criterio propio."
-      </p>
-    </section>
-
-    <!-- AHORA MISMO -->
-    <section class="now-banner">
-      <span class="now-dot"></span>
-      <span class="now-label">Ahora mismo</span>
-      <span class="now-text">Documentando el modelo entidad-relación del proyecto del semestre</span>
-    </section>
-
-    <!-- STACK -->
-    <section class="stack">
-      <h2 class="section-label">Herramientas que uso</h2>
-      <div class="stack-flow">
-        <span>Angular</span>
-        <span>Spring Boot</span>
-        <span>PostgreSQL</span>
-        <span>Java</span>
-        <span>TypeScript</span>
-        <span>Git</span>
-        <span>Astro</span>
-        <span>Notion</span>
-      </div>
-    </section>
-
-    <!-- ROADMAP -->
-    <section class="roadmap">
-      <h2 class="section-label">Avance del semestre</h2>
-      <div class="timeline">
-        {roadmap.map(r => (
-          <div class={`timeline-item ${r.estado}`}>
-            <span class="dot"></span>
-            <div class="timeline-content">
-              <p class="timeline-label">{r.label}</p>
-              <p class="timeline-detalle">{r.detalle}</p>
-            </div>
+    <section class="stepper">
+      <h2 class="section-label">Ruta del semestre</h2>
+      <div class="steps">
+        {roadmap.map((r, i) => (
+          <div class={`step ${r.estado}`}>
+            <div class="step-dot">{r.estado === 'done' ? '✓' : i + 1}</div>
+            <p>{r.label}</p>
           </div>
         ))}
       </div>
@@ -122,26 +96,46 @@ const roadmap = [
 
 <style>
   section {
-    margin-bottom: 4rem;
+    margin-bottom: 3rem;
   }
 
-  /* HERO */
+
   .hero {
+    position: relative;
     display: flex;
     align-items: center;
-    gap: 2.5rem;
-    padding: 1.5rem 0 3rem;
-    border-bottom: 1px solid var(--border-color);
+    gap: 2rem;
+    padding: 2rem 0 3rem;
+  }
+
+  .hero-glow {
+    position: absolute;
+    top: -40px;
+    left: -60px;
+    width: 260px;
+    height: 260px;
+    background: radial-gradient(circle, var(--color-primary) 0%, transparent 70%);
+    opacity: 0.18;
+    filter: blur(30px);
+    z-index: 0;
   }
 
   .cover {
-    width: 150px;
-    height: 150px;
+    position: relative;
+    z-index: 1;
+    width: 130px;
+    height: 130px;
     object-fit: cover;
     object-position: center 30%;
     border-radius: 50%;
+    border: 3px solid var(--bg-primary);
+    box-shadow: var(--shadow-md);
     flex-shrink: 0;
-    border: 3px solid var(--border-color);
+  }
+
+  .hero-text {
+    position: relative;
+    z-index: 1;
   }
 
   .eyebrow {
@@ -151,258 +145,213 @@ const roadmap = [
     text-transform: uppercase;
     letter-spacing: 0.08em;
     color: var(--color-primary);
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.4rem;
   }
 
   .hero-text h1 {
-    font-size: 3.5rem;
-    line-height: 0.95;
-    margin: 0 0 0.75rem;
+    font-size: 2.5rem;
+    margin: 0 0 0.35rem;
     letter-spacing: -0.02em;
   }
 
   .role {
     color: var(--text-secondary);
-    font-size: 1rem;
+    font-size: 0.95rem;
   }
 
-  /* STATS ROW */
-  .stats-row {
+  /* BENTO */
+  .bento {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, auto);
+    gap: 1rem;
+  }
+
+  .tile {
+    border-radius: 20px;
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .tile-progress {
+    grid-column: span 2;
+    grid-row: span 2;
     display: flex;
-    flex-wrap: wrap;
-    padding: 1.5rem 0;
-    border-bottom: 1px solid var(--border-color);
+    align-items: center;
+    gap: 1.25rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
   }
 
-  .stat {
-    flex: 1;
-    min-width: 140px;
-    padding: 0 1.5rem;
-    border-left: 1px solid var(--border-color);
+  .tile-link {
+    grid-column: span 2;
     display: flex;
     flex-direction: column;
-    gap: 0.3rem;
+    gap: 0.35rem;
+    color: white;
+    transition: transform 0.25s ease;
   }
 
-  .stat:first-child {
-    border-left: none;
-    padding-left: 0;
+  .tile-link:hover {
+    transform: translateY(-4px);
   }
 
-  .stat-value {
-    font-size: 1.15rem;
+  .tile-orange { background: linear-gradient(135deg, #f97316, #ea580c); }
+  .tile-blue { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+  .tile-purple { background: linear-gradient(135deg, #8b5cf6, #6d28d9); }
+
+  .tile-arrow {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    font-size: 1.25rem;
+    opacity: 0.7;
+    transition: transform 0.25s ease;
+  }
+
+  .tile-link:hover .tile-arrow {
+    transform: translateX(4px);
+  }
+
+  .tile-chips {
+    grid-column: span 4;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    background: transparent;
+    padding: 0;
+  }
+
+  .chip {
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+  }
+
+  .tile-title {
+    font-size: 1.1rem;
     font-weight: 600;
+    margin: 0;
+  }
+
+  .tile-sub {
+    font-size: 0.85rem;
+    opacity: 0.85;
+    margin: 0;
+  }
+
+  .tile-progress .tile-title {
     color: var(--text-primary);
   }
 
-  .stat-label {
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--text-tertiary);
+  .tile-progress .tile-sub {
+    color: var(--text-secondary);
   }
 
-  /* SECTION LABEL */
+  /* RING */
+  .ring {
+    --p: 0;
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: conic-gradient(var(--color-primary) calc(var(--p) * 1%), var(--bg-tertiary) 0);
+  }
+
+  .ring span {
+    width: 66px;
+    height: 66px;
+    border-radius: 50%;
+    background: var(--bg-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+  }
+
+  /* STEPPER */
   .section-label {
     font-size: 0.8rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     color: var(--text-tertiary);
-    margin-bottom: 1.25rem;
+    margin-bottom: 1.5rem;
   }
 
-  /* INDEX */
-  .index-list {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .index-item {
-    display: grid;
-    grid-template-columns: 3rem 10rem 1fr 1.5rem;
-    align-items: center;
-    gap: 1.5rem;
-    padding: 1.5rem 0;
-    border-bottom: 1px solid var(--border-color);
-    color: var(--text-primary);
-    transition: padding-left 0.25s ease, color 0.2s ease;
-  }
-
-  .index-item:hover {
-    padding-left: 0.75rem;
-    color: var(--color-primary);
-  }
-
-  .index-item:hover .index-arrow {
-    transform: translateX(4px);
-  }
-
-  .index-num {
-    font-size: 0.9rem;
-    color: var(--text-tertiary);
-    font-variant-numeric: tabular-nums;
-  }
-
-  .index-title {
-    font-size: 1.5rem;
-    font-weight: 600;
-  }
-
-  .index-desc {
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-  }
-
-  .index-arrow {
-    font-size: 1.25rem;
-    text-align: right;
-    transition: transform 0.25s ease;
-  }
-
-  /* QUOTE */
-  .quote-block {
-    padding: 2.5rem 0;
-    border-top: 1px solid var(--border-color);
-    border-bottom: 1px solid var(--border-color);
-  }
-
-  .quote-block p {
-    font-size: 1.6rem;
-    font-style: italic;
-    line-height: 1.4;
-    max-width: 700px;
-    color: var(--text-primary);
-  }
-
-  /* NOW BANNER */
-  .now-banner {
-    display: flex;
-    align-items: center;
-    gap: 0.85rem;
-    padding: 1rem 1.5rem;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    border-radius: 999px;
-    width: fit-content;
-    max-width: 100%;
-  }
-
-  .now-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: #22c55e;
-    flex-shrink: 0;
-    animation: pulse 2s ease-in-out infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
-    50% { opacity: 0.7; box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
-  }
-
-  .now-label {
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--text-tertiary);
-    flex-shrink: 0;
-  }
-
-  .now-text {
-    font-size: 0.9rem;
-    color: var(--text-primary);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  /* STACK */
-  .stack-flow {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem 0.75rem;
-  }
-
-  .stack-flow span {
-    font-size: 1.75rem;
-    font-weight: 600;
-    color: var(--text-tertiary);
-    letter-spacing: -0.01em;
-    transition: color 0.2s ease;
-    cursor: default;
-  }
-
-  .stack-flow span:not(:last-child)::after {
-    content: '/';
-    margin-left: 0.75rem;
-    color: var(--border-color-hover);
-    font-weight: 400;
-  }
-
-  .stack-flow span:hover {
-    color: var(--color-primary);
-  }
-
-  /* TIMELINE */
-  .timeline {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-  }
-
-  .timeline-item {
+  .steps {
     display: flex;
     align-items: flex-start;
-    gap: 1.25rem;
-    padding-bottom: 1.75rem;
+    gap: 0;
+  }
+
+  .step {
+    flex: 1;
+    text-align: center;
     position: relative;
   }
 
-  .timeline-item::before {
+  .step::before {
     content: '';
     position: absolute;
-    left: 5px;
     top: 16px;
-    bottom: -4px;
-    width: 1px;
+    left: -50%;
+    width: 100%;
+    height: 2px;
     background: var(--border-color);
+    z-index: 0;
   }
 
-  .timeline-item:last-child::before {
+  .step:first-child::before {
     display: none;
   }
 
-  .dot {
-    width: 11px;
-    height: 11px;
+  .step-dot {
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
-    margin-top: 4px;
-    flex-shrink: 0;
+    margin: 0 auto 0.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    font-weight: 700;
     background: var(--bg-secondary);
     border: 2px solid var(--border-color);
+    color: var(--text-tertiary);
+    position: relative;
+    z-index: 1;
   }
 
-  .timeline-item.done .dot {
+  .step.done .step-dot {
     background: var(--color-primary);
     border-color: var(--color-primary);
+    color: white;
   }
 
-  .timeline-label {
-    font-weight: 600;
-    color: var(--text-primary);
-    margin: 0 0 0.15rem;
+  .step.done::before {
+    background: var(--color-primary);
   }
 
-  .timeline-item.pending .timeline-label {
+  .step p {
+    font-size: 0.8rem;
     color: var(--text-secondary);
+    margin: 0;
+    padding: 0 0.5rem;
   }
 
-  .timeline-detalle {
-    font-size: 0.85rem;
-    color: var(--text-tertiary);
-    margin: 0;
+  .step.done p {
+    color: var(--text-primary);
+    font-weight: 500;
   }
 
   /* RESPONSIVE */
@@ -412,47 +361,40 @@ const roadmap = [
       text-align: center;
     }
 
-    .hero-text h1 {
-      font-size: 2.5rem;
+    .bento {
+      grid-template-columns: repeat(2, 1fr);
     }
 
-    .stats-row {
+    .tile-progress {
+      grid-column: span 2;
+      grid-row: auto;
       flex-direction: column;
+      text-align: center;
     }
 
-    .stat {
-      border-left: none;
-      border-top: 1px solid var(--border-color);
-      padding: 1rem 0;
+    .tile-link {
+      grid-column: span 2;
     }
 
-    .stat:first-child {
-      border-top: none;
+    .steps {
+      flex-direction: column;
+      gap: 1rem;
+      align-items: flex-start;
     }
 
-    .index-item {
-      grid-template-columns: 2rem 1fr;
-      grid-template-rows: auto auto;
-    }
-
-    .index-desc {
-      grid-column: 2;
-    }
-
-    .index-arrow {
+    .step::before {
       display: none;
     }
 
-    .quote-block p {
-      font-size: 1.25rem;
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-align: left;
     }
 
-    .now-text {
-      white-space: normal;
-    }
-
-    .stack-flow span {
-      font-size: 1.25rem;
+    .step-dot {
+      margin: 0;
     }
   }
 </style>
