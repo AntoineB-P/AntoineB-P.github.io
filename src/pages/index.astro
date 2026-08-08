@@ -3,104 +3,123 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Navigation from '../components/Navigation.astro';
 import Footer from '../components/Footer.astro';
 import { siteConfig } from '../config';
+
+const secciones = [
+  { num: '01', title: 'Presentación', desc: 'Quién soy y video de introducción.', href: '/presentacion' },
+  { num: '02', title: 'Trabajos', desc: 'Evidencias, ejercicios y avances del semestre.', href: '/evidencias' },
+  { num: '03', title: 'Sobre mí', desc: 'Un poco más de contexto personal.', href: '/about' },
+];
+
+const roadmap = [
+  { estado: 'done', label: 'Publicación del portafolio', detalle: 'Espacio creado y en línea' },
+  { estado: 'done', label: 'Video de presentación', detalle: 'Primera entrega del curso' },
+  { estado: 'pending', label: 'Modelado y normalización', detalle: 'Próximas evidencias' },
+  { estado: 'pending', label: 'Consultas SQL', detalle: 'Próximas evidencias' },
+  { estado: 'pending', label: 'Proyecto final', detalle: 'Cierre de semestre' },
+];
 ---
 
 <BaseLayout title={siteConfig.title}>
   <Navigation />
 
   <main class="container" style="padding-top: 6rem;">
+
+    <!-- HERO -->
     <section class="hero">
-      <div class="hero-photo">
-        <img src="/images/portada.jpeg" alt="Antoine Blanco" class="cover" />
-      </div>
-
+      <img src="/images/portada.jpeg" alt="Antoine Blanco" class="cover" />
       <div class="hero-text">
-        <span class="eyebrow">Portafolio académico</span>
-        <h1>Antoine Blanco</h1>
-        <p class="role">Ingeniería de Sistemas · Universidad El Bosque</p>
-
-        <p class="hero-description">
-          Este espacio documenta mi proceso en <strong>Bases de Datos 1</strong>:
-          ejercicios, evidencias de clase y el avance del proyecto final del semestre.
-        </p>
-
-        <div class="pills">
-          <span class="pill">Semestre 2026-2</span>
-          <span class="pill">Bases de Datos 1</span>
-          <span class="pill">En progreso</span>
-        </div>
+        <span class="eyebrow">Portafolio académico · Semestre 2026</span>
+        <h1>Antoine<br />Blanco</h1>
+        <p class="role">Ingeniería de Sistemas — Universidad El Bosque</p>
       </div>
     </section>
 
-    <section class="quick-links">
-      <a href="/presentacion" class="link-card">
-        <span class="link-icon">🎥</span>
-        <div>
-          <h3>Presentación</h3>
-          <p>Video de introducción y quién soy.</p>
-        </div>
-      </a>
-
-      <a href="/evidencias" class="link-card">
-        <span class="link-icon">📁</span>
-        <div>
-          <h3>Trabajos</h3>
-          <p>Evidencias, ejercicios y avances del semestre.</p>
-        </div>
-      </a>
-
-      <a href="/about" class="link-card">
-        <span class="link-icon">👤</span>
-        <div>
-          <h3>Sobre mí</h3>
-          <p>Un poco más de contexto personal.</p>
-        </div>
-      </a>
+    <!-- FRANJA DE DATOS -->
+    <section class="stats-row">
+      <div class="stat">
+        <span class="stat-value">Bases de Datos 1</span>
+        <span class="stat-label">Materia</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">4to</span>
+        <span class="stat-label">Semestre</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">Bogotá</span>
+        <span class="stat-label">Ciudad</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">En progreso</span>
+        <span class="stat-label">Estado</span>
+      </div>
     </section>
+
+    <!-- INDICE -->
+    <section class="index">
+      <h2 class="section-label">Contenido</h2>
+      <div class="index-list">
+        {secciones.map(s => (
+          <a href={s.href} class="index-item">
+            <span class="index-num">{s.num}</span>
+            <span class="index-title">{s.title}</span>
+            <span class="index-desc">{s.desc}</span>
+            <span class="index-arrow">→</span>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <!-- CITA -->
+    <section class="quote-block">
+      <p>
+        "Este semestre quiero demostrar que puedo pasar de entender las bases de datos
+        en teoría, a diseñarlas y construirlas con criterio propio."
+      </p>
+    </section>
+
+    <!-- ROADMAP -->
+    <section class="roadmap">
+      <h2 class="section-label">Avance del semestre</h2>
+      <div class="timeline">
+        {roadmap.map(r => (
+          <div class={`timeline-item ${r.estado}`}>
+            <span class="dot"></span>
+            <div class="timeline-content">
+              <p class="timeline-label">{r.label}</p>
+              <p class="timeline-detalle">{r.detalle}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
   </main>
 
   <Footer />
 </BaseLayout>
 
 <style>
+  section {
+    margin-bottom: 4rem;
+  }
+
+  /* HERO */
   .hero {
     display: flex;
     align-items: center;
-    gap: 3rem;
-    padding: 2rem 0 3rem;
-  }
-
-  .hero-photo {
-    position: relative;
-    flex-shrink: 0;
-  }
-
-  .hero-photo::before {
-    content: '';
-    position: absolute;
-    inset: -10px;
-    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));
-    border-radius: 50%;
-    opacity: 0.25;
-    filter: blur(18px);
-    z-index: 0;
+    gap: 2.5rem;
+    padding: 1.5rem 0 3rem;
+    border-bottom: 1px solid var(--border-color);
   }
 
   .cover {
-    position: relative;
-    z-index: 1;
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
     object-fit: cover;
     object-position: center 30%;
     border-radius: 50%;
-    border: 3px solid var(--bg-primary);
-    box-shadow: var(--shadow-md);
-  }
-
-  .hero-text {
-    flex: 1;
-    min-width: 0;
+    flex-shrink: 0;
+    border: 3px solid var(--border-color);
   }
 
   .eyebrow {
@@ -110,99 +129,229 @@ import { siteConfig } from '../config';
     text-transform: uppercase;
     letter-spacing: 0.08em;
     color: var(--color-primary);
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
   }
 
   .hero-text h1 {
-    font-size: 2.75rem;
-    line-height: 1.1;
-    margin-bottom: 0.35rem;
+    font-size: 3.5rem;
+    line-height: 0.95;
+    margin: 0 0 0.75rem;
+    letter-spacing: -0.02em;
   }
 
   .role {
     color: var(--text-secondary);
     font-size: 1rem;
-    margin-bottom: 1rem;
   }
 
-  .hero-description {
-    color: var(--text-secondary);
-    font-size: 1.05rem;
-    line-height: 1.6;
-    max-width: 540px;
-    margin-bottom: 1.25rem;
-  }
-
-  .pills {
+  /* STATS ROW */
+  .stats-row {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--border-color);
   }
 
-  .pill {
-    font-size: 0.75rem;
-    font-weight: 500;
-    padding: 0.35rem 0.85rem;
-    border-radius: 999px;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    color: var(--text-secondary);
-  }
-
-  .quick-links {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-    padding-bottom: 3rem;
-  }
-
-  .link-card {
+  .stat {
+    flex: 1;
+    min-width: 140px;
+    padding: 0 1.5rem;
+    border-left: 1px solid var(--border-color);
     display: flex;
-    align-items: flex-start;
-    gap: 0.85rem;
-    padding: 1.25rem;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    border-radius: 14px;
-    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    flex-direction: column;
+    gap: 0.3rem;
   }
 
-  .link-card:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-md);
-    border-color: var(--color-primary);
+  .stat:first-child {
+    border-left: none;
+    padding-left: 0;
   }
 
-  .link-icon {
-    font-size: 1.5rem;
-    line-height: 1;
-  }
-
-  .link-card h3 {
-    font-size: 1rem;
-    margin: 0 0 0.25rem;
+  .stat-value {
+    font-size: 1.15rem;
+    font-weight: 600;
     color: var(--text-primary);
   }
 
-  .link-card p {
-    font-size: 0.85rem;
+  .stat-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-tertiary);
+  }
+
+  /* SECTION LABEL */
+  .section-label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-tertiary);
+    margin-bottom: 1.25rem;
+  }
+
+  /* INDEX */
+  .index-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .index-item {
+    display: grid;
+    grid-template-columns: 3rem 10rem 1fr 1.5rem;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-primary);
+    transition: padding-left 0.25s ease, color 0.2s ease;
+  }
+
+  .index-item:hover {
+    padding-left: 0.75rem;
+    color: var(--color-primary);
+  }
+
+  .index-item:hover .index-arrow {
+    transform: translateX(4px);
+  }
+
+  .index-num {
+    font-size: 0.9rem;
+    color: var(--text-tertiary);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .index-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+
+  .index-desc {
     color: var(--text-secondary);
+    font-size: 0.9rem;
+  }
+
+  .index-arrow {
+    font-size: 1.25rem;
+    text-align: right;
+    transition: transform 0.25s ease;
+  }
+
+  /* QUOTE */
+  .quote-block {
+    padding: 2.5rem 0;
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .quote-block p {
+    font-size: 1.6rem;
+    font-style: italic;
+    line-height: 1.4;
+    max-width: 700px;
+    color: var(--text-primary);
+  }
+
+  /* TIMELINE */
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  .timeline-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+    padding-bottom: 1.75rem;
+    position: relative;
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 16px;
+    bottom: -4px;
+    width: 1px;
+    background: var(--border-color);
+  }
+
+  .timeline-item:last-child::before {
+    display: none;
+  }
+
+  .dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    margin-top: 4px;
+    flex-shrink: 0;
+    background: var(--bg-secondary);
+    border: 2px solid var(--border-color);
+  }
+
+  .timeline-item.done .dot {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+  }
+
+  .timeline-label {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 0.15rem;
+  }
+
+  .timeline-item.pending .timeline-label {
+    color: var(--text-secondary);
+  }
+
+  .timeline-detalle {
+    font-size: 0.85rem;
+    color: var(--text-tertiary);
     margin: 0;
   }
 
+  /* RESPONSIVE */
   @media (max-width: 720px) {
     .hero {
       flex-direction: column;
       text-align: center;
-      gap: 1.5rem;
     }
 
-    .pills {
-      justify-content: center;
+    .hero-text h1 {
+      font-size: 2.5rem;
     }
 
-    .quick-links {
-      grid-template-columns: 1fr;
+    .stats-row {
+      flex-direction: column;
+    }
+
+    .stat {
+      border-left: none;
+      border-top: 1px solid var(--border-color);
+      padding: 1rem 0;
+    }
+
+    .stat:first-child {
+      border-top: none;
+    }
+
+    .index-item {
+      grid-template-columns: 2rem 1fr;
+      grid-template-rows: auto auto;
+    }
+
+    .index-desc {
+      grid-column: 2;
+    }
+
+    .index-arrow {
+      display: none;
+    }
+
+    .quote-block p {
+      font-size: 1.25rem;
     }
   }
 </style>
