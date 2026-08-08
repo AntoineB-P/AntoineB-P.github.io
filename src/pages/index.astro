@@ -10,14 +10,25 @@ import { siteConfig } from '../config';
 
   <main class="container" style="padding-top: 6rem;">
     <section class="hero">
-      <img src="/images/portada.jpeg" alt="Portada" class="cover" />
-      <h1>{siteConfig.title}</h1>
-      <p class="hero-description">
-        {siteConfig.description}
-      </p>
-      <div class="cta">
-        <a href="/presentacion" class="btn">Ver presentación</a>
-        <a href="/evidencias" class="btn btn-secondary">Ver evidencias</a>
+      <img src="/images/portada.jpeg" alt="Antoine Blanco" class="cover" />
+
+      <div class="hero-text">
+        <h1>{siteConfig.title}</h1>
+        <p class="hero-description">
+          {siteConfig.description}
+        </p>
+
+        <div class="hero-details">
+          <p>
+            Este es mi portafolio digital para la materia <strong>Bases de Datos 1</strong>,
+            donde iré documentando todo el proceso del semestre: ejercicios, evidencias
+            de clase y el avance del proyecto final.
+          </p>
+          <ul>
+            <li><strong>¿Qué encontrarás aquí?</strong> Trabajos, ejercicios prácticos y avances organizados por tema.</li>
+            <li><strong>¿Cómo está organizado?</strong> En la sección "Trabajos" vas a encontrar cada entrega, y en "Presentación" mi video de introducción.</li>
+          </ul>
+        </div>
       </div>
     </section>
   </main>
@@ -27,24 +38,29 @@ import { siteConfig } from '../config';
 
 <style>
   .hero {
-    text-align: center;
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
     padding: 2rem 0 3rem;
   }
 
   .cover {
-  width: 220px;
-  height: 220px;
-  object-fit: cover;
-  object-position: center 30%;
-  border-radius: 50%;
-  margin: 0 auto 2rem;
-  display: block;
-  border: 3px solid var(--border-color);
-}
+    width: 220px;
+    height: 220px;
+    object-fit: cover;
+    object-position: center 30%;
+    border-radius: 50%;
+    flex-shrink: 0;
+    border: 3px solid var(--border-color);
+  }
 
-  .hero h1 {
-    font-size: 3rem;
-    margin-bottom: 1rem;
+  .hero-text {
+    flex: 1;
+  }
+
+  .hero-text h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
     background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -52,35 +68,35 @@ import { siteConfig } from '../config';
   }
 
   .hero-description {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     color: var(--text-secondary);
-    max-width: 500px;
-    margin: 0 auto 2rem;
+    margin-bottom: 1.25rem;
   }
 
-  .cta {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    flex-wrap: wrap;
+  .hero-details p {
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    line-height: 1.6;
   }
 
-  .btn {
-    padding: 0.75rem 1.5rem;
-    border-radius: 9999px;
-    background: var(--color-primary);
-    color: white;
-    font-weight: 600;
-    transition: opacity 0.2s;
+  .hero-details ul {
+    list-style: disc;
+    padding-left: 1.25rem;
+    color: var(--text-secondary);
   }
 
-  .btn:hover {
-    opacity: 0.85;
+  .hero-details li {
+    margin-bottom: 0.5rem;
   }
 
-  .btn-secondary {
-    background: var(--bg-secondary);
-    color: var(--text-primary);
-    border: 1px solid var(--border-color);
+  @media (max-width: 640px) {
+    .hero {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .hero-details ul {
+      text-align: left;
+    }
   }
 </style>

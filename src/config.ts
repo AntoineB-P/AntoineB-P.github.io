@@ -12,7 +12,7 @@ title: 'Antoine Blanco',
   nav: [
     { title: 'Home', href: '/' },
     { title: 'Presentación', href: '/presentacion' },
-    { title: 'Evidencias', href: '/evidencias' },
+    { title: 'Trabajos', href: '/evidencias' },
     { title: 'About', href: '/about' },
   ],
 
@@ -28,7 +28,7 @@ title: 'Antoine Blanco',
     callout: true,          // Show callout components in blog posts
     lightbox: true,         // Enable image lightbox on click
     rss: true,              // Enable RSS feed
-    search: true,           // Enable client-side search (Fuse.js)
+    search: false,           // Enable client-side search (Fuse.js)
   },
 };
 
