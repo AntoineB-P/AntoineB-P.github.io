@@ -9,11 +9,10 @@ title: 'Antoine Blanco',
   lang: 'es',
 
   // Navigation links — displayed in capsule nav bar
-  nav: [
+nav: [
     { title: 'Home', href: '/' },
     { title: 'Presentación', href: '/presentacion' },
-    { title: 'Trabajos', href: '/evidencias' },
-    { title: 'About', href: '/about' },
+    { title: 'Evidencias', href: '/evidencias' },
   ],
 
   // Social links — leave empty to hide
