@@ -2,21 +2,11 @@
 // Centralize all settings here, do not hardcode in components.
 
 export const siteConfig = {
-  // Site title — displayed in nav, footer, and page titles
-  title: 'CapsuleX',
-
-  // Site description — used in meta tags and hero section
-  description: 'A minimal blog theme with capsule design',
-
-  // Author name — used in footer and meta author tag
-  author: 'wangjacks',
-
-  // Site URL — set before deployment (e.g., https://example.com)
-  // Used for RSS feed and SEO
+title: 'Antoine Blanco',
+  description: 'Portafolio académico — Bases de Datos 1',
+  author: 'Antoine Blanco Palacio',
   site: 'https://AntoineB-P.github.io',
-
-  // HTML lang attribute — affects SEO and accessibility
-  lang: 'en',
+  lang: 'es',
 
   // Navigation links — displayed in capsule nav bar
   nav: [
