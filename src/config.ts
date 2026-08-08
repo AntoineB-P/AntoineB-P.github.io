@@ -18,7 +18,7 @@ title: 'Antoine Blanco',
 
   // Social links — leave empty to hide
   social: {
-    github: 'https://github.com/wangjacks/capsule-x',
+    github: 'https://github.com/AntoineB-P',
   },
 
   // Feature toggles
