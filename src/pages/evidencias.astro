@@ -5,7 +5,9 @@ import Footer from '../components/Footer.astro';
 import { siteConfig } from '../config';
 
 const categorias = [
-  { num: '01', titulo: 'Modelado', items: [] as { titulo: string; fecha: string; link: string }[] },
+{ num: '01', titulo: 'Modelado', items: [
+  { titulo: 'Modelo entidad-relación — Torneo de fútbol', fecha: 'Ago 2026', link: '/evidencias/modelado-torneo' },
+] as { titulo: string; fecha: string; link: string }[] },
   { num: '02', titulo: 'Normalización', items: [] as { titulo: string; fecha: string; link: string }[] },
   { num: '03', titulo: 'SQL', items: [] as { titulo: string; fecha: string; link: string }[] },
   { num: '04', titulo: 'Proyecto', items: [] as { titulo: string; fecha: string; link: string }[] },
