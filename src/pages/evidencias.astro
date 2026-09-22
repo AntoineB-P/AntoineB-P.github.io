@@ -4,14 +4,16 @@ import Navigation from '../components/Navigation.astro';
 import Footer from '../components/Footer.astro';
 import { siteConfig } from '../config';
 
-{
-  num: '01',
-  titulo: 'Modelado',
-  items: [
-    { titulo: 'Modelo entidad-relación — Torneo de fútbol', fecha: 'Ago 2026', link: '/evidencias/modelado-torneo' },
-    { titulo: 'Conceptos, MER extendido y transformación', fecha: 'Sep 2026', link: '/evidencias/modelado' },
-  ] as { titulo: string; fecha: string; link: string }[],
-},
+const categorias = [
+  {
+    num: '01',
+    titulo: 'Modelado',
+    items: [
+      { titulo: 'Modelo entidad-relación — Torneo de fútbol', fecha: 'Ago 2026', link: '/evidencias/modelado-torneo' },
+      { titulo: 'Conceptos, MER extendido y transformación', fecha: 'Sep 2026', link: '/evidencias/modelado' },
+    ] as { titulo: string; fecha: string; link: string }[],
+  },
+];
 ---
 
 <BaseLayout title={'Evidencias - ' + siteConfig.title}>
