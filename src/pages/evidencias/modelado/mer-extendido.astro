@@ -1,0 +1,144 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Navigation from '../../../components/Navigation.astro';
+import Footer from '../../../components/Footer.astro';
+import { siteConfig } from '../../../config';
+---
+
+<BaseLayout title={'MER extendido - ' + siteConfig.title}>
+  <Navigation />
+
+  <main class="container" style="padding-top: 6rem;">
+    <article class="doc">
+
+      <a href="/evidencias/modelado" class="back-link">← Volver a Modelado</a>
+
+      <span class="eyebrow">Modelado · 02</span>
+      <h1>MER extendido</h1>
+
+      <p class="intro">
+        El modelo entidad-relación extendido (MER extendido o EER) le agrega al
+        MER normal la posibilidad de representar jerarquías entre entidades:
+        cuándo una entidad es en realidad un "tipo" de otra más general.
+      </p>
+
+      <h2>Generalización</h2>
+      <p>
+        Es el proceso de identificar atributos comunes entre varias entidades
+        para agruparlas en una entidad más general (superclase). Por ejemplo, si
+        tengo "Jugador local" y "Jugador visitante" con atributos parecidos,
+        puedo generalizarlos en una única entidad "Jugador".
+      </p>
+
+      <h2>Especialización</h2>
+      <p>
+        Es el proceso contrario: parto de una entidad general (supertipo) y la
+        divido en subtipos con atributos propios y distintos. Por ejemplo,
+        "Persona" se puede especializar en "Jugador" y "Árbitro", cada uno con
+        atributos específicos que el otro no tiene.
+      </p>
+
+      <h2>Exclusividad</h2>
+      <p>
+        Dos o más subtipos son exclusivos cuando una instancia solo puede
+        pertenecer a uno de ellos, nunca a varios al mismo tiempo. Por ejemplo, un
+        "Jugador" no puede ser al mismo tiempo "Árbitro" — son roles excluyentes.
+        Cuando esto pasa, se dice que la especialización es disjunta.
+      </p>
+
+      <h2>Participación (total o parcial)</h2>
+      <p>
+        Indica si todas las instancias de la superclase deben pertenecer
+        obligatoriamente a algún subtipo (<strong>participación total</strong>,
+        se dibuja con línea doble) o si pueden existir instancias que no
+        pertenezcan a ningún subtipo (<strong>participación parcial</strong>,
+        línea sencilla).
+      </p>
+
+      <div class="img-placeholder">
+        <span>📷 Espacio para imagen — ejemplo de generalización/especialización</span>
+      </div>
+
+      <h2>Fuentes</h2>
+      <ul class="fuentes">
+        <li>Lucidchart — "Tutorial de diagramas ER extendidos"</li>
+        <li>ITCA — "Modelo Entidad Relación extendida"</li>
+        <li>Pablo Delgado Flores — "El modelo Entidad-Relación extendido"</li>
+      </ul>
+
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .doc {
+    max-width: 700px;
+    padding: 1rem 0 3rem;
+  }
+
+  .back-link {
+    display: inline-block;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+  }
+
+  .back-link:hover {
+    color: var(--color-primary);
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  h1 {
+    font-size: 2.25rem;
+    margin: 0 0 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .intro {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+    margin: 2rem 0 0.6rem;
+  }
+
+  p {
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  strong {
+    color: var(--text-primary);
+  }
+
+  .img-placeholder {
+    margin: 2rem 0;
+    padding: 3rem 1.5rem;
+    text-align: center;
+    border: 1px dashed var(--border-color);
+    border-radius: 14px;
+    color: var(--text-tertiary);
+    font-size: 0.85rem;
+  }
+
+  .fuentes {
+    color: var(--text-secondary);
+    line-height: 1.9;
+    padding-left: 1.25rem;
+    font-size: 0.9rem;
+  }
+</style>

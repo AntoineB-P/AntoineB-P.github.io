@@ -1,0 +1,70 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Navigation from '../../../components/Navigation.astro';
+import Footer from '../../../components/Footer.astro';
+import { siteConfig } from '../../../config';
+---
+
+<BaseLayout title={'Tipos de datos - ' + siteConfig.title}>
+  <Navigation />
+
+  <main class="container" style="padding-top: 6rem;">
+    <article class="doc">
+
+      <a href="/evidencias/modelado" class="back-link">← Volver a Modelado</a>
+
+      <span class="eyebrow">Modelado · 05</span>
+      <h1>Tipos de datos en bases de datos relacionales</h1>
+
+      <div class="img-placeholder">
+        <span>📷 Espacio para imagen</span>
+      </div>
+
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .doc {
+    max-width: 700px;
+    padding: 1rem 0 3rem;
+  }
+
+  .back-link {
+    display: inline-block;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+  }
+
+  .back-link:hover {
+    color: var(--color-primary);
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  h1 {
+    font-size: 2.1rem;
+    margin: 0 0 1.5rem;
+    letter-spacing: -0.02em;
+  }
+
+  .img-placeholder {
+    padding: 4rem 1.5rem;
+    text-align: center;
+    border: 1px dashed var(--border-color);
+    border-radius: 14px;
+    color: var(--text-tertiary);
+    font-size: 0.9rem;
+  }
+</style>

@@ -1,0 +1,201 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Navigation from '../../../components/Navigation.astro';
+import Footer from '../../../components/Footer.astro';
+import { siteConfig } from '../../../config';
+
+const pasos = [
+  {
+    num: '01',
+    titulo: 'Eliminar atributos multivaluados',
+    desc: 'Cada atributo multivaluado se convierte en una tabla aparte, con clave propia y una clave foránea hacia la entidad original.',
+  },
+  {
+    num: '02',
+    titulo: 'Transformar entidades',
+    desc: 'Cada entidad se convierte en una tabla. Sus atributos pasan a ser columnas, y el atributo clave se convierte en clave primaria.',
+  },
+  {
+    num: '03',
+    titulo: 'Transformar relaciones según cardinalidad',
+    desc: 'N:M → se crea una nueva tabla con las claves de ambas entidades. 1:N → la clave del lado "1" pasa como clave foránea al lado "N". 1:1 → depende de la participación de cada entidad.',
+  },
+  {
+    num: '04',
+    titulo: 'Revisar según participación',
+    desc: 'Si una entidad tiene participación total y la otra parcial, la clave foránea normalmente se coloca en la tabla con participación total, para evitar campos vacíos.',
+  },
+  {
+    num: '05',
+    titulo: 'Relaciones n-arias',
+    desc: 'Cuando participan 3 o más entidades, siempre se genera una tabla nueva con las claves de todas las entidades involucradas como claves foráneas.',
+  },
+  {
+    num: '06',
+    titulo: 'Roles',
+    desc: 'En relaciones donde una misma entidad participa más de una vez (relaciones reflexivas), cada rol se representa como una columna distinta con la misma clave foránea repetida.',
+  },
+  {
+    num: '07',
+    titulo: 'Generalización y especialización',
+    desc: 'Cada subtipo puede convertirse en su propia tabla (compartiendo la clave con el supertipo), o se pueden unir en una sola tabla con un atributo que indique el tipo — depende del caso.',
+  },
+  {
+    num: '08',
+    titulo: 'Revisar participaciones finales',
+    desc: 'Al terminar, se revisa que cada tabla tenga su clave primaria bien definida y que las claves foráneas queden coherentes con las cardinalidades originales del MER.',
+  },
+];
+---
+
+<BaseLayout title={'Transformación a tablas - ' + siteConfig.title}>
+  <Navigation />
+
+  <main class="container" style="padding-top: 6rem;">
+    <article class="doc">
+
+      <a href="/evidencias/modelado" class="back-link">← Volver a Modelado</a>
+
+      <span class="eyebrow">Modelado · 03</span>
+      <h1>Transformación a tablas</h1>
+
+      <p class="intro">
+        Pasos que sigo para pasar un modelo entidad-relación (MER) al modelo
+        relacional, es decir, convertirlo en tablas reales.
+      </p>
+
+      <div class="pasos">
+        {pasos.map(p => (
+          <div class="paso">
+            <span class="paso-num">{p.num}</span>
+            <div>
+              <h3>{p.titulo}</h3>
+              <p>{p.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <h2>Link de referencia</h2>
+      <p class="placeholder-text">🔗 Espacio para dejar el link de un ejemplo o guía que use.</p>
+
+      <div class="img-placeholder">
+        <span>📷 Espacio para imagen — ejemplo de transformación aplicado</span>
+      </div>
+
+      <h2>Fuentes</h2>
+      <ul class="fuentes">
+        <li>José Juan Sánchez — "Del modelo conceptual al modelo relacional"</li>
+        <li>JavierJG — "Transformación modelo E/R a modelo relacional"</li>
+        <li>Gestión de Bases de Datos (readthedocs) — Tema 2</li>
+      </ul>
+
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .doc {
+    max-width: 700px;
+    padding: 1rem 0 3rem;
+  }
+
+  .back-link {
+    display: inline-block;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+  }
+
+  .back-link:hover {
+    color: var(--color-primary);
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  h1 {
+    font-size: 2.25rem;
+    margin: 0 0 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .intro {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 2rem;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+    margin: 2rem 0 0.6rem;
+  }
+
+  p {
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  .pasos {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .paso {
+    display: grid;
+    grid-template-columns: 2.5rem 1fr;
+    gap: 1rem;
+    padding: 1.1rem 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .paso-num {
+    font-size: 0.85rem;
+    color: var(--text-tertiary);
+    font-variant-numeric: tabular-nums;
+    padding-top: 0.2rem;
+  }
+
+  .paso h3 {
+    font-size: 1rem;
+    margin: 0 0 0.3rem;
+    color: var(--text-primary);
+  }
+
+  .paso p {
+    font-size: 0.88rem;
+    margin: 0;
+    line-height: 1.55;
+  }
+
+  .placeholder-text {
+    font-style: italic;
+    color: var(--text-tertiary);
+  }
+
+  .img-placeholder {
+    margin: 1.5rem 0 2rem;
+    padding: 3rem 1.5rem;
+    text-align: center;
+    border: 1px dashed var(--border-color);
+    border-radius: 14px;
+    color: var(--text-tertiary);
+    font-size: 0.85rem;
+  }
+
+  .fuentes {
+    color: var(--text-secondary);
+    line-height: 1.9;
+    padding-left: 1.25rem;
+    font-size: 0.9rem;
+  }
+</style>

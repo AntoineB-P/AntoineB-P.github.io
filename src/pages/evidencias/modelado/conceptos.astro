@@ -1,0 +1,146 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Navigation from '../../../components/Navigation.astro';
+import Footer from '../../../components/Footer.astro';
+import { siteConfig } from '../../../config';
+---
+
+<BaseLayout title={'Conceptos - ' + siteConfig.title}>
+  <Navigation />
+
+  <main class="container" style="padding-top: 6rem;">
+    <article class="doc">
+
+      <a href="/evidencias/modelado" class="back-link">← Volver a Modelado</a>
+
+      <span class="eyebrow">Modelado · 01</span>
+      <h1>Conceptos y fuentes</h1>
+
+      <h2>¿Qué es un gestor de base de datos?</h2>
+      <p>
+        Un gestor de base de datos (o SGBD) es el software que se pone en medio
+        de todo: conecta al usuario, las aplicaciones y los datos guardados, sin
+        que el usuario tenga que saber cómo está organizada la información por
+        dentro. Para funcionar necesita cuatro piezas trabajando juntas: el
+        <strong>software</strong> (el gestor en sí), el <strong>hardware</strong>
+        (donde se guarda todo físicamente), los <strong>datos</strong> y los
+        <strong>usuarios</strong> que los consultan o modifican.
+      </p>
+      <p>
+        El flujo es bastante simple si lo pienso como una cadena: una
+        <strong>solicitud</strong> (por ejemplo, una consulta desde una app) llega
+        al <strong>gestor</strong>, y es el gestor el que decide y dirige esa
+        solicitud hacia los <strong>datos o archivos</strong> necesarios para
+        responderla — el usuario nunca accede directo a los archivos, siempre pasa
+        por el gestor.
+      </p>
+
+      <h2>Atributo</h2>
+      <p>
+        Es una característica o propiedad de una entidad. Por ejemplo, si la
+        entidad es "Jugador", sus atributos podrían ser nombre, edad y número de
+        camiseta.
+      </p>
+
+      <h2>Cardinalidad</h2>
+      <p>
+        Indica cuántas veces puede participar una entidad en una relación —
+        tanto el mínimo como el máximo. Se suele escribir como un par
+        (mínimo, máximo), por ejemplo (0,N), y es lo que después define si una
+        relación es 1:1, 1:N o N:M.
+      </p>
+
+      <h2>Clave primaria</h2>
+      <p>
+        Es el atributo (o conjunto de atributos) que identifica de forma única a
+        cada instancia de una entidad — no puede repetirse ni quedar vacío.
+      </p>
+
+      <h2>Atributo multivaluado</h2>
+      <p>
+        Es un atributo que puede tener más de un valor para una misma entidad. Por
+        ejemplo, una persona puede tener varios números de teléfono.
+      </p>
+
+      <h2>Atributo derivado</h2>
+      <p>
+        Es un atributo cuyo valor se puede calcular a partir de otro atributo, en
+        vez de guardarlo directamente. Por ejemplo, la edad se puede derivar de la
+        fecha de nacimiento.
+      </p>
+
+      <h2>Base de datos relacional</h2>
+      <p>
+        Es un tipo de base de datos que organiza la información en tablas
+        (filas y columnas), donde cada tabla representa una entidad y las
+        relaciones entre tablas se hacen a través de claves. Es el modelo más
+        usado actualmente.
+      </p>
+
+      <h2>Fuentes</h2>
+      <ul class="fuentes">
+        <li>Universidad Europea — "Gestor de base de datos: qué es, funciones y tipos"</li>
+        <li>Wikipedia — "Sistema de gestión de bases de datos"</li>
+        <li>Jorge Sánchez — "Manual de Administración de Bases de Datos"</li>
+      </ul>
+
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .doc {
+    max-width: 700px;
+    padding: 1rem 0 3rem;
+  }
+
+  .back-link {
+    display: inline-block;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+  }
+
+  .back-link:hover {
+    color: var(--color-primary);
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  h1 {
+    font-size: 2.25rem;
+    margin: 0 0 2rem;
+    letter-spacing: -0.02em;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+    margin: 2rem 0 0.6rem;
+  }
+
+  p {
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  strong {
+    color: var(--text-primary);
+  }
+
+  .fuentes {
+    color: var(--text-secondary);
+    line-height: 1.9;
+    padding-left: 1.25rem;
+    font-size: 0.9rem;
+  }
+</style>

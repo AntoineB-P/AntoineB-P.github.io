@@ -1,0 +1,151 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Navigation from '../../../components/Navigation.astro';
+import Footer from '../../../components/Footer.astro';
+import { siteConfig } from '../../../config';
+---
+
+<BaseLayout title={'Oracle Data Modeler - ' + siteConfig.title}>
+  <Navigation />
+
+  <main class="container" style="padding-top: 6rem;">
+    <article class="doc">
+
+      <a href="/evidencias/modelado" class="back-link">← Volver a Modelado</a>
+
+      <span class="eyebrow">Modelado · 04</span>
+      <h1>Uso de Oracle Data Modeler</h1>
+
+      <p class="intro">
+        Oracle Data Modeler usa la notación <strong>crowfoot</strong> (pata de
+        gallo) para representar el modelo lógico. Estos son los símbolos que más
+        uso al modelar ahí.
+      </p>
+
+      <h2>Símbolos de atributos</h2>
+      <ul class="simbolos">
+        <li><code>#</code> — identificador primario (clave primaria)</li>
+        <li><code>*</code> — atributo obligatorio</li>
+        <li><code>o</code> — atributo opcional</li>
+        <li><code>U</code> — atributo único</li>
+      </ul>
+
+      <h2>Cómo se lee la participación en la línea</h2>
+      <p>
+        La notación combina dos símbolos por cada extremo de la relación: uno
+        indica la <strong>cardinalidad</strong> (cuántos) y otro la
+        <strong>opcionalidad</strong> (si es obligatorio o no).
+      </p>
+      <ul class="simbolos">
+        <li>Dos líneas verticales (||) — participa exactamente uno</li>
+        <li>Círculo + línea vertical (o|) — participa uno o ninguno (opcional)</li>
+        <li>Línea vertical + pata de gallo (|&lt;) — participan muchos, mínimo uno</li>
+        <li>Círculo + pata de gallo (o&lt;) — participan muchos o ninguno</li>
+      </ul>
+      <p>
+        La clave foránea siempre queda del lado donde está la pata de gallo (el
+        lado de "muchos").
+      </p>
+
+      <div class="img-placeholder">
+        <span>📷 Espacio para imagen — captura del modelo hecho en Data Modeler</span>
+      </div>
+
+      <h2>Fuentes</h2>
+      <ul class="fuentes">
+        <li>Platzi — "Diagrama ER con notación crow's foot"</li>
+        <li>GitHub (juan-bol) — "Guía tutorial para el uso de Data Modeler"</li>
+        <li>Jorge Sánchez — "Manual de Gestión de Bases de Datos"</li>
+      </ul>
+
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .doc {
+    max-width: 700px;
+    padding: 1rem 0 3rem;
+  }
+
+  .back-link {
+    display: inline-block;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+  }
+
+  .back-link:hover {
+    color: var(--color-primary);
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  h1 {
+    font-size: 2.1rem;
+    margin: 0 0 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .intro {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+    margin: 2rem 0 0.6rem;
+  }
+
+  p {
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  strong {
+    color: var(--text-primary);
+  }
+
+  .simbolos {
+    color: var(--text-secondary);
+    line-height: 2;
+    padding-left: 1.25rem;
+  }
+
+  .simbolos code {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    padding: 0.1rem 0.4rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    color: var(--color-primary);
+  }
+
+  .img-placeholder {
+    margin: 2rem 0;
+    padding: 3rem 1.5rem;
+    text-align: center;
+    border: 1px dashed var(--border-color);
+    border-radius: 14px;
+    color: var(--text-tertiary);
+    font-size: 0.85rem;
+  }
+
+  .fuentes {
+    color: var(--text-secondary);
+    line-height: 1.9;
+    padding-left: 1.25rem;
+    font-size: 0.9rem;
+  }
+</style>
