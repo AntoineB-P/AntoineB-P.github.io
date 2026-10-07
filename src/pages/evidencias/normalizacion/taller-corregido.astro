@@ -1,0 +1,239 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Navigation from '../../../components/Navigation.astro';
+import Footer from '../../../components/Footer.astro';
+import { siteConfig } from '../../../config';
+---
+
+<BaseLayout title={'Taller corregido - ' + siteConfig.title}>
+  <Navigation />
+
+  <main class="container" style="padding-top: 6rem;">
+    <article class="doc">
+
+      <a href="/evidencias" class="back-link">← Volver a Evidencias</a>
+
+      <span class="eyebrow">Normalización · Taller</span>
+      <h1>Taller corregido</h1>
+
+      <p class="intro">
+        Como grupo decidimos revisar el <a href="/evidencias/normalizacion/taller-original">taller original</a> y
+        corregirlo dando posibles contextos de negocio: hay dependencias que
+        parecen obvias en el papel, pero que en realidad dependen de cómo esté
+        organizada la empresa. Acá mostramos esos escenarios alternativos, para
+        el caso de la clínica y el de la tienda.
+      </p>
+
+      <h2>Clínica — ¿la especialidad determina el piso?</h2>
+      <p>
+        En el esquema base asumimos que el consultorio (y su piso) dependían de
+        la cita. Pero cabía la pregunta: <em>¿una especialidad médica siempre
+        ocupa el mismo piso?</em> Dependiendo de la respuesta, el esquema cambia.
+      </p>
+
+      <h3>Caso 1 — Cada doctor tiene un consultorio fijo</h3>
+      <p>
+        Lógica de negocio: cada doctor siempre atiende en el mismo consultorio, y
+        cada consultorio pertenece a un solo doctor (relación 1:1).
+      </p>
+      <ul class="lista-conceptos">
+        <li><strong>PACIENTE:</strong> ID_Paciente (PK), Nombre_Paciente, Teléfono_Paciente</li>
+        <li><strong>DOCTOR:</strong> ID_Doctor (PK), Nombre_Doctor, Especialidad_Doctor, Consultorio (UK), Piso</li>
+        <li><strong>DIAGNOSTICO:</strong> Diagnóstico (PK), Tratamiento_Recomendado</li>
+        <li><strong>CITA_CLINICA:</strong> ID_Cita (PK), Fecha_Cita, ID_Paciente (FK), ID_Doctor (FK), Diagnóstico (FK)</li>
+      </ul>
+      <p>
+        <strong>Qué cambia:</strong> en el caso base, Consultorio era FK en CITA
+        porque el doctor rotaba de consultorio. Acá ya no depende de la cita,
+        sino del doctor directamente, así que sale de CITA y pasa a DOCTOR (con
+        UK para que cada consultorio quede asignado a un único doctor).
+      </p>
+
+      <h3>Caso 2 — Cada piso tiene una sola especialidad</h3>
+      <p>
+        Lógica de negocio: todos los consultorios de un mismo piso atienden la
+        misma especialidad (por ejemplo, el piso 3 es solo pediatría).
+      </p>
+      <ul class="lista-conceptos">
+        <li><strong>PACIENTE:</strong> ID_Paciente (PK), Nombre_Paciente, Teléfono_Paciente</li>
+        <li><strong>DIAGNOSTICO:</strong> Diagnóstico (PK), Tratamiento_Recomendado</li>
+        <li><strong>DOCTOR:</strong> ID_Doctor (PK), Nombre_Doctor, Especialidad_Doctor</li>
+        <li><strong>PISO:</strong> Piso (PK), Especialidad</li>
+        <li><strong>CONSULTORIO:</strong> Consultorio (PK), Piso (FK)</li>
+        <li><strong>CITA_CLINICA:</strong> ID_Cita (PK), Fecha_Cita, ID_Paciente (FK), ID_Doctor (FK), Consultorio (FK), Diagnóstico (FK)</li>
+      </ul>
+      <p>
+        <strong>Qué cambia:</strong> en el caso base, Piso era un simple atributo
+        de CONSULTORIO. Acá aparece la dependencia Piso → Especialidad, y la
+        cadena ID_Cita → Consultorio → Piso → Especialidad se vuelve transitiva
+        — por eso se crea la tabla PISO, para no repetir la especialidad en cada
+        consultorio de un mismo piso.
+      </p>
+
+      <h2>Tienda — ¿de qué depende la comisión del vendedor?</h2>
+      <p>
+        En el esquema base, la comisión era un atributo fijo del vendedor. Pero
+        en la práctica puede depender de otras cosas:
+      </p>
+
+      <h3>Escenario A — La comisión depende de la sucursal</h3>
+      <p>
+        Lógica de negocio: la tienda define la política de comisión por
+        sucursal (ej. Sucursal Norte paga 7%, Sucursal Centro paga 5%), sin
+        importar quién sea el vendedor.
+      </p>
+      <ul class="lista-conceptos">
+        <li>Se elimina la dependencia ID_Vendedor → Comisión_Vendedor.</li>
+        <li>Se agrega la dependencia ID_Sucursal → Comisión_Vendedor.</li>
+        <li><strong>SUCURSAL</strong> pasa a tener: ID_Sucursal (PK), Nombre_Sucursal, Ciudad_Sucursal, Comisión_Vendedor.</li>
+        <li><strong>VENDEDOR</strong> queda solo con: ID_Vendedor (PK), Nombre_Vendedor.</li>
+      </ul>
+
+      <h3>Escenario B — La comisión depende de la transacción</h3>
+      <p>
+        Lógica de negocio: la comisión no es fija por vendedor ni por tienda —
+        se calcula según cuánto se vendió en esa transacción específica (ej.
+        comisión escalonada según unidades vendidas).
+      </p>
+      <ul class="lista-conceptos">
+        <li>Se elimina la dependencia ID_Vendedor → Comisión_Vendedor.</li>
+        <li>La comisión pasa a depender de la clave completa de DETALLE_VENTA (ID_Venta + ID_Producto), junto con Cantidad_Vendida.</li>
+        <li><strong>DETALLE_VENTA</strong> queda: ID_Venta (PK, FK), ID_Producto (PK, FK), Cantidad_Vendida, Comisión_Vendedor.</li>
+        <li><strong>VENDEDOR</strong> queda solo con: ID_Vendedor (PK), Nombre_Vendedor.</li>
+      </ul>
+
+      <h2>Resumen comparativo</h2>
+      <p class="nota-igual">Este resumen no cambió respecto al taller original — corresponde al esquema base de ambos casos.</p>
+      <div class="tabla-wrap">
+        <table>
+          <thead>
+            <tr><th>Criterio</th><th>Clínica</th><th>Tienda</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Tablas antes / después</td><td>1 (13 atributos) → 4 tablas</td><td>1 (13 atributos) → 4 tablas</td></tr>
+            <tr><td>Dependencias transitivas corregidas</td><td>5</td><td>7</td></tr>
+            <tr><td>Forma normal alcanzada</td><td>3FN (= BCNF)</td><td>3FN (= BCNF)</td></tr>
+            <tr><td>¿Determinante no candidato?</td><td>No</td><td>No</td></tr>
+            <tr><td>¿Necesita BCNF adicional?</td><td>No</td><td>No</td></tr>
+            <tr><td>¿Desnormalizar?</td><td>No se recomienda</td><td>No se recomienda</td></tr>
+            <tr><td>Principal anomalía evitada</td><td>Teléfono de paciente / especialidad de doctor</td><td>Precio de producto / comisión de vendedor</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .doc {
+    max-width: 760px;
+    padding: 1rem 0 3rem;
+  }
+
+  .back-link {
+    display: inline-block;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+  }
+
+  .back-link:hover {
+    color: var(--color-primary);
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  h1 {
+    font-size: 2.25rem;
+    margin: 0 0 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .intro {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+
+  .intro a {
+    color: var(--color-primary);
+  }
+
+  h2 {
+    font-size: 1.35rem;
+    margin: 2.5rem 0 0.75rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+  }
+
+  h3 {
+    font-size: 1rem;
+    margin: 1.5rem 0 0.5rem;
+    color: var(--text-primary);
+  }
+
+  p {
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  strong {
+    color: var(--text-primary);
+  }
+
+  em {
+    color: var(--text-primary);
+  }
+
+  .nota-igual {
+    font-size: 0.85rem;
+    font-style: italic;
+    color: var(--text-tertiary);
+    margin-bottom: 1rem;
+  }
+
+  .lista-conceptos {
+    color: var(--text-secondary);
+    line-height: 1.8;
+    padding-left: 1.25rem;
+    font-size: 0.92rem;
+  }
+
+  .lista-conceptos li {
+    margin-bottom: 0.5rem;
+  }
+
+  .tabla-wrap {
+    overflow-x: auto;
+    margin-top: 1rem;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+
+  th, td {
+    text-align: left;
+    padding: 0.6rem 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-secondary);
+  }
+
+  th {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+</style>

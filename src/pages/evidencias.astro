@@ -19,25 +19,28 @@ const categorias = [
       { titulo: 'Apuntes de clase', fecha: 'Sep 2026', link: '/evidencias/modelado/apuntes' },
     ] as { titulo: string; fecha: string; link: string }[],
   },
-  {
-    num: '02',
-    titulo: 'Normalización',
-    items: [
-      { titulo: 'Conceptos', fecha: 'Oct 2026', link: '/evidencias/normalizacion/conceptos' },
-      { titulo: 'Formas normales', fecha: 'Oct 2026', link: '/evidencias/normalizacion/formas-normales' },
-    ] as { titulo: string; fecha: string; link: string }[],
-  },
-  {
-    num: '03',
-    titulo: 'SQL',
-    items: [] as { titulo: string; fecha: string; link: string }[],
-  },
-  {
-    num: '04',
-    titulo: 'Proyecto',
-    items: [] as { titulo: string; fecha: string; link: string }[],
-  },
-];
+ {
+  num: '02',
+  titulo: 'Normalización',
+  items: [
+    { titulo: 'Conceptos', fecha: 'Oct 2026', link: '/evidencias/normalizacion/conceptos' },
+    { titulo: 'Formas normales', fecha: 'Oct 2026', link: '/evidencias/normalizacion/formas-normales' },
+    { titulo: 'Taller original', fecha: 'Oct 2026', link: '/evidencias/normalizacion/taller-original' },
+    { titulo: 'Taller corregido', fecha: 'Oct 2026', link: '/evidencias/normalizacion/taller-corregido' },
+  ] as { titulo: string; fecha: string; link: string }[],
+},
+{
+  num: '03',
+  titulo: 'SQL',
+  items: [] as { titulo: string; fecha: string; link: string }[],
+},
+{
+  num: '04',
+  titulo: 'Proyecto',
+  items: [
+    { titulo: 'Propuesta del proyecto', fecha: 'Oct 2026', link: '/evidencias/proyecto/propuesta' },
+  ] as { titulo: string; fecha: string; link: string }[],
+},
 ---
 
 <BaseLayout title={'Evidencias - ' + siteConfig.title}>

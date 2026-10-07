@@ -1,0 +1,262 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Navigation from '../../../components/Navigation.astro';
+import Footer from '../../../components/Footer.astro';
+import { siteConfig } from '../../../config';
+---
+
+<BaseLayout title={'Taller original - ' + siteConfig.title}>
+  <Navigation />
+
+  <main class="container" style="padding-top: 6rem;">
+    <article class="doc">
+
+      <a href="/evidencias" class="back-link">← Volver a Evidencias</a>
+
+      <span class="eyebrow">Normalización · Taller</span>
+      <h1>Taller original</h1>
+
+      <p class="intro">
+        Este fue el taller de normalización que presentamos como grupo. Al
+        revisarlo con calma, nos dimos cuenta de que varias dependencias
+        funcionales dependían de supuestos del negocio que no estaban
+        explícitos — por ejemplo, asumir que la especialidad de un doctor
+        determina siempre el piso del consultorio, cuando en realidad eso podía
+        variar según cómo esté organizada la clínica. En
+        <a href="/evidencias/normalizacion/taller-corregido">Taller corregido</a>
+        mostramos cómo abordamos esa ambigüedad.
+      </p>
+
+      <h2>Caso 1 — Clínica (CITA_CLINICA)</h2>
+      <p>
+        Tabla base: <code>(ID_Cita, Fecha_Cita, Hora_Cita, ID_Paciente, Nombre_Paciente,
+        Teléfono_Paciente, ID_Doctor, Nombre_Doctor, Especialidad_Doctor,
+        Consultorio_Asignado, Piso_Consultorio, Diagnóstico, Tratamiento_Recomendado)</code>
+      </p>
+
+      <h3>Dependencias funcionales</h3>
+      <ul class="lista-conceptos">
+        <li><strong>Desde la clave (ID_Cita):</strong> determina Fecha, Hora, ID_Paciente, ID_Doctor, Consultorio_Asignado, Diagnóstico y Tratamiento_Recomendado — porque cada cita es un evento único.</li>
+        <li><strong>ID_Paciente → Nombre_Paciente, Teléfono_Paciente</strong> (transitiva): son atributos del paciente, no de la cita.</li>
+        <li><strong>ID_Doctor → Nombre_Doctor, Especialidad_Doctor</strong> (transitiva): son atributos del doctor, independientes de la cita.</li>
+        <li><strong>Consultorio_Asignado → Piso_Consultorio</strong> (transitiva): el piso es fijo para ese consultorio, no depende de la cita.</li>
+      </ul>
+
+      <h3>Forma normal y anomalías</h3>
+      <p>
+        La tabla cumple 2FN (la clave no es compuesta), pero no cumple 3FN por
+        las 4 dependencias transitivas de arriba. Esto genera 3 anomalías:
+      </p>
+      <ul class="lista-conceptos">
+        <li><strong>Inserción:</strong> no se puede registrar un doctor o paciente nuevo si todavía no tiene una cita agendada.</li>
+        <li><strong>Actualización:</strong> si el teléfono de un paciente cambia, hay que actualizarlo en todas sus citas — si se olvida una, queda inconsistente.</li>
+        <li><strong>Eliminación:</strong> si se borra la única cita de un doctor recién contratado, se pierde su nombre y especialidad del sistema aunque siga trabajando ahí.</li>
+      </ul>
+
+      <h3>Pasos de normalización</h3>
+      <ol class="pasos-lista">
+        <li>Se elimina el atributo <code>Hora_Cita</code> por ser derivado de la fecha.</li>
+        <li>Se extrae <strong>PACIENTE</strong> (ID_Paciente PK, Nombre_Paciente, Teléfono_Paciente).</li>
+        <li>Se extrae <strong>DOCTOR</strong> (ID_Doctor PK, Nombre_Doctor, Especialidad_Doctor).</li>
+        <li>Se extrae <strong>CONSULTORIO</strong> (Consultorio_Asignado PK, Piso_Consultorio).</li>
+        <li>Se extrae <strong>DIAGNOSTICO</strong> (Diagnóstico PK, Tratamiento_Recomendado).</li>
+      </ol>
+
+      <h3>Esquema final</h3>
+      <ul class="lista-conceptos">
+        <li><strong>CITA_CLINICA:</strong> ID_Cita (PK), Fecha_Cita, ID_Paciente (FK), ID_Doctor (FK), Consultorio_Asignado (FK), Diagnóstico (FK)</li>
+        <li><strong>PACIENTE:</strong> ID_Paciente (PK), Nombre_Paciente, Teléfono_Paciente</li>
+        <li><strong>DOCTOR:</strong> ID_Doctor (PK), Nombre_Doctor, Especialidad_Doctor</li>
+        <li><strong>CONSULTORIO:</strong> Consultorio_Asignado (PK), Piso_Consultorio</li>
+        <li><strong>DIAGNOSTICO:</strong> Diagnóstico (PK), Tratamiento_Recomendado</li>
+      </ul>
+
+      <h3>Conclusión</h3>
+      <p>
+        El esquema queda en <strong>3FN</strong>. No hace falta BCNF porque cada
+        una de las 5 tablas tiene un único determinante: su propia clave — cuando
+        eso pasa, 3FN y BCNF coinciden automáticamente. Con 1.200 escrituras/día
+        contra 1.000 búsquedas/día (más escrituras que lecturas), se recomienda
+        mantener el esquema normalizado en vez de desnormalizar.
+      </p>
+
+      <h2>Caso 2 — Tienda (VENTA_SUCURSAL)</h2>
+      <p>
+        Tabla base: <code>(ID_Venta, Fecha_Venta, ID_Sucursal, Nombre_Sucursal,
+        Ciudad_Sucursal, ID_Producto, Nombre_Producto, Categoría_Producto,
+        Precio_Unitario, Cantidad_Vendida, ID_Vendedor, Nombre_Vendedor,
+        Comisión_Vendedor)</code>
+      </p>
+
+      <h3>Dependencias funcionales</h3>
+      <p>
+        Acá la clave es compuesta (ID_Venta + ID_Producto), así que aparecen
+        dependencias <strong>parciales</strong> (atributos que dependen de solo
+        una parte de la clave) además de las transitivas:
+      </p>
+      <ul class="lista-conceptos">
+        <li><strong>Parciales de ID_Venta:</strong> Fecha_Venta, ID_Sucursal, ID_Vendedor.</li>
+        <li><strong>Parciales de ID_Producto:</strong> Nombre_Producto, Precio_Unitario, Categoría_Producto.</li>
+        <li><strong>Transitivas:</strong> ID_Sucursal → Nombre_Sucursal, Ciudad_Sucursal · ID_Vendedor → Nombre_Vendedor, Comisión_Vendedor.</li>
+      </ul>
+
+      <h3>Pasos de normalización</h3>
+      <ol class="pasos-lista">
+        <li>Se extrae <strong>PRODUCTO</strong> (ID_Producto PK, Nombre_Producto, Precio_Unitario, Categoría_Producto).</li>
+        <li>Se crea <strong>DETALLE_VENTA</strong> (ID_Venta + ID_Producto como PK compuesta, Cantidad_Vendida).</li>
+        <li>Se extrae <strong>SUCURSAL</strong> (ID_Sucursal PK, Nombre_Sucursal, Ciudad_Sucursal).</li>
+        <li>Se extrae <strong>VENDEDOR</strong> (ID_Vendedor PK, Nombre_Vendedor, Comisión_Vendedor).</li>
+      </ol>
+
+      <h3>Esquema final</h3>
+      <ul class="lista-conceptos">
+        <li><strong>VENTA:</strong> ID_Venta (PK), Fecha_Venta, ID_Sucursal (FK), ID_Vendedor (FK)</li>
+        <li><strong>DETALLE_VENTA:</strong> ID_Venta (FK), ID_Producto (FK), Cantidad_Vendida</li>
+        <li><strong>PRODUCTO:</strong> ID_Producto (PK), Nombre_Producto, Precio_Unitario, Categoría_Producto</li>
+        <li><strong>SUCURSAL:</strong> ID_Sucursal (PK), Nombre_Sucursal, Ciudad_Sucursal</li>
+        <li><strong>VENDEDOR:</strong> ID_Vendedor (PK), Nombre_Vendedor, Comisión_Vendedor</li>
+      </ul>
+
+      <h3>Conclusión</h3>
+      <p>
+        El esquema queda en <strong>3FN</strong>, y al igual que en el caso de la
+        clínica, 3FN y BCNF coinciden porque cada tabla tiene un único
+        determinante: su propia clave. Con 900 búsquedas/día contra 100 cambios,
+        se recomienda mantener el esquema normalizado — no hay ninguna
+        ineficiencia real que justifique desnormalizar.
+      </p>
+
+      <h2>Resumen comparativo</h2>
+      <div class="tabla-wrap">
+        <table>
+          <thead>
+            <tr><th>Criterio</th><th>Clínica</th><th>Tienda</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Tablas antes / después</td><td>1 (13 atributos) → 4 tablas</td><td>1 (13 atributos) → 4 tablas</td></tr>
+            <tr><td>Dependencias transitivas corregidas</td><td>5</td><td>7</td></tr>
+            <tr><td>Forma normal alcanzada</td><td>3FN (= BCNF)</td><td>3FN (= BCNF)</td></tr>
+            <tr><td>¿Determinante no candidato?</td><td>No</td><td>No</td></tr>
+            <tr><td>¿Necesita BCNF adicional?</td><td>No</td><td>No</td></tr>
+            <tr><td>¿Desnormalizar?</td><td>No se recomienda</td><td>No se recomienda</td></tr>
+            <tr><td>Principal anomalía evitada</td><td>Teléfono de paciente / especialidad de doctor</td><td>Precio de producto / comisión de vendedor</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .doc {
+    max-width: 760px;
+    padding: 1rem 0 3rem;
+  }
+
+  .back-link {
+    display: inline-block;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+  }
+
+  .back-link:hover {
+    color: var(--color-primary);
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  h1 {
+    font-size: 2.25rem;
+    margin: 0 0 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .intro {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+
+  .intro a {
+    color: var(--color-primary);
+  }
+
+  h2 {
+    font-size: 1.35rem;
+    margin: 2.5rem 0 0.75rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+  }
+
+  h3 {
+    font-size: 1rem;
+    margin: 1.5rem 0 0.5rem;
+    color: var(--text-primary);
+  }
+
+  p {
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  strong {
+    color: var(--text-primary);
+  }
+
+  code {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    padding: 0.1rem 0.4rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    color: var(--color-primary);
+  }
+
+  .lista-conceptos,
+  .pasos-lista {
+    color: var(--text-secondary);
+    line-height: 1.8;
+    padding-left: 1.25rem;
+    font-size: 0.92rem;
+  }
+
+  .lista-conceptos li,
+  .pasos-lista li {
+    margin-bottom: 0.5rem;
+  }
+
+  .tabla-wrap {
+    overflow-x: auto;
+    margin-top: 1rem;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+
+  th, td {
+    text-align: left;
+    padding: 0.6rem 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-secondary);
+  }
+
+  th {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+</style>

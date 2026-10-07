@@ -1,0 +1,173 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Navigation from '../../../components/Navigation.astro';
+import Footer from '../../../components/Footer.astro';
+import { siteConfig } from '../../../config';
+---
+
+<BaseLayout title={'Propuesta de proyecto - ' + siteConfig.title}>
+  <Navigation />
+
+  <main class="container" style="padding-top: 6rem;">
+    <article class="doc">
+
+      <a href="/evidencias" class="back-link">← Volver a Evidencias</a>
+
+      <span class="eyebrow">Proyecto · Fase 1</span>
+      <h1>Sistema de Gestión de Información para la Liga BetPlay</h1>
+      <p class="meta">Integrantes: Felipe Sierra, Samuel Cubillos, Antoine Blanco</p>
+
+      <h2>Problemática</h2>
+      <p>
+        La Liga BetPlay genera constantemente información de equipos,
+        jugadores, entrenadores, partidos, resultados, árbitros y tarjetas,
+        pero no es administrada de forma centralizada por una única
+        organización — está dispersa entre medios, apps de terceros y portales
+        de estadísticas, cada uno con sus propios registros. Esto hace que un
+        mismo dato (como el número de tarjetas de un jugador) pueda variar
+        según la fuente, sin un registro único y confiable como referencia.
+      </p>
+
+      <h2>Justificación</h2>
+      <p>
+        El dominio de la Liga BetPlay ofrece una cantidad natural de entidades
+        y relaciones (equipos, jugadores, partidos, árbitros, resultados,
+        tarjetas, torneos) que permiten construir un modelo entidad-relación
+        suficientemente complejo, con relaciones 1:1, 1:N y N:M, y que exige un
+        proceso de normalización cuidadoso para evitar redundancia y
+        anomalías. El proyecto se plantea como un sistema interno para una
+        sola organización, acotando el alcance a un dominio manejable.
+      </p>
+
+      <h2>Objetivo general</h2>
+      <p>
+        Diseñar e implementar un sistema de gestión de bases de datos
+        relacional que permita a una única organización centralizar y
+        administrar de forma interna la información de la Liga BetPlay,
+        aplicando modelado entidad-relación, normalización y consulta de datos
+        mediante álgebra relacional.
+      </p>
+
+      <h2>Objetivos específicos</h2>
+      <ul class="lista-conceptos">
+        <li>Modelar, con notación Peter Chen, las entidades y relaciones de la liga (equipos, jugadores, entrenadores, partidos, resultados, árbitros, tarjetas, torneos y tabla de posiciones).</li>
+        <li>Normalizar el modelo hasta 3FN, evitando redundancias y anomalías.</li>
+        <li>Implementar la base de datos en un RDBMS distinto a SQL Server, sobre una máquina virtual con Linux.</li>
+        <li>Formular consultas con álgebra relacional (uniones, proyecciones, selecciones) para obtener la tabla de posiciones, estadísticas de un jugador o el historial de un equipo.</li>
+        <li>Desarrollar una aplicación web sencilla de uso interno que se conecte a la base de datos.</li>
+        <li>Gestionar el desarrollo a través de un repositorio en GitHub con contribuciones de todo el equipo.</li>
+      </ul>
+
+      <h2>Alcance</h2>
+      <p>
+        El sistema está orientado exclusivamente a la Liga BetPlay — no a
+        múltiples ligas o países — y pensado como herramienta de uso interno
+        para la organización del torneo, no como plataforma pública. Quedan
+        fuera del alcance: venta de boletería, transmisión en vivo, pagos en
+        línea, inscripciones, integración con otras ligas o redes sociales.
+      </p>
+
+      <h2>Entidades principales identificadas</h2>
+      <ul class="lista-conceptos">
+        <li><strong>Torneo:</strong> información general de una temporada (nombre, año, fechas).</li>
+        <li><strong>Equipo:</strong> nombre, ciudad, estadio, entrenador asociado.</li>
+        <li><strong>Jugador:</strong> nombre, posición, número, fecha de nacimiento, equipo.</li>
+        <li><strong>Entrenador:</strong> cuerpo técnico de cada equipo.</li>
+        <li><strong>Partido:</strong> fecha, hora, estadio, jornada, equipos enfrentados.</li>
+        <li><strong>Resultado:</strong> marcador y detalles de cada partido jugado.</li>
+        <li><strong>Árbitro:</strong> árbitros asignados a cada partido.</li>
+        <li><strong>Tarjeta / Sanción:</strong> amonestaciones de un jugador en un partido.</li>
+        <li><strong>Tabla de Posiciones:</strong> puntos, partidos jugados/ganados/empatados/perdidos y goles, calculados a partir de los resultados.</li>
+      </ul>
+
+      <h2>Requerimientos funcionales principales</h2>
+      <ul class="lista-conceptos">
+        <li>Registrar, consultar, actualizar y eliminar equipos, jugadores, entrenadores y árbitros.</li>
+        <li>Programar partidos asignando equipos, árbitros, fecha, hora y lugar.</li>
+        <li>Registrar resultados y actualizar automáticamente la tabla de posiciones.</li>
+        <li>Registrar tarjetas o sanciones de los jugadores por partido.</li>
+        <li>Consultar estadísticas de un jugador (partidos, goles, tarjetas).</li>
+        <li>Consultar el historial de resultados de un equipo.</li>
+        <li>Generar la tabla de posiciones de un torneo en un momento dado.</li>
+      </ul>
+
+      <h2>Consideraciones finales</h2>
+      <p>
+        Esta propuesta sienta las bases conceptuales del proyecto del
+        semestre. La problemática de la Liga BetPlay ofrece la complejidad
+        suficiente para aplicar de forma integral el modelado, la
+        normalización, la consulta de datos y la implementación de una base de
+        datos relacional, manteniendo un dominio acotado y coherente.
+      </p>
+
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .doc {
+    max-width: 760px;
+    padding: 1rem 0 3rem;
+  }
+
+  .back-link {
+    display: inline-block;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+  }
+
+  .back-link:hover {
+    color: var(--color-primary);
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+    margin: 0 0 0.5rem;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+  }
+
+  .meta {
+    color: var(--text-tertiary);
+    font-size: 0.88rem;
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+    margin: 2rem 0 0.6rem;
+  }
+
+  p {
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  strong {
+    color: var(--text-primary);
+  }
+
+  .lista-conceptos {
+    color: var(--text-secondary);
+    line-height: 1.8;
+    padding-left: 1.25rem;
+    font-size: 0.92rem;
+  }
+
+  .lista-conceptos li {
+    margin-bottom: 0.5rem;
+  }
+</style>
