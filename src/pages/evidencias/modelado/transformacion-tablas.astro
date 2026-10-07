@@ -76,12 +76,17 @@ const pasos = [
         ))}
       </div>
 
-      <h2>Link de referencia</h2>
-      <p class="placeholder-text">🔗 Link del taller a transformacion a tablas: https://drive.google.com/file/d/1fxD4CiXxuO2MGfdzVm1OVv3Z3WuBRFMC/view?usp=drive_link</p>
+            <h2>Link de referencia</h2>
+      <p>
+        <a href="https://drive.google.com/file/d/1fxD4CiXxuO2MGfdzVm1OVv3Z3WuBRFMC/view?usp=sharing" target="_blank" rel="noopener">
+          Taller realizado en clase →
+        </a>
+      </p>
 
-      <div class="img-placeholder">
-        <span>📷 Espacio para imagen — ejemplo de transformación aplicado</span>
-      </div>
+      <img src="/images/tallertablas.png" alt="Taller de transformación a tablas" class="img-doc" />
+
+      <h2>Ejemplo 2</h2>
+      <img src="/images/tablas2.png" alt="Ejemplo 2 de transformación a tablas" class="img-doc" />
 
       <h2>Fuentes</h2>
       <ul class="fuentes">
@@ -100,6 +105,18 @@ const pasos = [
   .doc {
     max-width: 700px;
     padding: 1rem 0 3rem;
+  }
+
+    .img-doc {
+    width: 100%;
+    border-radius: 14px;
+    border: 1px solid var(--border-color);
+    margin: 1rem 0 2rem;
+  }
+
+  .doc a {
+    color: var(--color-primary);
+    font-weight: 500;
   }
 
   .back-link {

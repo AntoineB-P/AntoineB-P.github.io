@@ -1,0 +1,109 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Navigation from '../../../components/Navigation.astro';
+import Footer from '../../../components/Footer.astro';
+import { siteConfig } from '../../../config';
+
+const secciones = [
+  { titulo: 'Bases de datos', imagenes: ['apuntes1.jpg'] },
+  { titulo: 'Bases de datos relacional', imagenes: ['apuntes2.jpg', 'apuntes3.jpg'] },
+  { titulo: 'Modelo entidad relación extendido', imagenes: ['apuntes4.jpg', 'apuntes5.jpg'] },
+  { titulo: 'Transformación a tablas', imagenes: ['apuntes6.jpg', 'apuntes7.jpg'] },
+  { titulo: 'Oracle Data Modeler', imagenes: ['apuntes8.jpg'] },
+];
+---
+
+<BaseLayout title={'Apuntes - ' + siteConfig.title}>
+  <Navigation />
+
+  <main class="container" style="padding-top: 6rem;">
+    <article class="doc">
+
+      <a href="/evidencias/modelado" class="back-link">← Volver a Modelado</a>
+
+      <span class="eyebrow">Modelado · 06</span>
+      <h1>Apuntes</h1>
+      <p class="intro">Fotos de los apuntes que he tomado en clase, organizadas por tema.</p>
+
+      {secciones.map(s => (
+        <section class="bloque">
+          <h2>{s.titulo}</h2>
+          <div class="galeria">
+            {s.imagenes.map(img => (
+              <img src={`/images/${img}`} alt={s.titulo} class="apunte-img" />
+            ))}
+          </div>
+        </section>
+      ))}
+
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .doc {
+    max-width: 800px;
+    padding: 1rem 0 3rem;
+  }
+
+  .back-link {
+    display: inline-block;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+  }
+
+  .back-link:hover {
+    color: var(--color-primary);
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  h1 {
+    font-size: 2.25rem;
+    margin: 0 0 0.5rem;
+    letter-spacing: -0.02em;
+  }
+
+  .intro {
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+  }
+
+  .bloque {
+    margin-bottom: 2.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .bloque:last-child {
+    border-bottom: none;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+    margin: 0 0 1rem;
+  }
+
+  .galeria {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+  }
+
+  .apunte-img {
+    width: 100%;
+    border-radius: 14px;
+    border: 1px solid var(--border-color);
+  }
+</style>
