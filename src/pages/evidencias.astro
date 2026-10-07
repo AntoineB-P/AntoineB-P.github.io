@@ -4,6 +4,8 @@ import Navigation from '../components/Navigation.astro';
 import Footer from '../components/Footer.astro';
 import { siteConfig } from '../config';
 
+type Item = { titulo: string; fecha: string; link: string };
+
 const categorias = [
   {
     num: '01',
@@ -17,30 +19,31 @@ const categorias = [
       { titulo: 'Tipos de datos', fecha: 'Sep 2026', link: '/evidencias/modelado/tipos-de-datos' },
       { titulo: 'Modelo relacional', fecha: 'Oct 2026', link: '/evidencias/modelado/modelo-relacional' },
       { titulo: 'Apuntes de clase', fecha: 'Sep 2026', link: '/evidencias/modelado/apuntes' },
-    ] as { titulo: string; fecha: string; link: string }[],
+    ] satisfies Item[],
   },
- {
-  num: '02',
-  titulo: 'Normalización',
-  items: [
-    { titulo: 'Conceptos', fecha: 'Oct 2026', link: '/evidencias/normalizacion/conceptos' },
-    { titulo: 'Formas normales', fecha: 'Oct 2026', link: '/evidencias/normalizacion/formas-normales' },
-    { titulo: 'Taller original', fecha: 'Oct 2026', link: '/evidencias/normalizacion/taller-original' },
-    { titulo: 'Taller corregido', fecha: 'Oct 2026', link: '/evidencias/normalizacion/taller-corregido' },
-  ] as { titulo: string; fecha: string; link: string }[],
-},
-{
-  num: '03',
-  titulo: 'SQL',
-  items: [] as { titulo: string; fecha: string; link: string }[],
-},
-{
-  num: '04',
-  titulo: 'Proyecto',
-  items: [
-    { titulo: 'Propuesta del proyecto', fecha: 'Oct 2026', link: '/evidencias/proyecto/propuesta' },
-  ] as { titulo: string; fecha: string; link: string }[],
-},
+  {
+    num: '02',
+    titulo: 'Normalización',
+    items: [
+      { titulo: 'Conceptos', fecha: 'Oct 2026', link: '/evidencias/normalizacion/conceptos' },
+      { titulo: 'Formas normales', fecha: 'Oct 2026', link: '/evidencias/normalizacion/formas-normales' },
+      { titulo: 'Taller original', fecha: 'Oct 2026', link: '/evidencias/normalizacion/taller-original' },
+      { titulo: 'Taller corregido', fecha: 'Oct 2026', link: '/evidencias/normalizacion/taller-corregido' },
+    ] satisfies Item[],
+  },
+  {
+    num: '03',
+    titulo: 'SQL',
+    items: [] satisfies Item[],
+  },
+  {
+    num: '04',
+    titulo: 'Proyecto',
+    items: [
+      { titulo: 'Propuesta del proyecto', fecha: 'Oct 2026', link: '/evidencias/proyecto/propuesta' },
+    ] satisfies Item[],
+  },
+];
 ---
 
 <BaseLayout title={'Evidencias - ' + siteConfig.title}>
