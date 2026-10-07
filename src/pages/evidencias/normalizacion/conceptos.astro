@@ -1,0 +1,137 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Navigation from '../../../components/Navigation.astro';
+import Footer from '../../../components/Footer.astro';
+import { siteConfig } from '../../../config';
+---
+
+<BaseLayout title={'Conceptos de normalización - ' + siteConfig.title}>
+  <Navigation />
+
+  <main class="container" style="padding-top: 6rem;">
+    <article class="doc">
+
+      <a href="/evidencias" class="back-link">← Volver a Evidencias</a>
+
+      <span class="eyebrow">Normalización</span>
+      <h1>Conceptos</h1>
+
+      <h2>¿Qué es la normalización y para qué sirve?</h2>
+      <p>
+        Es el proceso de organizar las tablas de una base de datos para reducir
+        la redundancia de datos y evitar inconsistencias. Sirve, sobre todo, para
+        que la información no se repita innecesariamente y para que insertar,
+        actualizar o borrar datos no genere errores o datos "huérfanos".
+      </p>
+
+      <h2>Dependencia funcional</h2>
+      <p>
+        Es la relación que existe entre atributos de una tabla: un atributo
+        <strong>depende funcionalmente</strong> de otro si, conociendo el valor
+        del primero, se puede saber con certeza el valor del segundo.
+      </p>
+
+      <h2>Determinante y determinado</h2>
+      <p>
+        Dentro de una dependencia funcional X → Y, <strong>X es el
+        determinante</strong> (el que "manda") y <strong>Y es el
+        determinado</strong> (el que depende de X). Por ejemplo, si el cédula
+        determina el nombre de una persona, la cédula es el determinante y el
+        nombre es el determinado.
+      </p>
+
+      <h2>Anomalías</h2>
+      <p>
+        Son problemas que aparecen cuando una tabla no está bien normalizada.
+        Hay tres tipos principales:
+      </p>
+      <ul class="lista-conceptos">
+        <li><strong>Anomalía de inserción:</strong> no se puede agregar un dato sin tener que agregar también otro que no debería ser obligatorio en ese momento.</li>
+        <li><strong>Anomalía de actualización:</strong> al cambiar un dato repetido en varias filas, hay que actualizarlo en todas, y si se olvida alguna, la información queda inconsistente.</li>
+        <li><strong>Anomalía de borrado:</strong> al borrar una fila, se pierde información que en realidad no debería desaparecer.</li>
+      </ul>
+
+      <h2>Llave primaria</h2>
+      <p>
+        Es el atributo (o conjunto de atributos) que identifica de forma única
+        cada fila de una tabla — no admite valores nulos ni repetidos. Es la base
+        sobre la que se revisan todas las formas normales.
+      </p>
+
+      <h2>Fuentes</h2>
+      <ul class="fuentes">
+        <li>KeepCoding — "Formas normales de una base de datos: guía completa"</li>
+        <li>manuel.cillero.es — "Normalización"</li>
+        <li>ITCA — "Normalización"</li>
+      </ul>
+
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .doc {
+    max-width: 700px;
+    padding: 1rem 0 3rem;
+  }
+
+  .back-link {
+    display: inline-block;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+  }
+
+  .back-link:hover {
+    color: var(--color-primary);
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  h1 {
+    font-size: 2.25rem;
+    margin: 0 0 2rem;
+    letter-spacing: -0.02em;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+    margin: 2rem 0 0.6rem;
+  }
+
+  p {
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  strong {
+    color: var(--text-primary);
+  }
+
+  .lista-conceptos {
+    color: var(--text-secondary);
+    line-height: 1.8;
+    padding-left: 1.25rem;
+  }
+
+  .lista-conceptos li {
+    margin-bottom: 0.5rem;
+  }
+
+  .fuentes {
+    color: var(--text-secondary);
+    line-height: 1.9;
+    padding-left: 1.25rem;
+    font-size: 0.9rem;
+  }
+</style>

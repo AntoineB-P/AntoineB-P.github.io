@@ -1,0 +1,130 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Navigation from '../../../components/Navigation.astro';
+import Footer from '../../../components/Footer.astro';
+import { siteConfig } from '../../../config';
+---
+
+<BaseLayout title={'Modelo relacional - ' + siteConfig.title}>
+  <Navigation />
+
+  <main class="container" style="padding-top: 6rem;">
+    <article class="doc">
+
+      <a href="/evidencias" class="back-link">← Volver a Evidencias</a>
+
+      <span class="eyebrow">Modelado</span>
+      <h1>Modelo relacional</h1>
+
+      <h2>Principio ACID</h2>
+      <p>
+        Son 4 propiedades que garantizan que una transacción en la base de datos
+        sea confiable, incluso si algo falla a mitad de camino.
+      </p>
+      <ul class="lista-conceptos">
+        <li><strong>Atomicidad:</strong> la transacción se ejecuta completa o no se ejecuta nada — no quedan pasos a medias.</li>
+        <li><strong>Consistencia:</strong> la base de datos pasa de un estado válido a otro, sin romper las reglas que tiene definidas.</li>
+        <li><strong>Aislamiento:</strong> una transacción no interfiere con otra que esté corriendo al mismo tiempo.</li>
+        <li><strong>Durabilidad:</strong> una vez confirmada la transacción, los cambios quedan guardados aunque el sistema falle después.</li>
+      </ul>
+
+      <h2>Superclave, clave candidata y clave primaria</h2>
+      <p>
+        Estos tres conceptos están conectados, van de lo más general a lo más
+        específico:
+      </p>
+      <ul class="lista-conceptos">
+        <li><strong>Superclave:</strong> cualquier conjunto de atributos que identifica de forma única una fila — puede tener atributos de más, que no hacen falta.</li>
+        <li><strong>Clave candidata:</strong> una superclave mínima, es decir, que no se le puede quitar ningún atributo sin perder la unicidad. Una tabla puede tener varias claves candidatas.</li>
+        <li><strong>Clave primaria:</strong> la clave candidata que el diseñador elige como la oficial para identificar los registros de la tabla.</li>
+      </ul>
+
+      <h2>Políticas de integridad referencial</h2>
+      <p>
+        Cuando una tabla tiene una clave foránea, hay que decidir qué pasa si se
+        borra o actualiza el registro "padre" que esa clave referencia. Las
+        políticas más comunes son:
+      </p>
+      <ul class="lista-conceptos">
+        <li><strong>CASCADE:</strong> si se borra o actualiza el padre, el cambio se propaga automáticamente a los hijos relacionados.</li>
+        <li><strong>RESTRICT (o NO ACTION):</strong> impide borrar o actualizar el padre mientras existan hijos que lo referencian — es el comportamiento por defecto en la mayoría de motores.</li>
+        <li><strong>SET NULL:</strong> al borrar o actualizar el padre, la clave foránea del hijo pasa a quedar en NULL (desvinculado, pero sin borrarse).</li>
+      </ul>
+
+      <h2>Fuentes</h2>
+      <ul class="fuentes">
+        <li>KeepCoding — "¿Qué es ACID en bases de datos?"</li>
+        <li>escapa.es — "El modelo relacional: definiciones y conceptos básicos"</li>
+        <li>AprenderSQL — "FOREIGN KEY en SQL: qué es, cómo se usa y ejemplos"</li>
+      </ul>
+
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .doc {
+    max-width: 700px;
+    padding: 1rem 0 3rem;
+  }
+
+  .back-link {
+    display: inline-block;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+  }
+
+  .back-link:hover {
+    color: var(--color-primary);
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  h1 {
+    font-size: 2.25rem;
+    margin: 0 0 2rem;
+    letter-spacing: -0.02em;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+    margin: 2rem 0 0.6rem;
+  }
+
+  p {
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  strong {
+    color: var(--text-primary);
+  }
+
+  .lista-conceptos {
+    color: var(--text-secondary);
+    line-height: 1.8;
+    padding-left: 1.25rem;
+  }
+
+  .lista-conceptos li {
+    margin-bottom: 0.5rem;
+  }
+
+  .fuentes {
+    color: var(--text-secondary);
+    line-height: 1.9;
+    padding-left: 1.25rem;
+    font-size: 0.9rem;
+  }
+</style>

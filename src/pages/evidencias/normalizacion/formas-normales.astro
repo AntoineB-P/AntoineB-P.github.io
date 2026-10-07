@@ -1,0 +1,180 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Navigation from '../../../components/Navigation.astro';
+import Footer from '../../../components/Footer.astro';
+import { siteConfig } from '../../../config';
+
+const formas = [
+  {
+    nombre: '1FN',
+    regla: 'Cada atributo debe tener un único valor (atómico) por fila — no se permiten grupos de valores repetidos en una misma celda.',
+    solucion: 'Se separan los valores repetidos en filas distintas o en una tabla aparte.',
+  },
+  {
+    nombre: '2FN',
+    regla: 'Estar en 1FN y que todo atributo no clave dependa de la clave primaria completa (no solo de una parte, en claves compuestas).',
+    solucion: 'Se separan en otra tabla los atributos que dependían solo de una parte de la clave.',
+  },
+  {
+    nombre: '3FN',
+    regla: 'Estar en 2FN y que ningún atributo no clave dependa de otro atributo no clave (dependencia transitiva).',
+    solucion: 'Se crea una tabla nueva para el atributo del que dependían los demás, dejando solo la clave que los conecta.',
+  },
+  {
+    nombre: 'FNBC',
+    regla: 'Estar en 3FN y que todo determinante de una dependencia funcional sea una clave candidata.',
+    solucion: 'Se descompone la tabla para que cada determinante que no era clave candidata quede en su propia tabla.',
+  },
+  {
+    nombre: '4FN',
+    regla: 'Estar en FNBC y no tener dependencias multivaluadas independientes entre sí.',
+    solucion: 'Se separan en tablas distintas los atributos multivaluados que no tienen relación entre sí.',
+  },
+  {
+    nombre: '5FN',
+    regla: 'Estar en 4FN y que la tabla no se pueda descomponer en tablas más pequeñas sin perder información (dependencias de combinación/join).',
+    solucion: 'Se descompone en varias tablas más pequeñas que, al unirlas (join), reconstruyen exactamente la información original.',
+  },
+  {
+    nombre: '6FN',
+    regla: 'Cada tabla solo contiene la clave primaria y un único atributo no clave — se usa sobre todo en modelos muy avanzados o data warehouses.',
+    solucion: 'Se descompone cada atributo en su propia tabla junto con la clave, nivel que casi nunca se aplica en proyectos normales.',
+  },
+];
+---
+
+<BaseLayout title={'Formas normales - ' + siteConfig.title}>
+  <Navigation />
+
+  <main class="container" style="padding-top: 6rem;">
+    <article class="doc">
+
+      <a href="/evidencias" class="back-link">← Volver a Evidencias</a>
+
+      <span class="eyebrow">Normalización</span>
+      <h1>Formas normales</h1>
+
+      <p class="intro">
+        Las formas normales son reglas progresivas: para cumplir una, primero
+        hay que cumplir la anterior. En la práctica, la mayoría de bases de
+        datos se quedan normalizadas hasta 3FN o FNBC — pasar de ahí depende de
+        qué tan compleja sea la información.
+      </p>
+
+      <div class="formas">
+        {formas.map(f => (
+          <div class="forma">
+            <span class="forma-nombre">{f.nombre}</span>
+            <div class="forma-content">
+              <p><strong>Regla:</strong> {f.regla}</p>
+              <p><strong>Cómo se resuelve:</strong> {f.solucion}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <h2>Fuentes</h2>
+      <ul class="fuentes">
+        <li>KeepCoding — "Formas normales de una base de datos: guía completa 2026"</li>
+        <li>ITCA — "Normalización"</li>
+        <li>Universidad de Sevilla — "Formas normales" (apuntes de curso)</li>
+      </ul>
+
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .doc {
+    max-width: 720px;
+    padding: 1rem 0 3rem;
+  }
+
+  .back-link {
+    display: inline-block;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+  }
+
+  .back-link:hover {
+    color: var(--color-primary);
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  h1 {
+    font-size: 2.25rem;
+    margin: 0 0 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .intro {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 2rem;
+  }
+
+  .formas {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .forma {
+    display: grid;
+    grid-template-columns: 4.5rem 1fr;
+    gap: 1.25rem;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .forma-nombre {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-primary);
+  }
+
+  .forma-content p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin: 0 0 0.5rem;
+  }
+
+  .forma-content p:last-child {
+    margin-bottom: 0;
+  }
+
+  .forma-content strong {
+    color: var(--text-primary);
+  }
+
+  h2 {
+    font-size: 1.2rem;
+    margin: 2rem 0 0.6rem;
+  }
+
+  .fuentes {
+    color: var(--text-secondary);
+    line-height: 1.9;
+    padding-left: 1.25rem;
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 600px) {
+    .forma {
+      grid-template-columns: 1fr;
+      gap: 0.4rem;
+    }
+  }
+</style>
