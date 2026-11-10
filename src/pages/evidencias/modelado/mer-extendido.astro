@@ -57,8 +57,30 @@ import { siteConfig } from '../../../config';
 
       <div class="img-placeholder">
       
-              <img src="/images/especializacion.png" alt="Ejemplo de especialización" class="img-doc" />
+              <img src="/images/especializacion-liga.png" alt="Especialización de JUGADOR en ATACANTE, MEDIOCAMPISTA, DEFENSA y PORTERO en el MER extendido de la Liga BetPlay" class="img-doc" />
       </div>
+
+      <section class="bitacora">
+        <div class="bitacora-fila">
+          <span class="bitacora-label">En clase</span>
+          <p>
+            Vimos cómo el MER extendido permite mostrar jerarquías entre
+            entidades. Después lo aplicamos en el
+            <a href="/evidencias/proyecto/propuesta">proyecto de la Liga BetPlay</a>:
+            ahí JUGADOR se especializa en PORTERO, DEFENSA, MEDIOCAMPISTA y
+            ATACANTE, y fue donde de verdad aprendimos a usar las especializaciones.
+          </p>
+        </div>
+        <div class="bitacora-fila">
+          <span class="bitacora-label">Lo que aprendí</span>
+          <p>
+            Lo que más me costó fue diferenciar si la participación era total o
+            parcial, porque no se ve a simple vista: toca analizar bien el caso y
+            preguntarse si todas las instancias de la superclase tienen que
+            pertenecer a algún subtipo o no.
+          </p>
+        </div>
+      </section>
 
       <h2>Fuentes</h2>
       <ul class="fuentes">
@@ -147,5 +169,38 @@ import { siteConfig } from '../../../config';
     line-height: 1.9;
     padding-left: 1.25rem;
     font-size: 0.9rem;
+  }
+
+  .bitacora {
+    margin-top: 2.5rem;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .bitacora-fila {
+    display: grid;
+    grid-template-columns: 8rem 1fr;
+    gap: 1.25rem;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .bitacora-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-primary);
+    padding-top: 0.2rem;
+  }
+
+  .bitacora-fila p {
+    margin: 0;
+  }
+
+  @media (max-width: 600px) {
+    .bitacora-fila {
+      grid-template-columns: 1fr;
+      gap: 0.4rem;
+    }
   }
 </style>

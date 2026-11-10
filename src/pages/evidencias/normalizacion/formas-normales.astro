@@ -73,6 +73,24 @@ const formas = [
         ))}
       </div>
 
+      <section class="bitacora">
+        <div class="bitacora-fila">
+          <span class="bitacora-label">En clase</span>
+          <p>
+            El profe explicó las formas normales en clase, una por una y en orden.
+          </p>
+        </div>
+        <div class="bitacora-fila">
+          <span class="bitacora-label">Lo que aprendí</span>
+          <p>
+            Lo que más me costó fue hallar las dependencias y la llave primaria de
+            cada tabla, porque de eso depende saber en qué forma normal está. En el
+            <a href="/evidencias/proyecto/propuesta">proyecto de la Liga BetPlay</a>
+            llegamos hasta 3FN.
+          </p>
+        </div>
+      </section>
+
       <h2>Fuentes</h2>
       <ul class="fuentes">
         <li>KeepCoding — "Formas normales de una base de datos: guía completa 2026"</li>
@@ -177,4 +195,39 @@ const formas = [
       gap: 0.4rem;
     }
   }
-</style>
+
+  .bitacora {
+    margin-top: 2.5rem;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .bitacora-fila {
+    display: grid;
+    grid-template-columns: 8rem 1fr;
+    gap: 1.25rem;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .bitacora-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-primary);
+    padding-top: 0.2rem;
+  }
+
+  .bitacora-fila p {
+    margin: 0;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  @media (max-width: 600px) {
+    .bitacora-fila {
+      grid-template-columns: 1fr;
+      gap: 0.4rem;
+    }
+  }
+</style>

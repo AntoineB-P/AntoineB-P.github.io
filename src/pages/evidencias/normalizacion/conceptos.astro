@@ -58,6 +58,25 @@ import { siteConfig } from '../../../config';
         sobre la que se revisan todas las formas normales.
       </p>
 
+      <section class="bitacora">
+        <div class="bitacora-fila">
+          <span class="bitacora-label">En clase</span>
+          <p>
+            Estos conceptos los explicó el profe en clase, como base para poder
+            normalizar después.
+          </p>
+        </div>
+        <div class="bitacora-fila">
+          <span class="bitacora-label">Lo que aprendí</span>
+          <p>
+            Al principio me costó encontrar las dependencias funcionales, porque
+            primero hay que tener clara la llave primaria y eso también podía ser
+            confuso. Entendí que si no sé qué determina a qué, no puedo saber qué
+            tablas sobran ni cuáles faltan.
+          </p>
+        </div>
+      </section>
+
       <h2>Fuentes</h2>
       <ul class="fuentes">
         <li>KeepCoding — "Formas normales de una base de datos: guía completa"</li>
@@ -134,4 +153,39 @@ import { siteConfig } from '../../../config';
     padding-left: 1.25rem;
     font-size: 0.9rem;
   }
-</style>
+
+  .bitacora {
+    margin-top: 2.5rem;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .bitacora-fila {
+    display: grid;
+    grid-template-columns: 8rem 1fr;
+    gap: 1.25rem;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .bitacora-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-primary);
+    padding-top: 0.2rem;
+  }
+
+  .bitacora-fila p {
+    margin: 0;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  @media (max-width: 600px) {
+    .bitacora-fila {
+      grid-template-columns: 1fr;
+      gap: 0.4rem;
+    }
+  }
+</style>

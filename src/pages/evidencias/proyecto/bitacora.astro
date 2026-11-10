@@ -1,0 +1,268 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Navigation from '../../../components/Navigation.astro';
+import Footer from '../../../components/Footer.astro';
+import { siteConfig } from '../../../config';
+
+type Etapa = {
+  num: string;
+  titulo: string;
+  fecha: string;
+  hicimos: string;
+  problema?: string;
+  aprendimos: string;
+};
+
+const etapas: Etapa[] = [
+  {
+    num: '01',
+    titulo: 'Arranque del proyecto',
+    fecha: 'Oct 2026',
+    hicimos: 'Escogimos la Liga BetPlay como tema y escribimos la propuesta, el acta de constitución y el documento de supuestos. Creamos el repositorio en GitHub con una rama para cada uno, y los cambios entraban a main con pull requests.',
+    problema: 'Al principio subíamos varias versiones del mismo documento con nombres distintos, y después no sabíamos cuál era la última.',
+    aprendimos: 'A organizarnos con ramas y pull requests, y a dejar una sola versión de cada documento en el repositorio.',
+  },
+  {
+    num: '02',
+    titulo: 'Modelado y normalización',
+    fecha: 'Oct 2026',
+    hicimos: 'Hicimos el MER en notación Chen, el MER extendido con la especialización de JUGADOR (portero, defensa, mediocampista y atacante), la reducción a tablas y la normalización hasta 3FN.',
+    problema: 'Teníamos una relación JUGAR entre jugador y partido que repetía lo mismo que PARTICIPACION. La quitamos, porque los minutos, los goles y las tarjetas ya salían de la participación.',
+    aprendimos: 'Que el modelo cambia muchas veces antes de quedar bien, y que cada cambio hay que pasarlo a todo lo demás: al MER extendido, a las tablas y a los documentos.',
+  },
+  {
+    num: '03',
+    titulo: 'Máquina virtual y Oracle',
+    fecha: 'Oct 2026',
+    hicimos: 'Analizamos qué sistema operativo y qué gestor usar, y escogimos Oracle Linux 9 en VirtualBox con Oracle AI Database Free. Instalamos todo en la VM, creamos el usuario LIGA en la base FREEPDB1 y nos conectamos desde SQL Developer por el puerto 1521.',
+    problema: 'Copiar el instalador a la VM con scp falló varias veces (Connection refused), Oracle respondía ORA-01034 porque la instancia no estaba arrancada y el puerto 1521 estaba cerrado. Lo resolvimos con STARTUP, abriendo el puerto en el firewall y con el reenvío de puertos de VirtualBox.',
+    aprendimos: 'A leer los errores de Oracle en vez de reinstalar todo, y que una base de datos depende de su servidor: si la VM o el listener no están arriba, nada funciona.',
+  },
+  {
+    num: '04',
+    titulo: 'Oracle Data Modeler',
+    fecha: 'Oct – Nov 2026',
+    hicimos: 'Pasamos el modelo a Data Modeler y generamos el modelo lógico, el relacional y el informe del diccionario de datos.',
+    problema: 'Al compararlo con la base, la relación entre ROL y USUARIO estaba al revés: decía que un usuario podía no tener rol, cuando en la base es obligatorio. La corregimos para que el modelo y la base dijeran lo mismo.',
+    aprendimos: 'Que el modelo y la base tienen que coincidir en todo, hasta en qué lado de una relación es opcional.',
+  },
+  {
+    num: '05',
+    titulo: 'Backend y aplicación web',
+    fecha: 'Oct – Nov 2026',
+    hicimos: 'Hicimos el backend en Spring Boot con JDBC, sin ORM, con login por JWT y verificación por correo. El frontend lo hicimos en Angular, con el dashboard, la tabla de posiciones, los escudos de los equipos, el equipo favorito y un panel para el administrador.',
+    problema: 'La base tenía restricciones CHECK (por ejemplo, el formato de la hora del partido) que chocaban con lo que mandaba la aplicación. Las quitamos y esas validaciones pasaron al backend. Para que el front pudiera hablar con el back también tuvimos que configurar CORS.',
+    aprendimos: 'Cómo una aplicación real usa la base de datos: cada pantalla termina siendo una consulta con JOIN, GROUP BY o subconsultas, como las que vimos en clase.',
+  },
+  {
+    num: '06',
+    titulo: 'Datos reales y scripts',
+    fecha: 'Nov 2026',
+    hicimos: 'Cargamos la Liga BetPlay II-2026: 20 equipos con sus técnicos y estadios, cerca de 640 jugadores, árbitros y 70 partidos (6 jornadas jugadas con resultados, goles y tarjetas, y la jornada 7 programada). Después organizamos todo en tres scripts: creación de objetos, inserción de registros y consultas varias, con su README.',
+    problema: 'Al exportar los datos, las fechas salieron con el año en dos dígitos, y un equipo fundado en 1941 quedaba como 2041. Lo corregimos escribiendo el año completo. También revisamos con una consulta que el marcador de cada partido coincidiera con los goles registrados.',
+    aprendimos: 'Que cargar datos reales cuesta más que crear las tablas, y que hay que comprobar los datos con consultas en vez de confiar en que quedaron bien.',
+  },
+  {
+    num: '07',
+    titulo: 'Sustentación',
+    fecha: 'Nov 2026',
+    hicimos: 'Preparamos el video y la sustentación, que quedó para el 18 de noviembre.',
+    aprendimos: 'A explicar el proyecto completo, desde el MER hasta la aplicación funcionando.',
+  },
+];
+---
+
+<BaseLayout title={'Bitácora del proyecto - ' + siteConfig.title}>
+  <Navigation />
+
+  <main class="container" style="padding-top: 6rem;">
+    <article class="doc">
+
+      <a href="/evidencias" class="back-link">← Volver a Evidencias</a>
+
+      <span class="eyebrow">Proyecto · Fase 2</span>
+      <h1>Bitácora del proyecto</h1>
+      <p class="meta">Integrantes: Felipe Sierra, Samuel Cubillos, Antoine Blanco</p>
+
+      <p class="intro">
+        Así fue el proyecto de la Liga BetPlay después de la
+        <a href="/evidencias/proyecto/propuesta">propuesta</a>: qué hicimos en
+        cada etapa, qué salió mal y qué aprendimos.
+      </p>
+
+      <p class="herramientas">
+        Oracle Linux · VirtualBox · Oracle AI Database Free · SQL Developer ·
+        Data Modeler · draw.io · Spring Boot · Angular · GitHub
+      </p>
+
+      <div class="etapas">
+        {etapas.map(e => (
+          <section class="etapa">
+            <span class="etapa-num">{e.num}</span>
+            <div>
+              <div class="etapa-header">
+                <h2>{e.titulo}</h2>
+                <span class="etapa-fecha">{e.fecha}</span>
+              </div>
+              <p><span class="etiqueta">Qué hicimos</span>{e.hicimos}</p>
+              {e.problema && (
+                <p><span class="etiqueta">Qué salió mal</span>{e.problema}</p>
+              )}
+              <p><span class="etiqueta">Qué aprendimos</span>{e.aprendimos}</p>
+            </div>
+          </section>
+        ))}
+      </div>
+
+      <h2 class="cierre-titulo">Lo que nos llevamos</h2>
+      <p class="cierre">
+        Lo más importante fue ver que todo lo de la materia se conecta: sin un
+        buen MER no hay buenas tablas, sin normalizar los datos se repiten, y
+        sin SQL la aplicación no puede mostrar nada. También aprendimos a
+        trabajar en grupo con Git y a corregir el trabajo de los otros sin
+        dañarlo.
+      </p>
+
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .doc {
+    max-width: 760px;
+    padding: 1rem 0 3rem;
+  }
+
+  .back-link {
+    display: inline-block;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+  }
+
+  .back-link:hover {
+    color: var(--color-primary);
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  h1 {
+    font-size: 2.25rem;
+    margin: 0 0 0.5rem;
+    letter-spacing: -0.02em;
+  }
+
+  .meta {
+    font-size: 0.85rem;
+    color: var(--text-tertiary);
+    margin: 0 0 1.5rem;
+  }
+
+  .intro {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin: 0 0 1rem;
+  }
+
+  .herramientas {
+    font-size: 0.8rem;
+    color: var(--text-tertiary);
+    line-height: 1.7;
+    padding: 0.75rem 0;
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+    margin: 0 0 1rem;
+  }
+
+  .etapas {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .etapa {
+    display: grid;
+    grid-template-columns: 2.5rem 1fr;
+    gap: 1.25rem;
+    padding: 1.75rem 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .etapa-num {
+    font-size: 0.9rem;
+    color: var(--text-tertiary);
+    font-variant-numeric: tabular-nums;
+    padding-top: 0.2rem;
+  }
+
+  .etapa-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .etapa-header h2 {
+    font-size: 1.2rem;
+    margin: 0;
+  }
+
+  .etapa-fecha {
+    font-size: 0.78rem;
+    color: var(--text-tertiary);
+    white-space: nowrap;
+  }
+
+  .etapa p {
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+    line-height: 1.7;
+    margin: 0 0 0.75rem;
+  }
+
+  .etapa p:last-child {
+    margin-bottom: 0;
+  }
+
+  .etiqueta {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-primary);
+    margin-bottom: 0.15rem;
+  }
+
+  .cierre-titulo {
+    font-size: 1.2rem;
+    margin: 2.5rem 0 0.6rem;
+  }
+
+  .cierre {
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  @media (max-width: 600px) {
+    .etapa {
+      grid-template-columns: 1fr;
+      gap: 0.4rem;
+    }
+
+    .etapa-header {
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+  }
+</style>

@@ -19,6 +19,25 @@ import { siteConfig } from '../../../config';
               <img src="/images/datos.jpg" alt="Tipos de datos en bases de datos relacionales" class="img-doc" />
       </div>
 
+      <section class="bitacora">
+        <div class="bitacora-fila">
+          <span class="bitacora-label">En clase</span>
+          <p>
+            Fue una investigación que debíamos hacer antes de empezar a modelar
+            en digital. La imagen la hice yo con lo que investigué.
+          </p>
+        </div>
+        <div class="bitacora-fila">
+          <span class="bitacora-label">Lo que aprendí</span>
+          <p>
+            Me sirvió para dar el paso del modelo dibujado a mano al modelo hecho
+            en un programa. En papel basta con escribir el nombre del atributo,
+            pero en digital cada columna necesita su tipo de dato, y por eso
+            había que conocerlos antes.
+          </p>
+        </div>
+      </section>
+
     </article>
   </main>
 
@@ -71,5 +90,40 @@ import { siteConfig } from '../../../config';
     border-radius: 14px;
     color: var(--text-tertiary);
     font-size: 0.9rem;
+  }
+
+  .bitacora {
+    margin-top: 2.5rem;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .bitacora-fila {
+    display: grid;
+    grid-template-columns: 8rem 1fr;
+    gap: 1.25rem;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .bitacora-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-primary);
+    padding-top: 0.2rem;
+  }
+
+  .bitacora-fila p {
+    margin: 0;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  @media (max-width: 600px) {
+    .bitacora-fila {
+      grid-template-columns: 1fr;
+      gap: 0.4rem;
+    }
   }
 </style>

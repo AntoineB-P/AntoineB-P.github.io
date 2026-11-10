@@ -20,10 +20,32 @@ import { siteConfig } from '../../config';
       </p>
 
       <img
-        src="/images/futbol.jpg"
+        src="/images/mer-torneo.png"
         alt="Modelo entidad-relación de un torneo de fútbol universitario"
         class="imagen-trabajo"
       />
+
+      <section class="bitacora">
+        <div class="bitacora-fila">
+          <span class="bitacora-label">En clase</span>
+          <p>
+            El profe lo dejó como un ejercicio de repaso para hacer de forma
+            individual. Lo hice solo, a mano en el cuaderno, y después lo
+            pasé a draw.io. Como era de
+            práctica, no tuvo corrección.
+          </p>
+        </div>
+        <div class="bitacora-fila">
+          <span class="bitacora-label">Lo que aprendí</span>
+          <p>
+            Aprendí a armar un modelo desde cero: identificar las entidades y sus
+            atributos, unirlas con relaciones, escribir los nombres de las
+            entidades en mayúsculas y usar bien la notación. Lo que más me costó
+            fueron las cardinalidades; al principio era lo más confuso para mí, y
+            este ejercicio me sirvió para practicarlas.
+          </p>
+        </div>
+      </section>
     </article>
   </main>
 
@@ -76,9 +98,42 @@ import { siteConfig } from '../../config';
     border: 1px solid var(--border-color);
   }
 
+  .bitacora {
+    margin-top: 2.5rem;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .bitacora-fila {
+    display: grid;
+    grid-template-columns: 8rem 1fr;
+    gap: 1.25rem;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .bitacora-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-primary);
+    padding-top: 0.2rem;
+  }
+
+  .bitacora-fila p {
+    margin: 0;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
   @media (max-width: 600px) {
     .trabajo h1 {
       font-size: 1.75rem;
+    }
+
+    .bitacora-fila {
+      grid-template-columns: 1fr;
+      gap: 0.4rem;
     }
   }
 </style>

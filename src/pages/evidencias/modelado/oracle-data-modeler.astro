@@ -55,6 +55,26 @@ import { siteConfig } from '../../../config';
       <h3>Modelo relacional</h3>
       <img src="/images/Oracle2.png" alt="Modelo relacional en Oracle Data Modeler" class="img-doc" />
 
+      <section class="bitacora">
+        <div class="bitacora-fila">
+          <span class="bitacora-label">En clase</span>
+          <p>
+            El ejercicio de las capturas lo hicimos con mis compañeros: lo
+            empezamos en clase y lo terminamos como tarea.
+          </p>
+        </div>
+        <div class="bitacora-fila">
+          <span class="bitacora-label">Lo que aprendí</span>
+          <p>
+            Al inicio me costó entender la notación de pata de gallo y el modelo
+            relacional, que al principio era muy confuso. También tuve que
+            aprender la notación propia de la aplicación: los círculos, los
+            asteriscos y los demás símbolos que muestra en cada atributo y en
+            cada línea.
+          </p>
+        </div>
+      </section>
+
       <h2>Fuentes</h2>
       <ul class="fuentes">
         <li>Platzi — "Diagrama ER con notación crow's foot"</li>
@@ -163,5 +183,40 @@ import { siteConfig } from '../../../config';
     line-height: 1.9;
     padding-left: 1.25rem;
     font-size: 0.9rem;
+  }
+
+  .bitacora {
+    margin-top: 2.5rem;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .bitacora-fila {
+    display: grid;
+    grid-template-columns: 8rem 1fr;
+    gap: 1.25rem;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .bitacora-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-primary);
+    padding-top: 0.2rem;
+  }
+
+  .bitacora-fila p {
+    margin: 0;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  @media (max-width: 600px) {
+    .bitacora-fila {
+      grid-template-columns: 1fr;
+      gap: 0.4rem;
+    }
   }
 </style>

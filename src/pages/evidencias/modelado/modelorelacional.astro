@@ -39,17 +39,35 @@ import { siteConfig } from '../../../config';
         <li><strong>Clave primaria:</strong> la clave candidata que el diseñador elige como la oficial para identificar los registros de la tabla.</li>
       </ul>
 
-      <h2>Políticas de integridad referencial</h2>
+      <h2>Ejercicio: del modelo lógico al relacional</h2>
       <p>
-        Cuando una tabla tiene una clave foránea, hay que decidir qué pasa si se
-        borra o actualiza el registro "padre" que esa clave referencia. Las
-        políticas más comunes son:
+        Este es el mismo ejercicio de
+        <a href="/evidencias/modelado/oracle-data-modeler">Oracle Data Modeler</a>,
+        ya transformado al modelo relacional. Cada entidad quedó como tabla, con
+        su llave primaria (P), sus llaves foráneas (F), las columnas obligatorias
+        (*) y el tipo de dato de cada una.
       </p>
-      <ul class="lista-conceptos">
-        <li><strong>CASCADE:</strong> si se borra o actualiza el padre, el cambio se propaga automáticamente a los hijos relacionados.</li>
-        <li><strong>RESTRICT (o NO ACTION):</strong> impide borrar o actualizar el padre mientras existan hijos que lo referencian — es el comportamiento por defecto en la mayoría de motores.</li>
-        <li><strong>SET NULL:</strong> al borrar o actualizar el padre, la clave foránea del hijo pasa a quedar en NULL (desvinculado, pero sin borrarse).</li>
-      </ul>
+      <img src="/images/Oracle2.png" alt="Modelo relacional del ejercicio en Oracle Data Modeler" class="img-doc" />
+
+      <section class="bitacora">
+        <div class="bitacora-fila">
+          <span class="bitacora-label">En clase</span>
+          <p>
+            Partimos del modelo lógico que hicimos en grupo en Data Modeler y lo
+            pasamos al relacional, revisando las llaves y las restricciones de
+            cada tabla.
+          </p>
+        </div>
+        <div class="bitacora-fila">
+          <span class="bitacora-label">Lo que aprendí</span>
+          <p>
+            Entendí cómo un modelo dibujado se vuelve tablas reales con sus
+            restricciones. Después lo aplicamos en el
+            <a href="/evidencias/proyecto/propuesta">proyecto de la Liga BetPlay</a>,
+            donde también tuvimos que pasar nuestro modelo al relacional.
+          </p>
+        </div>
+      </section>
 
       <h2>Fuentes</h2>
       <ul class="fuentes">
@@ -126,5 +144,45 @@ import { siteConfig } from '../../../config';
     line-height: 1.9;
     padding-left: 1.25rem;
     font-size: 0.9rem;
+  }
+
+  .img-doc {
+    width: 100%;
+    border-radius: 14px;
+    border: 1px solid var(--border-color);
+    margin: 1rem 0;
+  }
+
+  .bitacora {
+    margin-top: 2.5rem;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .bitacora-fila {
+    display: grid;
+    grid-template-columns: 8rem 1fr;
+    gap: 1.25rem;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .bitacora-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-primary);
+    padding-top: 0.2rem;
+  }
+
+  .bitacora-fila p {
+    margin: 0;
+  }
+
+  @media (max-width: 600px) {
+    .bitacora-fila {
+      grid-template-columns: 1fr;
+      gap: 0.4rem;
+    }
   }
 </style>

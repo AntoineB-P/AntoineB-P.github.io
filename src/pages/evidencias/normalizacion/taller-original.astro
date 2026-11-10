@@ -144,6 +144,25 @@ import { siteConfig } from '../../../config';
         </table>
       </div>
 
+      <section class="bitacora">
+        <div class="bitacora-fila">
+          <span class="bitacora-label">En clase</span>
+          <p>
+            El taller lo hicimos en grupo, con mis compañeros del proyecto. Al
+            revisarlo, los tres nos dimos cuenta de que tenía errores según cómo se
+            interpretara la lógica del negocio, y por eso hicimos el
+            <a href="/evidencias/normalizacion/taller-corregido">taller corregido</a>.
+          </p>
+        </div>
+        <div class="bitacora-fila">
+          <span class="bitacora-label">Lo que aprendí</span>
+          <p>
+            Que un mismo ejercicio puede salir bien o mal dependiendo de los
+            supuestos que uno tome sin darse cuenta.
+          </p>
+        </div>
+      </section>
+
     </article>
   </main>
 
@@ -259,4 +278,39 @@ import { siteConfig } from '../../../config';
     color: var(--text-primary);
     font-weight: 600;
   }
-</style>
+
+  .bitacora {
+    margin-top: 2.5rem;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .bitacora-fila {
+    display: grid;
+    grid-template-columns: 8rem 1fr;
+    gap: 1.25rem;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .bitacora-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-primary);
+    padding-top: 0.2rem;
+  }
+
+  .bitacora-fila p {
+    margin: 0;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  @media (max-width: 600px) {
+    .bitacora-fila {
+      grid-template-columns: 1fr;
+      gap: 0.4rem;
+    }
+  }
+</style>

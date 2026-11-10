@@ -1,0 +1,354 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Navigation from '../../../components/Navigation.astro';
+import Footer from '../../../components/Footer.astro';
+import { siteConfig } from '../../../config';
+
+const ejercicios = [
+  {
+    enunciado: 'Muestra el nombre, apellido y salario de todos los empleados que ganan más de 10000.',
+    consulta: `SELECT first_name, last_name, salary
+FROM HR.employees
+WHERE salary > 10000;`,
+  },
+  {
+    enunciado: 'Lista los nombres de los departamentos ordenados alfabéticamente.',
+    consulta: `SELECT department_name
+FROM hr.departments
+ORDER BY department_name ASC;`,
+  },
+  {
+    enunciado: 'Muestra los empleados contratados después del 1 de enero de 2005 (nombre, apellido y fecha de contratación).',
+    consulta: `SELECT first_name, last_name, hire_date
+FROM HR.employees
+WHERE HIRE_DATE > DATE '2005-01-01'
+ORDER BY HIRE_DATE ASC;`,
+  },
+  {
+    enunciado: 'Muestra el nombre, apellido y nombre del departamento de todos los empleados.',
+    consulta: `SELECT  first_name AS NOMBRE
+        ,last_name AS APELLIDO
+        ,DEPARTMENT_NAME AS NOMBRE_DEPARTAMENTO
+FROM HR.EMPLOYEES E
+     LEFT JOIN HR.DEPARTMENTS D
+     ON E.DEPARTMENT_ID = D.DEPARTMENT_ID;`,
+  },
+  {
+    enunciado: 'Muestra el título del trabajo (JOB_TITLE) y el salario de cada empleado, junto con su nombre completo.',
+    consulta: `SELECT  first_name AS NOMBRE
+        ,last_name AS APELLIDO
+        ,JOB_TITLE AS TITULO_DEL_TRABAJO
+        ,salary AS SALARIO
+FROM HR.EMPLOYEES E
+     LEFT JOIN HR.JOBS J
+     ON E.JOB_ID = J.JOB_ID;`,
+  },
+  {
+    enunciado: 'Lista los países con el nombre de la región (continente) a la que pertenecen.',
+    consulta: `SELECT  COUNTRY_ID AS id
+        ,COUNTRY_NAME AS "País"
+        ,REGION_NAME AS NOMBRE_REGION
+FROM HR.COUNTRIES C
+     LEFT JOIN HR.REGIONS R
+     ON C.REGION_ID = R.REGION_ID;`,
+  },
+  {
+    enunciado: 'Muestra nombre, apellido, salario y nombre del departamento de los empleados de los departamentos 50 y 60.',
+    consulta: `SELECT  first_name AS NOMBRE
+        ,last_name AS APELLIDO
+        ,salary AS SALARIO
+        ,DEPARTMENT_NAME AS NOMBRE_DEPARTAMENTO
+        ,D.DEPARTMENT_ID AS ID_DEPARTAMENTO
+FROM HR.EMPLOYEES E
+     LEFT JOIN HR.DEPARTMENTS D
+     ON E.DEPARTMENT_ID = D.DEPARTMENT_ID
+WHERE D.DEPARTMENT_ID = 50
+     OR D.DEPARTMENT_ID = 60;`,
+  },
+  {
+    enunciado: 'Muestra nombre, apellido y la ciudad donde trabaja cada empleado del departamento 100.',
+    consulta: `SELECT  E.first_name AS NOMBRE
+        ,E.last_name AS APELLIDO
+        ,D.DEPARTMENT_ID AS ID_DEPARTAMENTO
+        ,L.CITY AS CIUDAD
+FROM HR.EMPLOYEES E
+     LEFT JOIN HR.DEPARTMENTS D
+     ON E.DEPARTMENT_ID = D.DEPARTMENT_ID
+     LEFT JOIN HR.LOCATIONS L
+     ON D.LOCATION_ID = L.LOCATION_ID
+WHERE D.DEPARTMENT_ID = 100;`,
+  },
+  {
+    enunciado: 'Muestra nombre, apellido, salario y nombre del país de los empleados del departamento 30.',
+    consulta: `SELECT  E.first_name AS NOMBRE
+        ,E.last_name AS APELLIDO
+        ,E.SALARY AS SALARIO
+        ,D.DEPARTMENT_ID AS ID_DEPARTAMENTO
+        ,COUNTRY_NAME AS PAIS
+FROM HR.EMPLOYEES E
+     LEFT JOIN HR.DEPARTMENTS D
+     ON E.DEPARTMENT_ID = D.DEPARTMENT_ID
+     LEFT JOIN HR.LOCATIONS L
+     ON D.LOCATION_ID = L.LOCATION_ID
+     LEFT JOIN HR.COUNTRIES C
+     ON L.COUNTRY_ID = C.COUNTRY_ID
+WHERE D.DEPARTMENT_ID = 30;`,
+  },
+  {
+    enunciado: 'Busca nombres, apellidos, salarios y el continente al que pertenecen los empleados de los departamentos 80 y 90.',
+    consulta: `SELECT E.FIRST_NAME AS NOMBRE,
+       E.LAST_NAME AS APELLIDO,
+       E.SALARY AS SALARIO,
+       R.REGION_NAME AS REGION
+FROM HR.EMPLOYEES E
+     LEFT JOIN HR.DEPARTMENTS D
+     ON E.DEPARTMENT_ID = D.DEPARTMENT_ID
+     LEFT JOIN HR.LOCATIONS L
+     ON D.LOCATION_ID = L.LOCATION_ID
+     LEFT JOIN HR.COUNTRIES C
+     ON L.COUNTRY_ID = C.COUNTRY_ID
+     LEFT JOIN HR.REGIONS R
+     ON C.REGION_ID = R.REGION_ID
+WHERE E.DEPARTMENT_ID = 80
+      OR E.DEPARTMENT_ID = 90;`,
+  },
+  {
+    enunciado: 'Igual que el anterior, pero solo para los empleados que ganan más de 8000, ordenados por salario de mayor a menor.',
+    consulta: `SELECT E.FIRST_NAME AS NOMBRE,
+       E.LAST_NAME AS APELLIDO,
+       E.SALARY AS SALARIO,
+       R.REGION_NAME AS REGION
+FROM HR.EMPLOYEES E
+     LEFT JOIN HR.DEPARTMENTS D
+     ON E.DEPARTMENT_ID = D.DEPARTMENT_ID
+     LEFT JOIN HR.LOCATIONS L
+     ON D.LOCATION_ID = L.LOCATION_ID
+     LEFT JOIN HR.COUNTRIES C
+     ON L.COUNTRY_ID = C.COUNTRY_ID
+     LEFT JOIN HR.REGIONS R
+     ON C.REGION_ID = R.REGION_ID
+WHERE (E.DEPARTMENT_ID = 80
+      OR E.DEPARTMENT_ID = 90)
+      AND SALARY > 8000
+ORDER BY SALARY DESC;`,
+  },
+  {
+    enunciado: 'Muestra el nombre de cada continente y cuántos empleados trabajan en él.',
+    consulta: `SELECT R.REGION_NAME AS CONTINENTE
+       ,COUNT(E.EMPLOYEE_ID) AS TOTAL_EMPLEADOS
+FROM HR.REGIONS R
+    LEFT JOIN HR.COUNTRIES C
+    ON R.REGION_ID = C.REGION_ID
+    LEFT JOIN HR.LOCATIONS L
+    ON C.COUNTRY_ID = L.COUNTRY_ID
+    LEFT JOIN HR.DEPARTMENTS D
+    ON L.LOCATION_ID = D.LOCATION_ID
+    LEFT JOIN HR.EMPLOYEES E
+    ON D.DEPARTMENT_ID = E.DEPARTMENT_ID
+GROUP BY R.REGION_NAME;`,
+  },
+];
+---
+
+<BaseLayout title={'Consultas sobre el esquema HR - ' + siteConfig.title}>
+  <Navigation />
+
+  <main class="container" style="padding-top: 6rem;">
+    <article class="doc">
+
+      <a href="/evidencias" class="back-link">← Volver a Evidencias</a>
+
+      <span class="eyebrow">SQL</span>
+      <h1>Consultas sobre el esquema HR</h1>
+
+      <p class="intro">
+        Todos estos ejercicios están hechos con base en el esquema
+        <strong>HR</strong> de Oracle, una base de ejemplo de recursos humanos
+        con empleados, departamentos, cargos, ubicaciones, países y regiones.
+        Antes de escribir cada consulta, miraba en este diagrama por qué columnas
+        se conectan las tablas.
+      </p>
+
+      <figure class="esquema">
+        <img src="/images/hr-esquema.png" alt="Diagrama del esquema HR de Oracle" class="img-doc" />
+        <figcaption>Esquema HR: las columnas en azul son las llaves primarias.</figcaption>
+      </figure>
+
+      <h2>Ejercicios</h2>
+
+      <div class="ejercicios">
+        {ejercicios.map((e, i) => (
+          <div class="ejercicio">
+            <span class="ejercicio-num">{String(i + 1).padStart(2, '0')}</span>
+            <div class="ejercicio-content">
+              <p>{e.enunciado}</p>
+              <pre><code>{e.consulta}</code></pre>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <section class="bitacora">
+        <div class="bitacora-fila">
+          <span class="bitacora-label">En clase</span>
+          <p>
+            Estas consultas las hicimos como práctica en el laboratorio, sobre el
+            esquema HR que ya viene en Oracle.
+          </p>
+        </div>
+        <div class="bitacora-fila">
+          <span class="bitacora-label">Lo que aprendí</span>
+          <p>
+            Al inicio nos costó entender los JOIN y la sintaxis, sobre todo
+            cuando había que unir varias tablas para llegar de EMPLOYEES hasta
+            REGIONS. Luego le agarramos la idea y las consultas nos salieron.
+          </p>
+        </div>
+      </section>
+
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .doc {
+    max-width: 720px;
+    padding: 1rem 0 3rem;
+  }
+
+  .back-link {
+    display: inline-block;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+  }
+
+  .back-link:hover {
+    color: var(--color-primary);
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  h1 {
+    font-size: 2.25rem;
+    margin: 0 0 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .intro {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 2rem;
+  }
+
+  .esquema {
+    margin: 0 0 1rem;
+    padding: 1.25rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+  }
+
+  .img-doc {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .esquema figcaption {
+    margin-top: 0.75rem;
+    font-size: 0.8rem;
+    color: var(--text-tertiary);
+    text-align: center;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+    margin: 2rem 0 0.6rem;
+  }
+
+  .ejercicios {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ejercicio {
+    display: grid;
+    grid-template-columns: 2.5rem 1fr;
+    gap: 1.25rem;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .ejercicio-num {
+    font-size: 0.9rem;
+    color: var(--text-tertiary);
+    font-variant-numeric: tabular-nums;
+    padding-top: 0.1rem;
+  }
+
+  .ejercicio-content p {
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0 0 0.75rem;
+  }
+
+  .ejercicio-content pre {
+    margin: 0;
+    padding: 1rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    overflow-x: auto;
+    font-size: 0.8rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+  }
+
+  .bitacora {
+    margin-top: 2.5rem;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .bitacora-fila {
+    display: grid;
+    grid-template-columns: 8rem 1fr;
+    gap: 1.25rem;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .bitacora-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-primary);
+    padding-top: 0.2rem;
+  }
+
+  .bitacora-fila p {
+    margin: 0;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  @media (max-width: 600px) {
+    .ejercicio,
+    .bitacora-fila {
+      grid-template-columns: 1fr;
+      gap: 0.4rem;
+    }
+  }
+</style>
