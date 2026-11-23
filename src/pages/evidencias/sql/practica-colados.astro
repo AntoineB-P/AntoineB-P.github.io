@@ -170,7 +170,7 @@ const grupos = [
 ];
 ---
 
-<BaseLayout title={'Práctica de SQL - ' + siteConfig.title}>
+<BaseLayout title={'Práctica de consultas - ' + siteConfig.title}>
   <Navigation />
 
   <main class="container" style="padding-top: 6rem;">
@@ -179,14 +179,21 @@ const grupos = [
       <a href="/evidencias" class="back-link">← Volver a Evidencias</a>
 
       <span class="eyebrow">SQL · Práctica</span>
-      <h1>Práctica de SQL</h1>
+      <h1>Práctica de consultas</h1>
       <p class="meta">Antoine Blanco y Susan Uriza</p>
 
       <p class="intro">
-        10 consultas que resolvimos primero en el cuaderno. Las 6 primeras son
-        sobre un sistema de colados en TransMilenio y las otras 4 sobre la base
-        de la <a href="/evidencias/sql/consultas-liga">Liga BetPlay</a>.
+        10 consultas que resolvimos primero a mano en el cuaderno y después
+        probamos en SQL Developer. Las 6 primeras son sobre un sistema de
+        colados en TransMilenio y las otras 4 sobre la base de la <a href="/evidencias/sql/consultas-liga">Liga BetPlay</a>.
+        Cada ejercicio tiene la foto de cómo lo escribimos, la consulta ya
+        revisada y su resultado.
       </p>
+
+      <a href="/documentos/practica-consultas.pdf" target="_blank" rel="noopener" class="documento">
+        <span class="documento-tipo">PDF</span>
+        <span>Ver la práctica completa, con las tablas y las fotos</span>
+      </a>
 
       <h2>Tablas de los colados</h2>
       {tablas.map(t => (
@@ -216,6 +223,10 @@ const grupos = [
                   <p class="enunciado">{e.enunciado}</p>
                   <details class="desplegable">
                   <summary>Ver consulta y resultado</summary>
+                  <a href={`/images/cuaderno-sql-${g.inicio + i}.jpg`} target="_blank" rel="noopener" class="cuaderno">
+                    <img src={`/images/cuaderno-sql-${g.inicio + i}.jpg`} alt={'Consulta ' + (g.inicio + i) + ' escrita en el cuaderno'} />
+                    <span>Así la escribimos en el cuaderno</span>
+                  </a>
                   <pre><code>{e.consulta}</code></pre>
                   {e.filas.length > 0 ? (
                     <div class="resultado">
@@ -246,9 +257,11 @@ const grupos = [
         <div class="bitacora-fila">
           <span class="bitacora-label">Lo que aprendí</span>
           <p>
-            Al probar las consultas salieron 3 errores que en el papel no
-            veíamos. Así entendí que hay que fijarse bien de qué tabla sale cada
-            columna.
+            Al pasar las consultas del papel a SQL Developer salieron 3 errores
+            que a mano no veíamos: contar desde la tabla equivocada, usar un alias
+            en el HAVING y pedir una columna con el alias de otra tabla. Entendí
+            que hay que fijarse bien de qué tabla sale cada columna y probar
+            siempre la consulta, porque en el cuaderno todo parece correcto.
           </p>
         </div>
       </section>
@@ -474,5 +487,47 @@ const grupos = [
 
   .desplegable[open] summary {
     margin-bottom: 0.75rem;
+  }
+  .cuaderno {
+    display: block;
+    margin-bottom: 0.75rem;
+    color: var(--text-tertiary);
+    font-size: 0.75rem;
+  }
+
+  .cuaderno img {
+    display: block;
+    width: 100%;
+    max-width: 520px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    margin-bottom: 0.3rem;
+  }
+
+  .cuaderno:hover {
+    color: var(--color-primary);
+  }
+
+  .documento {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+    padding: 0.6rem 0.9rem;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    font-size: 0.85rem;
+    color: var(--text-primary);
+  }
+
+  .documento:hover {
+    border-color: var(--color-primary);
+  }
+
+  .documento-tipo {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--color-primary);
   }
 </style>

@@ -5,14 +5,14 @@ import Footer from '../../../components/Footer.astro';
 import { siteConfig } from '../../../config';
 
 const pasos = [
-  { num: '01', titulo: 'Multivaluados', desc: 'Cada atributo multivaluado pasa a ser una tabla aparte, con FK a su entidad.' },
-  { num: '02', titulo: 'Entidades', desc: 'Cada entidad es una tabla; su atributo clave queda como PK.' },
-  { num: '03', titulo: 'Relaciones', desc: 'N:M crea una tabla nueva. 1:N pasa la clave del lado 1 al lado N. 1:1 depende de la participación.' },
-  { num: '04', titulo: 'Participación', desc: 'La FK va en la tabla con participación total, para no dejar campos vacíos.' },
-  { num: '05', titulo: 'N-arias', desc: 'Con 3 o más entidades siempre sale una tabla nueva con todas sus claves.' },
-  { num: '06', titulo: 'Roles', desc: 'Si una entidad participa dos veces, cada rol es una columna con la misma FK.' },
-  { num: '07', titulo: 'Especialización', desc: 'Cada subtipo puede ser su propia tabla con la clave del padre, o todo va en una tabla con un atributo de tipo.' },
-  { num: '08', titulo: 'Revisión final', desc: 'Toda tabla con su PK, y las FK de acuerdo con las cardinalidades del MER.' },
+  { num: '01', titulo: 'Eliminar multivaluados', desc: 'Cada atributo multivaluado pasa a ser una tabla aparte, con su clave y una FK hacia la entidad original.' },
+  { num: '02', titulo: 'Transformar entidades', desc: 'Cada entidad se vuelve una tabla: sus atributos son las columnas y el atributo clave queda como PK.' },
+  { num: '03', titulo: 'Relaciones según cardinalidad', desc: 'N:M crea una tabla nueva con las claves de las dos entidades. En 1:N la clave del lado 1 pasa como FK al lado N. En 1:1 depende de la participación.' },
+  { num: '04', titulo: 'Revisar la participación', desc: 'Si una entidad tiene participación total y la otra parcial, la FK va en la tabla con participación total, para no dejar campos vacíos.' },
+  { num: '05', titulo: 'Relaciones n-arias', desc: 'Cuando participan 3 o más entidades siempre se crea una tabla nueva con las claves de todas como FK.' },
+  { num: '06', titulo: 'Roles', desc: 'Si una misma entidad participa dos veces en una relación, cada rol es una columna distinta con la misma FK repetida.' },
+  { num: '07', titulo: 'Especialización', desc: 'Cada subtipo puede ser su propia tabla con la clave del padre, o todo puede ir en una sola tabla con un atributo que diga el tipo. Depende del caso.' },
+  { num: '08', titulo: 'Revisión final', desc: 'Al terminar, cada tabla debe tener su PK bien definida y las FK deben coincidir con las cardinalidades del MER.' },
 ];
 ---
 
@@ -26,7 +26,10 @@ const pasos = [
       <span class="eyebrow">Modelado · 03</span>
       <h1>Transformación a tablas</h1>
 
-      <p class="intro">Los pasos que sigo para pasar un MER a tablas.</p>
+      <p class="intro">
+        Los pasos que sigo para pasar un modelo entidad-relación al modelo
+        relacional, es decir, para convertirlo en tablas reales.
+      </p>
 
       <div class="pasos">
         {pasos.map(p => (
@@ -42,9 +45,7 @@ const pasos = [
 
       <h2>Taller en clase</h2>
       <p>
-        <a href="https://drive.google.com/file/d/1fxD4CiXxuO2MGfdzVm1OVv3Z3WuBRFMC/view?usp=sharing" target="_blank" rel="noopener">
-          Ver el taller completo →
-        </a>
+        <a href="https://drive.google.com/file/d/1fxD4CiXxuO2MGfdzVm1OVv3Z3WuBRFMC/view?usp=sharing" target="_blank" rel="noopener">Ver el taller completo →</a>
       </p>
       <img src="/images/tallertablas.png" alt="Taller de transformación a tablas" class="img-doc" />
 
@@ -54,14 +55,17 @@ const pasos = [
       <section class="bitacora">
         <div class="bitacora-fila">
           <span class="bitacora-label">En clase</span>
-          <p>El taller y el ejemplo 2 los hicimos en grupo, con mis compañeros del proyecto.</p>
+          <p>El taller lo hicimos en grupo, con mis compañeros del proyecto. El ejemplo 2 también lo hicimos juntos, como repaso.</p>
         </div>
         <div class="bitacora-fila">
           <span class="bitacora-label">Lo que aprendí</span>
           <p>
-            Cómo pasan las llaves foráneas, y los casos difíciles: la agregación
-            y la especialización, donde a veces el subtipo desaparece y hay que
-            repartir sus atributos.
+            Lo que más me costó fueron las llaves foráneas: entender de qué lado
+            quedan y cómo pasan de una tabla a otra. Los casos más complejos
+            fueron la agregación y la especialización, porque en un caso el
+            subtipo desaparece y en otro no, y cuando se parte hay que decidir
+            cómo se reparten los atributos entre las tablas. Esto después lo
+            usamos directo en el proyecto.
           </p>
         </div>
       </section>

@@ -121,6 +121,13 @@ const decisiones = [
         </section>
       ))}
 
+      <h2>En SQL Developer</h2>
+      <div class="galeria">
+        <a href="/images/sqldeveloper-conexion.png" target="_blank" rel="noopener"><img src="/images/sqldeveloper-conexion.png" alt="Conexión a FREEPDB1" /><span>Conexión a FREEPDB1</span></a>
+        <a href="/images/sqldeveloper-user-tables.png" target="_blank" rel="noopener"><img src="/images/sqldeveloper-user-tables.png" alt="Las 22 tablas del esquema LIGA" /><span>Las 22 tablas del esquema LIGA</span></a>
+      </div>
+      <p class="nota">La primera es la conexión Liga_System por localhost:1521; la segunda, la consulta a user_tables con todas las tablas creadas.</p>
+
       <h2>Scripts</h2>
       <div class="lista-filas">
         {scripts.map(s => (
@@ -319,5 +326,71 @@ const decisiones = [
       grid-template-columns: 1fr;
       gap: 0.2rem;
     }
+  }
+  .galeria {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    margin: 0.75rem 0 0.5rem;
+  }
+
+  .galeria a {
+    display: block;
+    color: var(--text-tertiary);
+    font-size: 0.75rem;
+  }
+
+  .galeria img {
+    display: block;
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    object-position: top left;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    margin-bottom: 0.3rem;
+    background: #fff;
+  }
+
+  .galeria a:hover {
+    color: var(--color-primary);
+  }
+
+  .desplegable summary {
+    cursor: pointer;
+    list-style: none;
+    font-size: 0.82rem;
+    color: var(--text-tertiary);
+    margin: 0.2rem 0 0.4rem;
+  }
+
+  .desplegable summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .desplegable summary::before {
+    content: '▸ ';
+  }
+
+  .desplegable[open] summary::before {
+    content: '▾ ';
+  }
+
+  .desplegable summary:hover {
+    color: var(--color-primary);
+  }
+
+  @media (max-width: 600px) {
+    .galeria {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  .nota {
+    font-size: 0.82rem;
+    color: var(--text-tertiary);
+  }
+
+  .galeria img {
+    height: 180px;
   }
 </style>

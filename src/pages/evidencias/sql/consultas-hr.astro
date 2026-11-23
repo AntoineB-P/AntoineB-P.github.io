@@ -195,7 +195,13 @@ GROUP BY R.REGION_NAME;`,
         </div>
         <div class="bitacora-fila">
           <span class="bitacora-label">Lo que aprendí</span>
-          <p>Los JOIN costaron al inicio, sobre todo para llegar de EMPLOYEES a REGIONS. Luego le agarramos la idea.</p>
+          <p>
+            Al inicio nos costaron los JOIN y la sintaxis, sobre todo
+            cuando había que unir varias tablas para llegar de EMPLOYEES hasta
+            REGIONS. Aprendí a mirar primero el diagrama para saber por qué
+            columna se conecta cada tabla, y la diferencia entre JOIN y LEFT JOIN:
+            con LEFT JOIN no se pierden los empleados que no tienen departamento.
+          </p>
         </div>
       </section>
 

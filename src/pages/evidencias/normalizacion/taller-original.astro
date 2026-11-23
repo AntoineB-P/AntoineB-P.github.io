@@ -17,11 +17,24 @@ import { siteConfig } from '../../../config';
       <h1>Taller original</h1>
 
       <p class="intro">
-        El taller que presentamos en grupo. Varias dependencias venían de
-        supuestos del negocio que no estaban escritos; eso lo arreglamos en el <a href="/evidencias/normalizacion/taller-corregido">taller corregido</a>.
+        El taller de normalización que presentamos en grupo, con dos casos: una
+        clínica y una tienda. Al revisarlo vimos que varias dependencias venían
+        de supuestos del negocio que no estaban escritos; por ejemplo, asumir que
+        la especialidad de un doctor siempre define el piso del consultorio. Eso
+        lo trabajamos en el <a href="/evidencias/normalizacion/taller-corregido">taller corregido</a>.
       </p>
 
+      <h2>Así lo trabajamos en Excel</h2>
+      <div class="galeria">
+        <a href="/images/taller-clinica.png" target="_blank" rel="noopener"><img src="/images/taller-clinica.png" alt="Caso 1 · Clínica" /><span>Caso 1 · Clínica</span></a>
+        <a href="/images/taller-tienda.png" target="_blank" rel="noopener"><img src="/images/taller-tienda.png" alt="Caso 2 · Tienda" /><span>Caso 2 · Tienda</span></a>
+        <a href="/images/taller-resumen.png" target="_blank" rel="noopener"><img src="/images/taller-resumen.png" alt="Resumen comparativo" /><span>Resumen comparativo</span></a>
+      </div>
+      <p class="nota">Haz clic en una hoja para verla completa.</p>
+
       <h2>Caso 1 — Clínica (CITA_CLINICA)</h2>
+      <details class="desplegable">
+        <summary>Ver el desarrollo del caso 1</summary>
       <p>
         Tabla base: <code>(ID_Cita, Fecha_Cita, Hora_Cita, ID_Paciente, Nombre_Paciente,
         Teléfono_Paciente, ID_Doctor, Nombre_Doctor, Especialidad_Doctor,
@@ -73,8 +86,11 @@ import { siteConfig } from '../../../config';
         contra 1.000 búsquedas/día (más escrituras que lecturas), se recomienda
         mantener el esquema normalizado en vez de desnormalizar.
       </p>
+      </details>
 
       <h2>Caso 2 — Tienda (VENTA_SUCURSAL)</h2>
+      <details class="desplegable">
+        <summary>Ver el desarrollo del caso 2</summary>
       <p>
         Tabla base: <code>(ID_Venta, Fecha_Venta, ID_Sucursal, Nombre_Sucursal,
         Ciudad_Sucursal, ID_Producto, Nombre_Producto, Categoría_Producto,
@@ -119,6 +135,7 @@ import { siteConfig } from '../../../config';
         se recomienda mantener el esquema normalizado — no hay ninguna
         ineficiencia real que justifique desnormalizar.
       </p>
+      </details>
 
       <h2>Resumen comparativo</h2>
       <div class="tabla-wrap">
@@ -141,11 +158,16 @@ import { siteConfig } from '../../../config';
       <section class="bitacora">
         <div class="bitacora-fila">
           <span class="bitacora-label">En clase</span>
-          <p>Lo hicimos en grupo, con mis compañeros del proyecto.</p>
+          <p>Lo hicimos en grupo, con mis compañeros del proyecto, y lo resolvimos en Excel hoja por hoja.</p>
         </div>
         <div class="bitacora-fila">
           <span class="bitacora-label">Lo que aprendí</span>
-          <p>Que un ejercicio sale bien o mal según los supuestos que uno toma sin darse cuenta.</p>
+          <p>
+            A buscar las dependencias funcionales una por una y a justificar cada
+            una con el negocio, no solo con la tabla. También vi que un ejercicio
+            sale bien o mal según los supuestos que uno toma sin darse cuenta: si
+            no se escriben, el resultado depende de cómo cada uno los imagine.
+          </p>
         </div>
       </section>
 
@@ -298,5 +320,67 @@ import { siteConfig } from '../../../config';
       grid-template-columns: 1fr;
       gap: 0.4rem;
     }
+  }
+  .galeria {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    margin: 0.75rem 0 0.5rem;
+  }
+
+  .galeria a {
+    display: block;
+    color: var(--text-tertiary);
+    font-size: 0.75rem;
+  }
+
+  .galeria img {
+    display: block;
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    object-position: top left;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    margin-bottom: 0.3rem;
+    background: #fff;
+  }
+
+  .galeria a:hover {
+    color: var(--color-primary);
+  }
+
+  .desplegable summary {
+    cursor: pointer;
+    list-style: none;
+    font-size: 0.82rem;
+    color: var(--text-tertiary);
+    margin: 0.2rem 0 0.4rem;
+  }
+
+  .desplegable summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .desplegable summary::before {
+    content: '▸ ';
+  }
+
+  .desplegable[open] summary::before {
+    content: '▾ ';
+  }
+
+  .desplegable summary:hover {
+    color: var(--color-primary);
+  }
+
+  @media (max-width: 600px) {
+    .galeria {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  .nota {
+    font-size: 0.82rem;
+    color: var(--text-tertiary);
   }
 </style>

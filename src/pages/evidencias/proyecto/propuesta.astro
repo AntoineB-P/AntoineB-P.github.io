@@ -18,45 +18,63 @@ import { siteConfig } from '../../../config';
 
       <h2>Problemática</h2>
       <p>
-        Los datos de la Liga BetPlay (equipos, jugadores, partidos, árbitros,
-        tarjetas) están repartidos entre medios y apps distintas, y un mismo
-        dato puede cambiar según la fuente.
+        La Liga BetPlay genera todo el tiempo información de equipos, jugadores,
+        partidos, árbitros y tarjetas, pero no la administra una sola
+        organización: está repartida entre medios, apps y portales de
+        estadísticas. Por eso un mismo dato, como las tarjetas de un jugador,
+        puede cambiar según la fuente.
       </p>
 
-      <h2>Objetivo</h2>
+      <h2>Justificación</h2>
       <p>
-        Diseñar e implementar una base de datos relacional para que una sola
-        organización centralice esa información.
+        La liga tiene muchas entidades y relaciones (1:1, 1:N y N:M), lo que da
+        para un modelo entidad-relación completo y una normalización cuidadosa.
+        Lo planteamos como un sistema interno para una sola organización, para
+        que el alcance fuera manejable.
+      </p>
+
+      <h2>Objetivo general</h2>
+      <p>
+        Diseñar e implementar una base de datos relacional para centralizar la
+        información de la Liga BetPlay, aplicando modelado, normalización y
+        consultas con álgebra relacional y SQL.
       </p>
 
       <h2>Objetivos específicos</h2>
       <ul class="lista-conceptos">
-        <li>Modelar la liga con notación Chen.</li>
-        <li>Normalizar hasta 3FN.</li>
-        <li>Implementarla en un RDBMS distinto a SQL Server, en una VM con Linux.</li>
-        <li>Consultarla con álgebra relacional y SQL.</li>
+        <li>Modelar la liga con notación Chen: equipos, jugadores, técnicos, partidos, resultados, árbitros, tarjetas y torneos.</li>
+        <li>Normalizar el modelo hasta 3FN.</li>
+        <li>Implementar la base en un RDBMS distinto a SQL Server, sobre una VM con Linux.</li>
+        <li>Formular consultas con álgebra relacional para la tabla de posiciones, las estadísticas de un jugador y el historial de un equipo.</li>
         <li>Hacer una app web de uso interno conectada a la base.</li>
         <li>Trabajar en GitHub con aportes de todo el equipo.</li>
       </ul>
 
       <h2>Alcance</h2>
       <p>
-        Solo la Liga BetPlay, como herramienta interna. Fuera del alcance:
-        boletería, transmisiones, pagos e integración con otras ligas.
+        Solo la Liga BetPlay, como herramienta interna y no como plataforma
+        pública. Quedan por fuera la boletería, las transmisiones, los pagos y
+        la integración con otras ligas o redes sociales.
       </p>
 
       <h2>Entidades principales</h2>
-      <p class="entidades">
-        Torneo · Equipo · Jugador · Técnico · Partido · Resultado · Árbitro ·
-        Tarjeta · Tabla de posiciones
-      </p>
+      <dl class="definiciones">
+        <div class="def"><dt>Torneo</dt><dd>Una temporada: nombre, año y fechas.</dd></div>
+        <div class="def"><dt>Equipo</dt><dd>Nombre, ciudad, estadio y su técnico.</dd></div>
+        <div class="def"><dt>Jugador</dt><dd>Nombre, posición, dorsal, fecha de nacimiento y equipo.</dd></div>
+        <div class="def"><dt>Partido</dt><dd>Fecha, hora, estadio, jornada y los dos equipos.</dd></div>
+        <div class="def"><dt>Resultado</dt><dd>El marcador de cada partido jugado.</dd></div>
+        <div class="def"><dt>Árbitro</dt><dd>Los árbitros asignados a cada partido.</dd></div>
+        <div class="def"><dt>Tarjeta</dt><dd>Las amonestaciones de un jugador en un partido.</dd></div>
+        <div class="def"><dt>Tabla de posiciones</dt><dd>Puntos y goles de cada equipo, calculados a partir de los resultados.</dd></div>
+      </dl>
 
-      <h2>Requerimientos</h2>
+      <h2>Requerimientos principales</h2>
       <ul class="lista-conceptos">
         <li>Registrar, consultar, editar y borrar equipos, jugadores, técnicos y árbitros.</li>
-        <li>Programar partidos y registrar resultados y tarjetas.</li>
-        <li>Generar la tabla de posiciones y las estadísticas de cada jugador.</li>
-        <li>Consultar el historial de un equipo.</li>
+        <li>Programar partidos con sus equipos, árbitros, fecha, hora y estadio.</li>
+        <li>Registrar resultados y tarjetas, y que la tabla de posiciones se actualice sola.</li>
+        <li>Consultar las estadísticas de un jugador y el historial de un equipo.</li>
       </ul>
 
       <p class="siguiente">
@@ -142,5 +160,37 @@ import { siteConfig } from '../../../config';
     padding-top: 1.25rem;
     border-top: 1px solid var(--border-color);
     font-size: 0.9rem;
+  }
+  .definiciones {
+    margin: 0;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .def {
+    display: grid;
+    grid-template-columns: 11rem 1fr;
+    gap: 1.25rem;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .def dt {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 0.92rem;
+  }
+
+  .def dd {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 600px) {
+    .def {
+      grid-template-columns: 1fr;
+      gap: 0.2rem;
+    }
   }
 </style>

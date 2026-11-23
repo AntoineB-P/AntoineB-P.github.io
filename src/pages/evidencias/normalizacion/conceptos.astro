@@ -15,25 +15,35 @@ import { siteConfig } from '../../../config';
       <span class="eyebrow">Normalización · 01</span>
       <h1>Conceptos</h1>
 
-      <p class="intro">Normalizar es organizar las tablas para que los datos no se repitan ni se contradigan.</p>
+      <p class="intro">
+        Normalizar es organizar las tablas para que la información no se repita
+        sin necesidad y para que insertar, cambiar o borrar datos no deje
+        inconsistencias.
+      </p>
 
       <dl class="definiciones">
-        <div class="def"><dt>Dependencia funcional</dt><dd>X → Y: si sé X, sé Y. Con la cédula sé el nombre.</dd></div>
-        <div class="def"><dt>Determinante</dt><dd>El lado izquierdo (X), el que "manda".</dd></div>
-        <div class="def"><dt>Llave primaria</dt><dd>Identifica cada fila. De ella parte toda la revisión.</dd></div>
-        <div class="def"><dt>Anomalía de inserción</dt><dd>No se puede agregar un dato sin inventar otro.</dd></div>
-        <div class="def"><dt>Anomalía de actualización</dt><dd>Un dato repetido hay que cambiarlo en todas partes.</dd></div>
-        <div class="def"><dt>Anomalía de borrado</dt><dd>Al borrar una fila se pierde información que no se quería perder.</dd></div>
+        <div class="def"><dt>Dependencia funcional</dt><dd>X → Y: si conozco X, sé con certeza el valor de Y. Con la cédula de una persona sé su nombre.</dd></div>
+        <div class="def"><dt>Determinante y determinado</dt><dd>En X → Y, X es el determinante (el que "manda") e Y el determinado. La cédula determina el nombre.</dd></div>
+        <div class="def"><dt>Llave primaria</dt><dd>Identifica cada fila, sin nulos ni repetidos. Es la base sobre la que se revisan todas las formas normales.</dd></div>
+        <div class="def"><dt>Anomalía de inserción</dt><dd>No se puede agregar un dato sin agregar otro que todavía no existe, como un doctor sin citas.</dd></div>
+        <div class="def"><dt>Anomalía de actualización</dt><dd>Un dato repetido en varias filas hay que cambiarlo en todas; si se olvida una, queda inconsistente.</dd></div>
+        <div class="def"><dt>Anomalía de borrado</dt><dd>Al borrar una fila se pierde información que no se quería perder, como el único registro de un cliente.</dd></div>
       </dl>
 
       <section class="bitacora">
         <div class="bitacora-fila">
           <span class="bitacora-label">En clase</span>
-          <p>El profe los explicó como base para normalizar.</p>
+          <p>El profe explicó estos conceptos como base para poder normalizar después.</p>
         </div>
         <div class="bitacora-fila">
           <span class="bitacora-label">Lo que aprendí</span>
-          <p>Encontrar las dependencias me costó al principio, porque antes hay que tener clara la llave primaria.</p>
+          <p>
+            Al principio me costó encontrar las dependencias, porque primero hay
+            que tener clara la llave primaria y eso también podía ser confuso.
+            Entendí que si no sé qué determina a qué, no puedo saber qué tablas
+            sobran ni cuáles faltan, y que las anomalías son la mejor forma de
+            explicar por qué vale la pena normalizar.
+          </p>
         </div>
       </section>
 

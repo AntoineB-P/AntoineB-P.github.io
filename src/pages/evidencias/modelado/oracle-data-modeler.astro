@@ -15,31 +15,46 @@ import { siteConfig } from '../../../config';
       <span class="eyebrow">Modelado · 04</span>
       <h1>Oracle Data Modeler</h1>
 
-      <p class="intro">Usa la notación pata de gallo. Estos son los símbolos que más uso.</p>
+      <p class="intro">
+        Oracle Data Modeler usa la notación pata de gallo (crow's foot) para el
+        modelo lógico. Estos son los símbolos que más uso al modelar ahí.
+      </p>
 
+      <h2>Símbolos de los atributos</h2>
       <dl class="definiciones">
-        <div class="def"><dt><code>#</code></dt><dd>Clave primaria</dd></div>
-        <div class="def"><dt><code>*</code></dt><dd>Obligatorio</dd></div>
-        <div class="def"><dt><code>o</code></dt><dd>Opcional</dd></div>
-        <div class="def"><dt><code>U</code></dt><dd>Único</dd></div>
-        <div class="def"><dt><code>||</code></dt><dd>Exactamente uno</dd></div>
-        <div class="def"><dt><code>o|</code></dt><dd>Cero o uno</dd></div>
-        <div class="def"><dt><code>|&lt;</code></dt><dd>Uno o muchos</dd></div>
-        <div class="def"><dt><code>o&lt;</code></dt><dd>Cero o muchos</dd></div>
+        <div class="def"><dt><code>#</code></dt><dd>Identificador primario (clave primaria).</dd></div>
+        <div class="def"><dt><code>*</code></dt><dd>Atributo obligatorio: no puede quedar vacío.</dd></div>
+        <div class="def"><dt><code>o</code></dt><dd>Atributo opcional.</dd></div>
+        <div class="def"><dt><code>U</code></dt><dd>Atributo único: no se puede repetir.</dd></div>
       </dl>
-      <p class="nota">La FK siempre queda del lado de la pata de gallo (el lado de "muchos").</p>
 
-      <h2>Modelo lógico</h2>
+      <h2>Cómo se lee cada lado de la línea</h2>
+      <p>Cada extremo combina dos símbolos: uno dice cuántos (cardinalidad) y otro si es obligatorio (opcionalidad).</p>
+      <dl class="definiciones">
+        <div class="def"><dt><code>||</code></dt><dd>Participa exactamente uno.</dd></div>
+        <div class="def"><dt><code>o|</code></dt><dd>Uno o ninguno (opcional).</dd></div>
+        <div class="def"><dt><code>|&lt;</code></dt><dd>Muchos, mínimo uno.</dd></div>
+        <div class="def"><dt><code>o&lt;</code></dt><dd>Muchos o ninguno.</dd></div>
+      </dl>
+      <p class="nota">La clave foránea siempre queda del lado de la pata de gallo, que es el lado de "muchos".</p>
+
+      <h2>Modelo lógico del ejercicio</h2>
       <img src="/images/Oracle1.png" alt="Modelo lógico en Oracle Data Modeler" class="img-doc" />
 
       <section class="bitacora">
         <div class="bitacora-fila">
           <span class="bitacora-label">En clase</span>
-          <p>Lo empezamos en grupo en clase y lo terminamos como tarea.</p>
+          <p>El ejercicio lo hicimos con mis compañeros: lo empezamos en clase y lo terminamos como tarea. El paso al relacional está en <a href="/evidencias/modelado/modelorelacional">Modelo relacional</a>.</p>
         </div>
         <div class="bitacora-fila">
           <span class="bitacora-label">Lo que aprendí</span>
-          <p>Al inicio me confundían la pata de gallo y los símbolos de la app. El paso al relacional está en <a href="/evidencias/modelado/modelorelacional">Modelo relacional</a>.</p>
+          <p>
+            Al inicio me costó entender la pata de gallo, porque es distinta a la
+            notación Chen que veníamos usando, y también la notación propia de la
+            app: los círculos, los asteriscos y los demás símbolos. Con la
+            práctica aprendí a leer cada línea por sus dos lados, y eso me sirvió
+            después para revisar el modelo del proyecto en Data Modeler.
+          </p>
         </div>
       </section>
 

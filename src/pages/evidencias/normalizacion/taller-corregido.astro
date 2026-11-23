@@ -17,11 +17,21 @@ import { siteConfig } from '../../../config';
       <h1>Taller corregido</h1>
 
       <p class="intro">
-        Revisamos el <a href="/evidencias/normalizacion/taller-original">taller original</a> con otros contextos de negocio: hay dependencias que dependen de cómo
-        esté organizada la empresa.
+        Revisamos el <a href="/evidencias/normalizacion/taller-original">taller original</a> dando posibles contextos de negocio. Hay dependencias que en el papel
+        parecen obvias, pero que en realidad dependen de cómo esté organizada la
+        empresa; aquí están los escenarios para la clínica y para la tienda.
       </p>
 
+      <h2>La versión con posibles casos en Excel</h2>
+      <div class="galeria">
+        <a href="/images/corregido-clinica.png" target="_blank" rel="noopener"><img src="/images/corregido-clinica.png" alt="Clínica · posibles casos" /><span>Clínica · posibles casos</span></a>
+        <a href="/images/corregido-tienda.png" target="_blank" rel="noopener"><img src="/images/corregido-tienda.png" alt="Tienda · posibles casos" /><span>Tienda · posibles casos</span></a>
+      </div>
+      <p class="nota">Haz clic en una hoja para verla completa.</p>
+
       <h2>Clínica — ¿la especialidad determina el piso?</h2>
+      <details class="desplegable">
+        <summary>Ver los dos casos de la clínica</summary>
       <p>
         En el esquema base asumimos que el consultorio (y su piso) dependían de
         la cita. Pero cabía la pregunta: <em>¿una especialidad médica siempre
@@ -66,8 +76,11 @@ import { siteConfig } from '../../../config';
         — por eso se crea la tabla PISO, para no repetir la especialidad en cada
         consultorio de un mismo piso.
       </p>
+      </details>
 
       <h2>Tienda — ¿de qué depende la comisión del vendedor?</h2>
+      <details class="desplegable">
+        <summary>Ver los dos escenarios de la tienda</summary>
       <p>
         En el esquema base, la comisión era un atributo fijo del vendedor. Pero
         en la práctica puede depender de otras cosas:
@@ -98,6 +111,7 @@ import { siteConfig } from '../../../config';
         <li><strong>DETALLE_VENTA</strong> queda: ID_Venta (PK, FK), ID_Producto (PK, FK), Cantidad_Vendida, Comisión_Vendedor.</li>
         <li><strong>VENDEDOR</strong> queda solo con: ID_Vendedor (PK), Nombre_Vendedor.</li>
       </ul>
+      </details>
 
       <h2>Resumen comparativo</h2>
       <p class="nota-igual">Este resumen no cambió respecto al taller original — corresponde al esquema base de ambos casos.</p>
@@ -121,13 +135,16 @@ import { siteConfig } from '../../../config';
       <section class="bitacora">
         <div class="bitacora-fila">
           <span class="bitacora-label">En clase</span>
-          <p>Lo corregimos los tres al ver errores de interpretación del negocio.</p>
+          <p>Lo corregimos los tres, después de ver que el original tenía errores de interpretación del negocio.</p>
         </div>
         <div class="bitacora-fila">
           <span class="bitacora-label">Lo que aprendí</span>
           <p>
-            Según el negocio, un ejercicio cambia por completo. Hay que analizar
-            bien las PK desde el inicio: si salen mal, todo sale mal.
+            Que según los requerimientos y la lógica del negocio un ejercicio
+            cambia por completo: una sola regla, como de qué depende la comisión,
+            mueve atributos de una tabla a otra. Por eso hay que analizar muy bien
+            las llaves primarias desde el inicio, porque son la base de todo; si
+            salen mal, todo lo demás sale mal.
           </p>
         </div>
       </section>
@@ -281,5 +298,67 @@ import { siteConfig } from '../../../config';
       grid-template-columns: 1fr;
       gap: 0.4rem;
     }
+  }
+  .galeria {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    margin: 0.75rem 0 0.5rem;
+  }
+
+  .galeria a {
+    display: block;
+    color: var(--text-tertiary);
+    font-size: 0.75rem;
+  }
+
+  .galeria img {
+    display: block;
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    object-position: top left;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    margin-bottom: 0.3rem;
+    background: #fff;
+  }
+
+  .galeria a:hover {
+    color: var(--color-primary);
+  }
+
+  .desplegable summary {
+    cursor: pointer;
+    list-style: none;
+    font-size: 0.82rem;
+    color: var(--text-tertiary);
+    margin: 0.2rem 0 0.4rem;
+  }
+
+  .desplegable summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .desplegable summary::before {
+    content: '▸ ';
+  }
+
+  .desplegable[open] summary::before {
+    content: '▾ ';
+  }
+
+  .desplegable summary:hover {
+    color: var(--color-primary);
+  }
+
+  @media (max-width: 600px) {
+    .galeria {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  .nota {
+    font-size: 0.82rem;
+    color: var(--text-tertiary);
   }
 </style>

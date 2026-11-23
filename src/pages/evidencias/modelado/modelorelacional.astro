@@ -15,35 +15,43 @@ import { siteConfig } from '../../../config';
       <span class="eyebrow">Modelado · 05</span>
       <h1>Modelo relacional</h1>
 
-      <h2>ACID</h2>
+      <h2>Principio ACID</h2>
+      <p>Cuatro propiedades que hacen confiable una transacción, incluso si algo falla a mitad de camino.</p>
       <dl class="definiciones">
-        <div class="def"><dt>Atomicidad</dt><dd>La transacción se hace completa o no se hace.</dd></div>
-        <div class="def"><dt>Consistencia</dt><dd>La base pasa de un estado válido a otro.</dd></div>
-        <div class="def"><dt>Aislamiento</dt><dd>Una transacción no se mete con otra.</dd></div>
-        <div class="def"><dt>Durabilidad</dt><dd>Lo confirmado queda guardado aunque el sistema falle.</dd></div>
+        <div class="def"><dt>Atomicidad</dt><dd>La transacción se ejecuta completa o no se ejecuta nada; no quedan pasos a medias.</dd></div>
+        <div class="def"><dt>Consistencia</dt><dd>La base pasa de un estado válido a otro, sin romper las reglas que tiene definidas.</dd></div>
+        <div class="def"><dt>Aislamiento</dt><dd>Una transacción no interfiere con otra que esté corriendo al mismo tiempo.</dd></div>
+        <div class="def"><dt>Durabilidad</dt><dd>Lo que se confirma queda guardado aunque el sistema falle después.</dd></div>
       </dl>
 
-      <h2>Claves</h2>
+      <h2>Superclave, clave candidata y clave primaria</h2>
+      <p>Van de lo más general a lo más específico:</p>
       <dl class="definiciones">
-        <div class="def"><dt>Superclave</dt><dd>Atributos que identifican una fila, aunque sobre alguno.</dd></div>
-        <div class="def"><dt>Clave candidata</dt><dd>Una superclave mínima: no se le puede quitar nada.</dd></div>
-        <div class="def"><dt>Clave primaria</dt><dd>La candidata que se escoge como oficial.</dd></div>
+        <div class="def"><dt>Superclave</dt><dd>Cualquier grupo de atributos que identifica una fila, aunque le sobre alguno.</dd></div>
+        <div class="def"><dt>Clave candidata</dt><dd>Una superclave mínima: si se le quita un atributo, deja de identificar. Una tabla puede tener varias.</dd></div>
+        <div class="def"><dt>Clave primaria</dt><dd>La clave candidata que se escoge como la oficial de la tabla.</dd></div>
       </dl>
 
-      <h2>Del lógico al relacional</h2>
+      <h2>Del modelo lógico al relacional</h2>
       <p>
-        El mismo ejercicio de <a href="/evidencias/modelado/oracle-data-modeler">Data Modeler</a> ya como tablas: P es PK, F es FK y * es obligatorio.
+        Es el mismo ejercicio de <a href="/evidencias/modelado/oracle-data-modeler">Oracle Data Modeler</a>, ya convertido en tablas. Cada entidad quedó como tabla, con su llave primaria (P), sus llaves foráneas (F), las columnas obligatorias (*) y el tipo de dato de cada una.
       </p>
       <img src="/images/Oracle2.png" alt="Modelo relacional del ejercicio en Oracle Data Modeler" class="img-doc" />
 
       <section class="bitacora">
         <div class="bitacora-fila">
           <span class="bitacora-label">En clase</span>
-          <p>Pasamos al relacional el modelo lógico que hicimos en grupo.</p>
+          <p>Partimos del modelo lógico que hicimos en grupo en Data Modeler y lo pasamos al relacional, revisando las llaves y las restricciones de cada tabla.</p>
         </div>
         <div class="bitacora-fila">
           <span class="bitacora-label">Lo que aprendí</span>
-          <p>Cómo un dibujo se vuelve tablas con restricciones. Después lo hicimos con el <a href="/evidencias/proyecto/modelos">proyecto</a>.</p>
+          <p>
+            Entendí cómo un modelo dibujado se vuelve tablas reales: cada relación
+            termina siendo una llave foránea y cada atributo obligatorio una
+            restricción. También me quedó clara la diferencia entre superclave,
+            clave candidata y clave primaria, que al principio parecían lo mismo.
+            Después lo aplicamos en el <a href="/evidencias/proyecto/modelos">proyecto de la Liga BetPlay</a>.
+          </p>
         </div>
       </section>
 

@@ -15,34 +15,39 @@ import { siteConfig } from '../../../config';
       <span class="eyebrow">Modelado · 01</span>
       <h1>Conceptos</h1>
 
+      <p class="intro">
+        Los conceptos base para modelar una base de datos, resumidos con mis
+        palabras y con ejemplos del fútbol, que es el tema que más usé.
+      </p>
+
       <dl class="definiciones">
         <div class="def">
           <dt>Gestor de BD (SGBD)</dt>
-          <dd>El software que está entre el usuario y los datos. Toda consulta pasa por él; nadie toca los archivos directo.</dd>
+          <dd>El software que se pone en medio de todo: conecta a los usuarios y las aplicaciones con los datos guardados. Una consulta llega al gestor y él decide dónde buscar; el usuario nunca toca los archivos directo.</dd>
         </div>
         <div class="def">
           <dt>Atributo</dt>
-          <dd>Una característica de una entidad. JUGADOR tiene nombre, edad y dorsal.</dd>
+          <dd>Una característica de una entidad. Si la entidad es JUGADOR, sus atributos pueden ser el nombre, la edad y el número de camiseta.</dd>
         </div>
         <div class="def">
           <dt>Cardinalidad</dt>
-          <dd>Cuántas veces participa una entidad en una relación, como (mínimo, máximo). Define si es 1:1, 1:N o N:M.</dd>
+          <dd>Cuántas veces puede participar una entidad en una relación, como un par (mínimo, máximo), por ejemplo (0,N). Eso es lo que después define si la relación es 1:1, 1:N o N:M.</dd>
         </div>
         <div class="def">
           <dt>Clave primaria</dt>
-          <dd>Lo que identifica a cada registro. No se repite ni queda vacía.</dd>
+          <dd>El atributo, o grupo de atributos, que identifica a cada registro. No se puede repetir ni quedar vacío, como la cédula de una persona.</dd>
         </div>
         <div class="def">
           <dt>Multivaluado</dt>
-          <dd>Un atributo con varios valores, como los teléfonos de una persona.</dd>
+          <dd>Un atributo que puede tener varios valores para la misma entidad, como los teléfonos de una persona o los colores de un equipo.</dd>
         </div>
         <div class="def">
           <dt>Derivado</dt>
-          <dd>Se calcula a partir de otro, como la edad desde la fecha de nacimiento.</dd>
+          <dd>Un atributo que no se guarda porque se puede calcular desde otro. La edad sale de la fecha de nacimiento.</dd>
         </div>
         <div class="def">
           <dt>BD relacional</dt>
-          <dd>Guarda todo en tablas, y las tablas se relacionan por sus claves.</dd>
+          <dd>Guarda la información en tablas de filas y columnas. Cada tabla representa una entidad y las tablas se relacionan por sus claves.</dd>
         </div>
       </dl>
 
@@ -52,16 +57,16 @@ import { siteConfig } from '../../../config';
       <section class="bitacora">
         <div class="bitacora-fila">
           <span class="bitacora-label">En clase</span>
-          <p>
-            El profe explicó estos conceptos. El MER de vuelos fue mi segundo
-            modelo, después del <a href="/evidencias/modelado-torneo">MER del torneo</a>.
-          </p>
+          <p>El profe explicó estos conceptos. El MER de vuelos fue mi segundo modelo, hecho en otra clase después del <a href="/evidencias/modelado-torneo">MER del torneo</a>, y después lo pasé a draw.io.</p>
         </div>
         <div class="bitacora-fila">
           <span class="bitacora-label">Lo que aprendí</span>
           <p>
-            El atributo derivado me confundió al inicio, pero lo que más me
-            costó fue leer las cardinalidades.
+            El atributo derivado me confundió al inicio, porque no entendía por
+            qué no se guardaba. Lo que más me costó fueron las cardinalidades y
+            cómo se leen: entendí que hay que leer el mínimo y el máximo desde
+            cada lado de la relación, y que de eso depende si queda 1:1, 1:N o N:M.
+            Con el MER de vuelos lo practiqué con más entidades a la vez.
           </p>
         </div>
       </section>

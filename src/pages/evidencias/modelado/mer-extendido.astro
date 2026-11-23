@@ -16,26 +16,26 @@ import { siteConfig } from '../../../config';
       <h1>MER extendido</h1>
 
       <p class="intro">
-        Le agrega al MER las jerarquías: cuándo una entidad es un "tipo" de otra
-        más general.
+        El MER extendido le agrega al MER normal las jerarquías: sirve para
+        mostrar cuándo una entidad es en realidad un "tipo" de otra más general.
       </p>
 
       <dl class="definiciones">
         <div class="def">
           <dt>Generalización</dt>
-          <dd>Juntar entidades parecidas en una más general.</dd>
+          <dd>Juntar entidades con atributos parecidos en una más general. "Jugador local" y "Jugador visitante" se pueden generalizar en JUGADOR.</dd>
         </div>
         <div class="def">
           <dt>Especialización</dt>
-          <dd>Lo contrario: dividir una entidad en subtipos con atributos propios.</dd>
+          <dd>Lo contrario: partir de una entidad general y dividirla en subtipos con atributos propios. PERSONA se puede especializar en JUGADOR y ÁRBITRO.</dd>
         </div>
         <div class="def">
           <dt>Exclusividad</dt>
-          <dd>Si una instancia solo puede ser de un subtipo a la vez (disjunta).</dd>
+          <dd>Si una instancia solo puede pertenecer a un subtipo a la vez. Un jugador no puede ser árbitro al mismo tiempo, así que la especialización es disjunta.</dd>
         </div>
         <div class="def">
           <dt>Participación</dt>
-          <dd>Total (línea doble) si toda instancia tiene que estar en un subtipo; parcial (línea sencilla) si no.</dd>
+          <dd>Total (línea doble) si toda instancia de la superclase tiene que estar en algún subtipo; parcial (línea sencilla) si puede haber instancias que no estén en ninguno.</dd>
         </div>
       </dl>
 
@@ -47,14 +47,18 @@ import { siteConfig } from '../../../config';
       <section class="bitacora">
         <div class="bitacora-fila">
           <span class="bitacora-label">En clase</span>
-          <p>
-            Lo aplicamos en el <a href="/evidencias/proyecto/modelos">proyecto</a>:
-            JUGADOR se especializa en PORTERO, DEFENSA, MEDIOCAMPISTA y ATACANTE.
-          </p>
+          <p>Vimos cómo representar jerarquías y después lo aplicamos en el <a href="/evidencias/proyecto/modelos">proyecto de la Liga BetPlay</a>: JUGADOR se especializa en PORTERO, DEFENSA, MEDIOCAMPISTA y ATACANTE.</p>
         </div>
         <div class="bitacora-fila">
           <span class="bitacora-label">Lo que aprendí</span>
-          <p>Lo más difícil fue decidir si la participación era total o parcial: toca analizar bien el caso.</p>
+          <p>
+            Lo más difícil fue decidir si la participación era total o parcial,
+            porque no se ve a simple vista: hay que preguntarse si todas las
+            instancias de la superclase tienen que estar en algún subtipo. En el
+            proyecto fue donde de verdad aprendimos a usar la especialización,
+            porque cada posición tenía un dato propio que no tenía sentido para
+            las demás.
+          </p>
         </div>
       </section>
 

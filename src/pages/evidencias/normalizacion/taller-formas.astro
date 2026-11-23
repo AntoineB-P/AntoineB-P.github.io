@@ -1,0 +1,257 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Navigation from '../../../components/Navigation.astro';
+import Footer from '../../../components/Footer.astro';
+import { siteConfig } from '../../../config';
+
+const puntos = [
+  {
+    num: '01',
+    titulo: 'Proyectos y empleados',
+    forma: 'Hasta 3FN',
+    texto: 'Una tabla con proyectos, empleados, profesión, valor de la hora y horas trabajadas. Primero corregimos los valores que no eran atómicos y marcamos la clave (cod_proyecto + código del empleado). Después separamos EMPLEADO, PROYECTO y PROYECTO_EMPLEADO, donde quedan las horas. Para 3FN sacamos PROFESION, porque el valor de la hora depende de la profesión y no del empleado.',
+    fotos: [
+      { src: '/images/formas-1.png', alt: 'Tabla inicial' },
+      { src: '/images/formas-2.png', alt: '1FN y 2FN' },
+      { src: '/images/formas-3.png', alt: '3FN' },
+    ],
+  },
+  {
+    num: '02',
+    titulo: 'Estudiantes y cursos',
+    forma: '1FN',
+    texto: 'Cada estudiante tenía varios cursos y varias notas en una misma celda. Separamos esos valores en filas, quitamos los datos repetidos del estudiante y dejamos ESTUDIANTE_CURSO con la clave compuesta (código + curso) y la nota.',
+    fotos: [{ src: '/images/formas-4.png', alt: 'Estudiantes y cursos' }],
+  },
+  {
+    num: '04',
+    titulo: 'Visitas médicas',
+    forma: '1FN',
+    texto: 'Una visita podía tener varios profesionales. La partimos en CONSULTA (visita, día y paciente), PACIENTE, PROCESO (profesional, especialidad y diagnóstico) y CONSULTA_VISITA, que une cada visita con sus profesionales.',
+    fotos: [{ src: '/images/formas-5.png', alt: 'Visitas médicas' }],
+  },
+];
+---
+
+<BaseLayout title={'Taller de formas normales - ' + siteConfig.title}>
+  <Navigation />
+
+  <main class="container" style="padding-top: 6rem;">
+    <article class="doc">
+
+      <a href="/evidencias" class="back-link">← Volver a Evidencias</a>
+
+      <span class="eyebrow">Normalización · Taller</span>
+      <h1>Taller de formas normales</h1>
+
+      <p class="intro">
+        El primer taller de normalización, hecho en Excel. Cada punto parte de
+        una tabla con problemas y la lleva a 1FN, 2FN o 3FN. Haz clic en las
+        hojas para verlas completas.
+      </p>
+
+      <div class="puntos">
+        {puntos.map(p => (
+          <section class="punto">
+            <div class="punto-header">
+              <span class="punto-num">{p.num}</span>
+              <h2>{p.titulo}</h2>
+              <span class="punto-forma">{p.forma}</span>
+            </div>
+            <p>{p.texto}</p>
+            <div class="galeria">
+              {p.fotos.map(f => (
+                <a href={f.src} target="_blank" rel="noopener">
+                  <img src={f.src} alt={p.titulo + ': ' + f.alt} />
+                  <span>{f.alt}</span>
+                </a>
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
+
+      <section class="bitacora">
+        <div class="bitacora-fila">
+          <span class="bitacora-label">En clase</span>
+          <p>Fue el primer taller práctico de normalización, antes del taller de la clínica y la tienda.</p>
+        </div>
+        <div class="bitacora-fila">
+          <span class="bitacora-label">Lo que aprendí</span>
+          <p>
+            A reconocer cuándo un valor no es atómico y a separarlo en filas,
+            que es el primer paso de todo. También vi que al separar tablas hay
+            que eliminar los repetidos y escoger bien la clave compuesta, porque
+            de ella dependen los siguientes pasos hasta 3FN.
+          </p>
+        </div>
+      </section>
+
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .doc {
+    max-width: 800px;
+    padding: 1rem 0 3rem;
+  }
+
+  .back-link {
+    display: table;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+  }
+
+  .back-link:hover {
+    color: var(--color-primary);
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  h1 {
+    font-size: 2.25rem;
+    margin: 0 0 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  p {
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  .puntos {
+    margin-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .punto {
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .punto-header {
+    display: grid;
+    grid-template-columns: 2.5rem 1fr auto;
+    align-items: baseline;
+    gap: 1.25rem;
+  }
+
+  .punto-header h2 {
+    font-size: 1.2rem;
+    margin: 0;
+  }
+
+  .punto-num {
+    font-size: 0.9rem;
+    color: var(--text-tertiary);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .punto-forma {
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 999px;
+    padding: 0.1rem 0.6rem;
+  }
+
+  .punto p,
+  .punto .galeria {
+    margin-left: calc(2.5rem + 1.25rem);
+  }
+
+  .punto p {
+    margin-top: 0.6rem;
+  }
+
+  .galeria {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+  }
+
+  .galeria a {
+    display: block;
+    color: var(--text-tertiary);
+    font-size: 0.75rem;
+  }
+
+  .galeria img {
+    display: block;
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    object-position: top left;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    margin-bottom: 0.3rem;
+    background: #fff;
+  }
+
+  .galeria a:hover {
+    color: var(--color-primary);
+  }
+
+  .bitacora {
+    margin-top: 2.5rem;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .bitacora-fila {
+    display: grid;
+    grid-template-columns: 8rem 1fr;
+    gap: 1.25rem;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .bitacora-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-primary);
+    padding-top: 0.2rem;
+  }
+
+  .bitacora-fila p {
+    margin: 0;
+  }
+
+  @media (max-width: 600px) {
+    .punto-header {
+      grid-template-columns: 2rem 1fr;
+    }
+
+    .punto-forma {
+      grid-column: 2;
+      justify-self: start;
+    }
+
+    .punto p,
+    .punto .galeria {
+      margin-left: 0;
+    }
+
+    .galeria {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .bitacora-fila {
+      grid-template-columns: 1fr;
+      gap: 0.4rem;
+    }
+  }
+</style>
