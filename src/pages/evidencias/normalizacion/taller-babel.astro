@@ -1,0 +1,543 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Navigation from '../../../components/Navigation.astro';
+import Footer from '../../../components/Footer.astro';
+import { siteConfig } from '../../../config';
+
+type Tabla = { nombre: string; llave: string[]; columnas: string[]; filas: string[][] };
+
+const reglas = [
+  'Cada estudiante tiene un único nombre y un único teléfono.',
+  'Cada tutor tiene un único nombre.',
+  'Cada tutor enseña un solo idioma. Un mismo idioma lo enseñan varios tutores.',
+  'Un estudiante puede cursar varios idiomas, pero en cada idioma tiene un solo tutor.',
+  'En cada idioma que cursa, el estudiante tiene un único nivel (A1, A2, B1 o B2).',
+];
+
+const original: Tabla = {
+  nombre: 'MATRICULA_IDIOMAS',
+  llave: ['ID_EST', 'IDIOMA'],
+  columnas: ['ID_EST', 'NOMBRE_EST', 'TELEFONO_EST', 'IDIOMA', 'ID_TUTOR', 'NOMBRE_TUTOR', 'NIVEL'],
+  filas: [
+    ['S1', 'Ana Gómez', '3001111111', 'Inglés', 'T1', 'Laura Pardo', 'B1'],
+    ['S1', 'Ana Gómez', '3001111111', 'Francés', 'T3', 'Sofía Vega', 'A2'],
+    ['S2', 'Beto Cruz', '3002222222', 'Inglés', 'T1', 'Laura Pardo', 'A2'],
+    ['S2', 'Beto Cruz', '3002222222', 'Alemán', 'T4', 'Hans Müller', 'A1'],
+    ['S3', 'Camila Ortiz', '3003333333', 'Inglés', 'T2', 'Mateo Rojas', 'A1'],
+    ['S3', 'Camila Ortiz', '3003333333', 'Alemán', 'T4', 'Hans Müller', 'A2'],
+  ],
+};
+
+const dependencias = [
+  { df: 'id_est → nombre_est, telefono_est', regla: 'Regla 1', tipo: 'Parcial' },
+  { df: 'id_tutor → nombre_tutor', regla: 'Regla 2', tipo: 'Transitiva' },
+  { df: 'id_tutor → idioma', regla: 'Regla 3', tipo: 'Rompe BCNF' },
+  { df: 'id_est, idioma → id_tutor', regla: 'Regla 4', tipo: 'Completa' },
+  { df: 'id_est, idioma → nivel', regla: 'Regla 5', tipo: 'Completa' },
+];
+
+const estudiante: Tabla = {
+  nombre: 'ESTUDIANTE',
+  llave: ['ID_EST'],
+  columnas: ['ID_EST', 'NOMBRE_EST', 'TELEFONO_EST'],
+  filas: [
+    ['S1', 'Ana Gómez', '3001111111'],
+    ['S2', 'Beto Cruz', '3002222222'],
+    ['S3', 'Camila Ortiz', '3003333333'],
+  ],
+};
+
+const tutor: Tabla = {
+  nombre: 'TUTOR',
+  llave: ['ID_TUTOR'],
+  columnas: ['ID_TUTOR', 'NOMBRE_TUTOR', 'IDIOMA'],
+  filas: [
+    ['T1', 'Laura Pardo', 'Inglés'],
+    ['T2', 'Mateo Rojas', 'Inglés'],
+    ['T3', 'Sofía Vega', 'Francés'],
+    ['T4', 'Hans Müller', 'Alemán'],
+  ],
+};
+
+const matricula3fn: Tabla = {
+  nombre: 'MATRICULA',
+  llave: ['ID_EST', 'IDIOMA'],
+  columnas: ['ID_EST', 'IDIOMA', 'ID_TUTOR', 'NIVEL'],
+  filas: [
+    ['S1', 'Inglés', 'T1', 'B1'],
+    ['S1', 'Francés', 'T3', 'A2'],
+    ['S2', 'Inglés', 'T1', 'A2'],
+    ['S2', 'Alemán', 'T4', 'A1'],
+    ['S3', 'Inglés', 'T2', 'A1'],
+    ['S3', 'Alemán', 'T4', 'A2'],
+  ],
+};
+
+const matriculaBcnf: Tabla = {
+  nombre: 'MATRICULA',
+  llave: ['ID_EST', 'ID_TUTOR'],
+  columnas: ['ID_EST', 'ID_TUTOR', 'NIVEL'],
+  filas: [
+    ['S1', 'T1', 'B1'],
+    ['S1', 'T3', 'A2'],
+    ['S2', 'T1', 'A2'],
+    ['S2', 'T4', 'A1'],
+    ['S3', 'T2', 'A1'],
+    ['S3', 'T4', 'A2'],
+  ],
+};
+
+const capturas = [
+  { titulo: 'Enunciado', imagen: '/images/babel-excel-1.png' },
+  { titulo: 'Dependencias y 2FN', imagen: '/images/babel-excel-2.png' },
+  { titulo: '3FN y BCNF', imagen: '/images/babel-excel-3.png' },
+  { titulo: 'Conclusión', imagen: '/images/babel-excel-4.png' },
+];
+
+const esquema3fn = [estudiante, tutor, matricula3fn];
+const esquemaBcnf = [estudiante, tutor, matriculaBcnf];
+---
+
+<BaseLayout title={'Taller Babel - ' + siteConfig.title}>
+  <Navigation />
+
+  <main class="container" style="padding-top: 6rem;">
+    <article class="doc">
+
+      <a href="/evidencias" class="back-link">← Volver a Evidencias</a>
+
+      <span class="eyebrow">Normalización · Taller</span>
+      <h1>Centro de idiomas Babel</h1>
+
+      <p class="intro">
+        El centro guarda todas sus matrículas en una sola tabla. Hay que
+        normalizarla hasta BCNF. Carga: 20.000 matrículas, 30 cambios por hora
+        (8 horas al día) y 1.200 consultas al día.
+      </p>
+
+      <h2>Reglas de negocio</h2>
+      <ol class="lista">
+        {reglas.map(r => <li>{r}</li>)}
+      </ol>
+
+      <details class="desplegable">
+        <summary>Ver la tabla original</summary>
+      <div class="tabla-datos">
+        <span class="tabla-nombre">{original.nombre}</span>
+        <div class="resultado">
+          <table>
+            <thead><tr>{original.columnas.map(c => <th class={original.llave.includes(c) ? 'pk' : ''}>{c}</th>)}</tr></thead>
+            <tbody>{original.filas.map(f => <tr>{f.map(v => <td>{v}</td>)}</tr>)}</tbody>
+          </table>
+        </div>
+      </div>
+      </details>
+
+      <h2>Resultado en BCNF</h2>
+      <ul class="lista esquema">
+        <li><strong>ESTUDIANTE</strong> (id_est PK, nombre_est, telefono_est)</li>
+        <li><strong>TUTOR</strong> (id_tutor PK, nombre_tutor, idioma)</li>
+        <li><strong>MATRICULA</strong> (id_est PK FK, id_tutor PK FK, nivel)</li>
+      </ul>
+
+      <h2>Así lo trabajamos en Excel</h2>
+      <div class="galeria">
+        {capturas.map(c => (
+          <a href={c.imagen} target="_blank" rel="noopener">
+            <img src={c.imagen} alt={c.titulo} />
+            <span>{c.titulo}</span>
+          </a>
+        ))}
+      </div>
+      <p class="nota">En nuestra primera versión de BCNF el idioma seguía en MATRICULA; abajo está corregido.</p>
+
+      <h2>Paso a paso</h2>
+
+      <section class="paso">
+        <span class="paso-num">01</span>
+        <div>
+          <h2>Dependencias funcionales</h2>
+          <details class="desplegable">
+            <summary>Ver desarrollo</summary>
+          <div class="resultado">
+            <table>
+              <thead><tr><th>Dependencia</th><th>Sale de</th><th>Tipo</th></tr></thead>
+              <tbody>
+                {dependencias.map(d => (
+                  <tr><td><code>{d.df}</code></td><td>{d.regla}</td><td>{d.tipo}</td></tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          </details>
+        </div>
+      </section>
+
+      <section class="paso">
+        <span class="paso-num">02</span>
+        <div>
+          <h2>Claves candidatas</h2>
+          <details class="desplegable">
+            <summary>Ver desarrollo</summary>
+          <p>
+            <code>id_est</code> nunca aparece a la derecha, así que tiene que
+            estar en todas las claves. Solo, no alcanza: de él salen el nombre y
+            el teléfono, nada más.
+          </p>
+          <ul class="lista">
+            <li><code>(id_est, idioma)</code> → saca id_tutor y nivel, y por el tutor su nombre. Llega a todo.</li>
+            <li><code>(id_est, id_tutor)</code> → por el tutor saca el idioma, y con eso el nivel. También llega a todo.</li>
+          </ul>
+          <p>Ninguna funciona si se le quita un atributo, así que las dos son <strong>claves candidatas</strong>.</p>
+          </details>
+        </div>
+      </section>
+
+      <section class="paso">
+        <span class="paso-num">03</span>
+        <div>
+          <h2>Forma normal inicial</h2>
+          <details class="desplegable">
+            <summary>Ver desarrollo</summary>
+          <p>
+            Está en <strong>1FN</strong>: todos los valores son atómicos. No
+            está en 2FN, porque el nombre y el teléfono dependen solo de <code>id_est</code> (parcial). Además, <code>nombre_tutor</code> depende de la clave a través del tutor (transitiva).
+          </p>
+          </details>
+        </div>
+      </section>
+
+      <section class="paso">
+        <span class="paso-num">05</span>
+        <div>
+          <h2>Normalización hasta 3FN</h2>
+          <details class="desplegable">
+            <summary>Ver desarrollo</summary>
+          <p>Se separa el estudiante (2FN) y luego el tutor (3FN).</p>
+          {esquema3fn.map(t => (
+            <div class="tabla-datos">
+              <span class="tabla-nombre">{t.nombre}</span>
+              <div class="resultado">
+                <table>
+                  <thead><tr>{t.columnas.map(c => <th class={t.llave.includes(c) ? 'pk' : ''}>{c}</th>)}</tr></thead>
+                  <tbody>{t.filas.map(f => <tr>{f.map(v => <td>{v}</td>)}</tr>)}</tbody>
+                </table>
+              </div>
+            </div>
+          ))}
+          </details>
+        </div>
+      </section>
+
+      <section class="paso">
+        <span class="paso-num">06</span>
+        <div>
+          <h2>¿Está en BCNF?</h2>
+          <details class="desplegable">
+            <summary>Ver desarrollo</summary>
+          <p>
+            No. En MATRICULA, <code>id_tutor → idioma</code> y <code>id_tutor</code> no es clave candidata de esa tabla.
+          </p>
+          <p>
+            La anomalía: el idioma de T1 se repite en cada estudiante que tiene
+            con él (S1 y S2 dicen "Inglés"). Si alguien escribe por error
+            "S3, Francés, T1", la tabla lo acepta, aunque T1 solo enseña inglés.
+          </p>
+          </details>
+        </div>
+      </section>
+
+      <section class="paso">
+        <span class="paso-num">07</span>
+        <div>
+          <h2>Descomposición a BCNF</h2>
+          <details class="desplegable">
+            <summary>Ver desarrollo</summary>
+          <p>
+            El idioma ya se sabe por el tutor, así que sale de MATRICULA. Cada
+            tabla queda con un solo determinante: su llave.
+          </p>
+          {esquemaBcnf.map(t => (
+            <div class="tabla-datos">
+              <span class="tabla-nombre">{t.nombre}</span>
+              <div class="resultado">
+                <table>
+                  <thead><tr>{t.columnas.map(c => <th class={t.llave.includes(c) ? 'pk' : ''}>{c}</th>)}</tr></thead>
+                  <tbody>{t.filas.map(f => <tr>{f.map(v => <td>{v}</td>)}</tr>)}</tbody>
+                </table>
+              </div>
+            </div>
+          ))}
+          <ul class="lista esquema">
+            <li><strong>ESTUDIANTE</strong> (id_est PK, nombre_est, telefono_est)</li>
+            <li><strong>TUTOR</strong> (id_tutor PK, nombre_tutor, idioma)</li>
+            <li><strong>MATRICULA</strong> (id_est PK FK, id_tutor PK FK, nivel)</li>
+          </ul>
+          </details>
+        </div>
+      </section>
+
+      <section class="paso">
+        <span class="paso-num">09</span>
+        <div>
+          <h2>Conclusión</h2>
+          <details class="desplegable">
+            <summary>Ver desarrollo</summary>
+          <p>
+            Recomendamos <strong>BCNF</strong>. Son 240 cambios al día
+            (30 × 8) contra 1.200 consultas: no es un sistema de solo lectura, y
+            en 3FN el idioma se repetiría en las 20.000 matrículas. Consultar
+            el idioma cuesta un JOIN más con TUTOR, que es una tabla pequeña.
+          </p>
+          <p>
+            Lo que se pierde es la regla 4 (un solo tutor por idioma), que ya no
+            la controla la llave y toca validarla en la aplicación.
+          </p>
+          </details>
+        </div>
+      </section>
+
+      <section class="bitacora">
+        <div class="bitacora-fila">
+          <span class="bitacora-label">En clase</span>
+          <p>Lo resolvimos en Excel. Al revisarlo, vimos que nuestra primera versión de BCNF dejaba el idioma en MATRICULA y la corregimos.</p>
+        </div>
+        <div class="bitacora-fila">
+          <span class="bitacora-label">Lo que aprendí</span>
+          <p>Que una tabla puede estar en 3FN y no en BCNF, cuando el atributo que se repite es parte de la clave.</p>
+        </div>
+      </section>
+
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .doc {
+    max-width: 760px;
+    padding: 1rem 0 3rem;
+  }
+
+  .back-link {
+    display: table;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+  }
+
+  .back-link:hover {
+    color: var(--color-primary);
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  h1 {
+    font-size: 2.25rem;
+    margin: 0 0 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+    margin: 2rem 0 0.75rem;
+  }
+
+  p {
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  strong {
+    color: var(--text-primary);
+  }
+
+  code {
+    font-size: 0.85em;
+  }
+
+  .intro {
+    margin-bottom: 0.5rem;
+  }
+
+  .lista {
+    color: var(--text-secondary);
+    line-height: 1.8;
+    padding-left: 1.25rem;
+    font-size: 0.92rem;
+  }
+
+  .esquema {
+    margin-top: 1rem;
+  }
+
+  .tabla-datos {
+    margin: 1rem 0;
+  }
+
+  .tabla-nombre {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.3rem;
+  }
+
+  .resultado {
+    overflow-x: auto;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+  }
+
+  th, td {
+    text-align: left;
+    padding: 0.45rem 0.6rem;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    white-space: nowrap;
+  }
+
+  th {
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+  }
+
+  th.pk {
+    color: var(--color-primary);
+    text-decoration: underline;
+  }
+
+  .paso {
+    display: grid;
+    grid-template-columns: 2.5rem 1fr;
+    gap: 1.25rem;
+    padding: 0.25rem 0 1rem;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .paso > div {
+    min-width: 0;
+  }
+
+  .paso-num {
+    font-size: 0.9rem;
+    color: var(--text-tertiary);
+    font-variant-numeric: tabular-nums;
+    padding-top: 2.15rem;
+  }
+
+  .bitacora {
+    margin-top: 2.5rem;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .bitacora-fila {
+    display: grid;
+    grid-template-columns: 8rem 1fr;
+    gap: 1.25rem;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .bitacora-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-primary);
+    padding-top: 0.2rem;
+  }
+
+  .bitacora-fila p {
+    margin: 0;
+  }
+
+  @media (max-width: 600px) {
+    .paso,
+    .bitacora-fila {
+      grid-template-columns: 1fr;
+      gap: 0.4rem;
+    }
+
+    .paso-num {
+      padding-top: 1rem;
+    }
+  }
+  .galeria {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+  }
+
+  .galeria a {
+    display: block;
+    color: var(--text-tertiary);
+    font-size: 0.75rem;
+  }
+
+  .galeria img {
+    display: block;
+    width: 100%;
+    height: 90px;
+    object-fit: cover;
+    object-position: top left;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    margin-bottom: 0.3rem;
+    background: #fff;
+  }
+
+  .galeria a:hover {
+    color: var(--color-primary);
+  }
+
+  .nota {
+    font-size: 0.82rem;
+    color: var(--text-tertiary);
+  }
+
+  .desplegable summary {
+    cursor: pointer;
+    list-style: none;
+    font-size: 0.82rem;
+    color: var(--text-tertiary);
+    margin-top: 0.2rem;
+  }
+
+  .desplegable summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .desplegable summary::before {
+    content: '▸ ';
+  }
+
+  .desplegable[open] summary::before {
+    content: '▾ ';
+  }
+
+  .desplegable summary:hover {
+    color: var(--color-primary);
+  }
+
+  @media (max-width: 600px) {
+    .galeria {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>

@@ -1,0 +1,561 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Navigation from '../../../components/Navigation.astro';
+import Footer from '../../../components/Footer.astro';
+import { siteConfig } from '../../../config';
+
+const tablas = [
+  { nombre: 'ESTADIO', columnas: 'id_estadio, nombre_estadio, capacidad, ciudad_estadio' },
+  { nombre: 'TECNICO', columnas: 'id_tecnico, nombres, apellidos, nacionalidad' },
+  { nombre: 'EQUIPO', columnas: 'id_equipo, nombre_equipo, ciudad_equipo, id_tecnico, id_sede' },
+  { nombre: 'JUGADOR', columnas: 'id_jugador, nombres, apellidos, nacionalidad, posicion' },
+  { nombre: 'INSCRIPCION', columnas: 'id_equipo, id_torneo, id_jugador, dorsal' },
+  { nombre: 'PARTIDO', columnas: 'id_partido, fecha, hora, jornada, id_estadio, id_local, id_visitante' },
+  { nombre: 'RESULTADO', columnas: 'id_partido, goles_local, goles_visitante' },
+  { nombre: 'ARBITRO / ARBITRAJE', columnas: 'cedula, nombres, apellidos · id_partido, cedula, rol' },
+  { nombre: 'PARTICIPACION', columnas: 'id_participacion, id_jugador, id_partido, minutos_jugados' },
+  { nombre: 'GOL', columnas: 'id_participacion, id_gol, tipo_gol, minuto_gol' },
+  { nombre: 'TARJETA / TIPO_TARJETA', columnas: 'id_participacion, id_tipo, motivo · id_tipo, color_tarjeta' },
+];
+
+const ejercicios = [
+  {
+    enunciado: 'Estadios con capacidad para más de 30.000 personas, del más grande al más pequeño.',
+    tema: 'WHERE · ORDER BY',
+    consulta: `SELECT nombre_estadio, ciudad_estadio, capacidad
+FROM estadio
+WHERE capacidad > 30000
+ORDER BY capacidad DESC;`,
+    columnas: ['NOMBRE_ESTADIO', 'CIUDAD_ESTADIO', 'CAPACIDAD'],
+    filas: [
+      ['Estadio Metropolitano Roberto Meléndez', 'Barranquilla', '65.000'],
+      ['Estadio Atanasio Girardot', 'Medellín', '45.000'],
+      ['Estadio Deportivo Cali (Palmaseca)', 'Palmira', '42.000'],
+      ['Estadio General Santander', 'Cúcuta', '40.000'],
+      ['Estadio Olímpico Pascual Guerrero', 'Cali', '37.899'],
+      ['Estadio Nemesio Camacho El Campín', 'Bogotá', '36.343'],
+      ['Estadio Hernán Ramírez Villegas', 'Pereira', '30.297'],
+    ],
+    total: 7,
+  },
+  {
+    enunciado: 'Equipos que son de Bogotá o de Medellín.',
+    tema: 'IN',
+    consulta: `SELECT nombre_equipo, ciudad_equipo
+FROM equipo
+WHERE ciudad_equipo IN ('Bogotá', 'Medellín')
+ORDER BY ciudad_equipo, nombre_equipo;`,
+    columnas: ['NOMBRE_EQUIPO', 'CIUDAD_EQUIPO'],
+    filas: [
+      ['Fortaleza', 'Bogotá'],
+      ['Independiente Santa Fe', 'Bogotá'],
+      ['Internacional de Bogotá', 'Bogotá'],
+      ['Millonarios', 'Bogotá'],
+      ['Atlético Nacional', 'Medellín'],
+      ['Independiente Medellín', 'Medellín'],
+      ['Águilas Doradas', 'Medellín'],
+    ],
+    total: 7,
+  },
+  {
+    enunciado: 'Partidos de la jornada 1 jugados entre el 1 y el 31 de julio de 2026.',
+    tema: 'BETWEEN',
+    consulta: `SELECT id_partido, fecha, hora
+FROM partido
+WHERE jornada = 1
+  AND fecha BETWEEN DATE '2026-07-01' AND DATE '2026-07-31'
+ORDER BY fecha, hora;`,
+    columnas: ['ID_PARTIDO', 'FECHA', 'HORA'],
+    filas: [
+      ['1', '24/07/2026', '18:10'],
+      ['2', '24/07/2026', '20:15'],
+      ['3', '25/07/2026', '16:05'],
+      ['4', '25/07/2026', '18:10'],
+      ['5', '25/07/2026', '20:15'],
+      ['6', '26/07/2026', '14:00'],
+    ],
+    total: 9,
+  },
+  {
+    enunciado: 'Cuántos jugadores hay en cada posición.',
+    tema: 'GROUP BY',
+    consulta: `SELECT posicion, COUNT(*) AS jugadores
+FROM jugador
+GROUP BY posicion
+ORDER BY jugadores DESC;`,
+    columnas: ['POSICION', 'JUGADORES'],
+    filas: [
+      ['Mediocampista', '237'],
+      ['Atacante', '176'],
+      ['Defensa', '164'],
+      ['Portero', '63'],
+    ],
+    total: 4,
+  },
+  {
+    enunciado: 'Nacionalidades distintas a Colombia que tienen más de 5 jugadores en la liga.',
+    tema: 'GROUP BY · HAVING',
+    consulta: `SELECT nacionalidad, COUNT(*) AS jugadores
+FROM jugador
+WHERE nacionalidad <> 'Colombia'
+GROUP BY nacionalidad
+HAVING COUNT(*) > 5
+ORDER BY jugadores DESC;`,
+    columnas: ['NACIONALIDAD', 'JUGADORES'],
+    filas: [
+      ['Argentina', '26'],
+      ['Uruguay', '11'],
+      ['Venezuela', '9'],
+      ['Ecuador', '6'],
+    ],
+    total: 4,
+  },
+  {
+    enunciado: 'Cada equipo con el nombre de su técnico y su estadio sede.',
+    tema: 'JOIN',
+    consulta: `SELECT e.nombre_equipo,
+       t.nombres || ' ' || t.apellidos AS tecnico,
+       es.nombre_estadio
+FROM equipo e
+JOIN tecnico t ON t.id_tecnico = e.id_tecnico
+JOIN estadio es ON es.id_estadio = e.id_sede
+ORDER BY e.nombre_equipo;`,
+    columnas: ['NOMBRE_EQUIPO', 'TECNICO', 'NOMBRE_ESTADIO'],
+    filas: [
+      ['Alianza Valledupar', 'José Flabio Torres Sierra', 'Estadio Armando Maestre Pavajeau'],
+      ['América de Cali', 'David González Giraldo', 'Estadio Olímpico Pascual Guerrero'],
+      ['Atlético Bucaramanga', 'Pablo Peirano Pardeiro', 'Estadio Américo Montanini'],
+      ['Atlético Nacional', 'Lucas González', 'Estadio Atanasio Girardot'],
+      ['Boyacá Chicó', 'Jhon Jaime Gómez', 'Estadio La Independencia'],
+      ['Cúcuta Deportivo', 'Nicolás Hernán Chiesa', 'Estadio General Santander'],
+    ],
+    total: 20,
+  },
+  {
+    enunciado: 'Resultados de la jornada 1: local, marcador y visitante.',
+    tema: 'JOIN de una tabla dos veces',
+    consulta: `SELECT l.nombre_equipo AS local,
+       r.goles_local || ' - ' || r.goles_visitante AS marcador,
+       v.nombre_equipo AS visitante
+FROM partido p
+JOIN resultado r ON r.id_partido = p.id_partido
+JOIN equipo l ON l.id_equipo = p.id_local
+JOIN equipo v ON v.id_equipo = p.id_visitante
+WHERE p.jornada = 1
+ORDER BY p.fecha, p.hora;`,
+    columnas: ['LOCAL', 'MARCADOR', 'VISITANTE'],
+    filas: [
+      ['Llaneros', '1 - 0', 'Deportivo Pereira'],
+      ['Deportivo Cali', '2 - 0', 'Jaguares de Córdoba'],
+      ['Independiente Medellín', '3 - 2', 'Deportivo Pasto'],
+      ['Millonarios', '0 - 1', 'Atlético Bucaramanga'],
+      ['Deportes Tolima', '2 - 1', 'Junior'],
+      ['Internacional de Bogotá', '0 - 2', 'América de Cali'],
+    ],
+    total: 10,
+  },
+  {
+    enunciado: 'Los 5 máximos goleadores del torneo.',
+    tema: 'JOIN · GROUP BY · FETCH FIRST',
+    consulta: `SELECT j.nombres || ' ' || j.apellidos AS jugador,
+       COUNT(*) AS goles
+FROM gol g
+JOIN participacion pa ON pa.id_participacion = g.id_participacion
+JOIN jugador j ON j.id_jugador = pa.id_jugador
+GROUP BY j.nombres, j.apellidos
+ORDER BY goles DESC, jugador
+FETCH FIRST 5 ROWS ONLY;`,
+    columnas: ['JUGADOR', 'GOLES'],
+    filas: [
+      ['Yeison Guzmán', '5'],
+      ['Andrés Sarmiento', '4'],
+      ['Emerson Batalla', '4'],
+      ['Leonardo Castro', '4'],
+      ['Nahuel Bustos', '4'],
+    ],
+    total: 5,
+  },
+  {
+    enunciado: 'Cuántos goles hubo de cada tipo.',
+    tema: 'GROUP BY',
+    consulta: `SELECT tipo_gol, COUNT(*) AS goles
+FROM gol
+GROUP BY tipo_gol
+ORDER BY goles DESC;`,
+    columnas: ['TIPO_GOL', 'GOLES'],
+    filas: [
+      ['Jugada', '138'],
+      ['Penal', '6'],
+      ['Cabeza', '1'],
+    ],
+    total: 3,
+  },
+  {
+    enunciado: 'Árbitros que dirigieron 4 o más partidos.',
+    tema: 'JOIN · GROUP BY · HAVING',
+    consulta: `SELECT a.nombres || ' ' || a.apellidos AS arbitro,
+       COUNT(*) AS partidos
+FROM arbitraje ar
+JOIN arbitro a ON a.cedula = ar.cedula
+GROUP BY a.nombres, a.apellidos
+HAVING COUNT(*) >= 4
+ORDER BY partidos DESC, arbitro;`,
+    columnas: ['ARBITRO', 'PARTIDOS'],
+    filas: [
+      ['Bismarks Santiago', '6'],
+      ['Alejandro Moncada', '5'],
+      ['Carlos Márquez', '5'],
+      ['Carlos Ortega', '4'],
+      ['Jairo Mayorga', '4'],
+      ['Jonnathan Ortiz', '4'],
+      ['José Alexander Ortiz', '4'],
+    ],
+    total: 7,
+  },
+  {
+    enunciado: 'Equipos con más tarjetas rojas.',
+    tema: 'Varios JOIN · GROUP BY',
+    consulta: `SELECT e.nombre_equipo, COUNT(*) AS rojas
+FROM tarjeta t
+JOIN tipo_tarjeta tt ON tt.id_tipo = t.id_tipo
+JOIN participacion pa ON pa.id_participacion = t.id_participacion
+JOIN inscripcion i ON i.id_jugador = pa.id_jugador
+JOIN equipo e ON e.id_equipo = i.id_equipo
+WHERE tt.color_tarjeta = 'Roja'
+GROUP BY e.nombre_equipo
+ORDER BY rojas DESC, e.nombre_equipo
+FETCH FIRST 5 ROWS ONLY;`,
+    columnas: ['NOMBRE_EQUIPO', 'ROJAS'],
+    filas: [
+      ['Deportivo Pasto', '3'],
+      ['Cúcuta Deportivo', '2'],
+      ['Deportivo Pereira', '2'],
+      ['Internacional de Bogotá', '2'],
+      ['Atlético Nacional', '1'],
+    ],
+    total: 5,
+  },
+  {
+    enunciado: 'Partidos programados que todavía no tienen resultado.',
+    tema: 'LEFT JOIN · IS NULL',
+    consulta: `SELECT p.id_partido, p.jornada, p.fecha, p.hora
+FROM partido p
+LEFT JOIN resultado r ON r.id_partido = p.id_partido
+WHERE r.id_partido IS NULL
+ORDER BY p.fecha, p.hora;`,
+    columnas: ['ID_PARTIDO', 'JORNADA', 'FECHA', 'HORA'],
+    filas: [
+      ['61', '7', '13/11/2026', '18:00'],
+      ['62', '7', '13/11/2026', '20:15'],
+      ['63', '7', '14/11/2026', '16:00'],
+      ['64', '7', '14/11/2026', '18:10'],
+      ['65', '7', '14/11/2026', '20:20'],
+      ['66', '7', '15/11/2026', '15:45'],
+    ],
+    total: 10,
+  },
+  {
+    enunciado: 'El partido con más goles del torneo.',
+    tema: 'Subconsulta',
+    consulta: `SELECT p.jornada, l.nombre_equipo AS local,
+       r.goles_local || ' - ' || r.goles_visitante AS marcador,
+       v.nombre_equipo AS visitante
+FROM partido p
+JOIN resultado r ON r.id_partido = p.id_partido
+JOIN equipo l ON l.id_equipo = p.id_local
+JOIN equipo v ON v.id_equipo = p.id_visitante
+WHERE r.goles_local + r.goles_visitante =
+      (SELECT MAX(goles_local + goles_visitante) FROM resultado);`,
+    columnas: ['JORNADA', 'LOCAL', 'MARCADOR', 'VISITANTE'],
+    filas: [
+      ['2', 'América de Cali', '7 - 0', 'Boyacá Chicó'],
+    ],
+    total: 1,
+  },
+  {
+    enunciado: 'Estadios en los que todavía no se ha programado ningún partido.',
+    tema: 'NOT IN',
+    consulta: `SELECT nombre_estadio, ciudad_estadio
+FROM estadio
+WHERE id_estadio NOT IN (SELECT id_estadio FROM partido)
+ORDER BY nombre_estadio;`,
+    columnas: ['NOMBRE_ESTADIO', 'CIUDAD_ESTADIO'],
+    filas: [
+      ['Estadio Metropolitano Roberto Meléndez', 'Barranquilla'],
+    ],
+    total: 1,
+  },
+  {
+    enunciado: 'Ciudades que tienen equipo y también estadio.',
+    tema: 'INTERSECT',
+    consulta: `SELECT ciudad_equipo AS ciudad FROM equipo
+INTERSECT
+SELECT ciudad_estadio FROM estadio
+ORDER BY ciudad;`,
+    columnas: ['CIUDAD'],
+    filas: [
+      ['Barranquilla'],
+      ['Bogotá'],
+      ['Bucaramanga'],
+      ['Cali'],
+      ['Cúcuta'],
+      ['Ibagué'],
+    ],
+    total: 14,
+  },
+];
+---
+
+<BaseLayout title={'Consultas sobre la Liga BetPlay - ' + siteConfig.title}>
+  <Navigation />
+
+  <main class="container" style="padding-top: 6rem;">
+    <article class="doc">
+
+      <a href="/evidencias" class="back-link">← Volver a Evidencias</a>
+
+      <span class="eyebrow">SQL · Proyecto</span>
+      <h1>Consultas sobre la Liga BetPlay</h1>
+
+      <p class="intro">
+        15 consultas sobre la base de datos de nuestro <a href="/evidencias/proyecto/propuesta">proyecto</a>, con los datos
+        reales del torneo II-2026. Cada una tiene su resultado.
+      </p>
+
+      <h2>Tablas que se usan</h2>
+      <div class="tablas">
+        {tablas.map(t => (
+          <div class="tabla-fila">
+            <span class="tabla-nombre">{t.nombre}</span>
+            <span class="tabla-columnas">{t.columnas}</span>
+          </div>
+        ))}
+      </div>
+
+      <h2>Ejercicios</h2>
+      <div class="ejercicios">
+        {ejercicios.map((e, i) => (
+          <section class="ejercicio">
+            <span class="ejercicio-num">{String(i + 1).padStart(2, '0')}</span>
+            <div class="ejercicio-content">
+              <p class="enunciado">{e.enunciado}</p>
+              <span class="tema">{e.tema}</span>
+              <details class="desplegable">
+              <summary>Ver consulta y resultado</summary>
+              <pre><code>{e.consulta}</code></pre>
+              <div class="resultado">
+                <table>
+                  <thead>
+                    <tr>{e.columnas.map(c => <th>{c}</th>)}</tr>
+                  </thead>
+                  <tbody>
+                    {e.filas.map(f => (
+                      <tr>{f.map(v => <td>{v}</td>)}</tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              {e.total > e.filas.length && (
+                <p class="mas-filas">… {e.total} filas en total</p>
+              )}
+              </details>
+            </div>
+          </section>
+        ))}
+      </div>
+
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .doc {
+    max-width: 760px;
+    padding: 1rem 0 3rem;
+  }
+
+  .back-link {
+    display: table;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+  }
+
+  .back-link:hover {
+    color: var(--color-primary);
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  h1 {
+    font-size: 2.25rem;
+    margin: 0 0 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+    margin: 2.25rem 0 0.75rem;
+  }
+
+  .intro {
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  .tablas {
+    border-top: 1px solid var(--border-color);
+  }
+
+  .tabla-fila {
+    display: grid;
+    grid-template-columns: 11rem 1fr;
+    gap: 1rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.85rem;
+  }
+
+  .tabla-nombre {
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .tabla-columnas {
+    color: var(--text-secondary);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.78rem;
+    line-height: 1.6;
+  }
+
+  .ejercicios {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ejercicio {
+    display: grid;
+    grid-template-columns: 2.5rem 1fr;
+    gap: 1.25rem;
+    padding: 1.1rem 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .ejercicio-num {
+    font-size: 0.9rem;
+    color: var(--text-tertiary);
+    font-variant-numeric: tabular-nums;
+    padding-top: 0.1rem;
+  }
+
+  .ejercicio-content {
+    min-width: 0;
+  }
+
+  .enunciado {
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0 0 0.4rem;
+  }
+
+  .tema {
+    display: inline-block;
+    margin-right: 0.75rem;
+    font-size: 0.72rem;
+    color: var(--text-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 999px;
+    padding: 0.1rem 0.6rem;
+    margin-bottom: 0.75rem;
+  }
+
+  pre {
+    margin: 0 0 0.75rem;
+    padding: 1rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    overflow-x: auto;
+    font-size: 0.8rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+  }
+
+  .resultado {
+    overflow-x: auto;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+  }
+
+  th, td {
+    text-align: left;
+    padding: 0.45rem 0.6rem;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    white-space: nowrap;
+  }
+
+  th {
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+  }
+
+  .mas-filas {
+    font-size: 0.78rem;
+    color: var(--text-tertiary);
+    margin: 0.5rem 0 0;
+  }
+
+  @media (max-width: 600px) {
+    .ejercicio,
+    .tabla-fila {
+      grid-template-columns: 1fr;
+      gap: 0.4rem;
+    }
+  }
+
+  .desplegable summary {
+    cursor: pointer;
+    list-style: none;
+    font-size: 0.82rem;
+    color: var(--text-tertiary);
+    margin-top: 0.4rem;
+  }
+
+  .desplegable summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .desplegable summary::before {
+    content: '▸ ';
+  }
+
+  .desplegable[open] summary::before {
+    content: '▾ ';
+  }
+
+  .desplegable summary:hover {
+    color: var(--color-primary);
+  }
+
+  .desplegable[open] summary {
+    margin-bottom: 0.75rem;
+  }
+</style>

@@ -9,35 +9,31 @@ import { siteConfig } from '../../../config';
 
   <main class="container" style="padding-top: 6rem;">
     <article class="doc">
-
       <a href="/evidencias" class="back-link">← Volver a Evidencias</a>
 
-      <span class="eyebrow">Modelado · 05</span>
-      <h1>Tipos de datos en bases de datos relacionales</h1>
+      <span class="eyebrow">Modelado · 06</span>
+      <h1>Tipos de datos</h1>
 
       <div class="img-placeholder">
-              <img src="/images/datos.jpg" alt="Tipos de datos en bases de datos relacionales" class="img-doc" />
+        <img src="/images/datos.jpg" alt="Tipos de datos en bases de datos relacionales" class="img-doc" />
       </div>
 
       <section class="bitacora">
         <div class="bitacora-fila">
           <span class="bitacora-label">En clase</span>
-          <p>
-            Fue una investigación que debíamos hacer antes de empezar a modelar
-            en digital. La imagen la hice yo con lo que investigué.
-          </p>
+          <p>Una investigación para pasar del modelo en papel al modelo en un programa. La imagen la hice yo.</p>
         </div>
         <div class="bitacora-fila">
           <span class="bitacora-label">Lo que aprendí</span>
-          <p>
-            Me sirvió para dar el paso del modelo dibujado a mano al modelo hecho
-            en un programa. En papel basta con escribir el nombre del atributo,
-            pero en digital cada columna necesita su tipo de dato, y por eso
-            había que conocerlos antes.
-          </p>
+          <p>En papel basta con el nombre del atributo; en digital cada columna necesita su tipo.</p>
         </div>
       </section>
 
+      <h2 class="fuentes-titulo">Fuentes</h2>
+      <ul class="fuentes">
+        <li><a href="https://es.wikipedia.org/wiki/Tipo_de_dato" target="_blank" rel="noopener">Wikipedia — Tipo de dato</a></li>
+        <li><a href="https://docs.oracle.com/en/database/oracle/oracle-database/23/sqlrf/Data-Types.html" target="_blank" rel="noopener">Oracle — Data Types</a></li>
+      </ul>
     </article>
   </main>
 
@@ -51,7 +47,7 @@ import { siteConfig } from '../../../config';
   }
 
   .back-link {
-    display: inline-block;
+    display: table;
     font-size: 0.85rem;
     color: var(--text-secondary);
     margin-bottom: 1.5rem;
@@ -125,5 +121,16 @@ import { siteConfig } from '../../../config';
       grid-template-columns: 1fr;
       gap: 0.4rem;
     }
+  }
+  .fuentes-titulo {
+    font-size: 1.2rem;
+    margin: 2rem 0 0.6rem;
+  }
+
+  .fuentes {
+    color: var(--text-secondary);
+    line-height: 1.9;
+    padding-left: 1.25rem;
+    font-size: 0.9rem;
   }
 </style>

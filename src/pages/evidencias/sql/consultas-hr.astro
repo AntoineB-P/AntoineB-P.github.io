@@ -162,11 +162,8 @@ GROUP BY R.REGION_NAME;`,
       <h1>Consultas sobre el esquema HR</h1>
 
       <p class="intro">
-        Todos estos ejercicios están hechos con base en el esquema
-        <strong>HR</strong> de Oracle, una base de ejemplo de recursos humanos
-        con empleados, departamentos, cargos, ubicaciones, países y regiones.
-        Antes de escribir cada consulta, miraba en este diagrama por qué columnas
-        se conectan las tablas.
+        Ejercicios sobre el esquema <strong>HR</strong> de Oracle, una base de
+        ejemplo de recursos humanos. Todos se basan en este diagrama.
       </p>
 
       <figure class="esquema">
@@ -182,7 +179,10 @@ GROUP BY R.REGION_NAME;`,
             <span class="ejercicio-num">{String(i + 1).padStart(2, '0')}</span>
             <div class="ejercicio-content">
               <p>{e.enunciado}</p>
-              <pre><code>{e.consulta}</code></pre>
+              <details class="desplegable">
+                <summary>Ver consulta</summary>
+                <pre><code>{e.consulta}</code></pre>
+              </details>
             </div>
           </div>
         ))}
@@ -191,18 +191,11 @@ GROUP BY R.REGION_NAME;`,
       <section class="bitacora">
         <div class="bitacora-fila">
           <span class="bitacora-label">En clase</span>
-          <p>
-            Estas consultas las hicimos como práctica en el laboratorio, sobre el
-            esquema HR que ya viene en Oracle.
-          </p>
+          <p>Práctica de laboratorio.</p>
         </div>
         <div class="bitacora-fila">
           <span class="bitacora-label">Lo que aprendí</span>
-          <p>
-            Al inicio nos costó entender los JOIN y la sintaxis, sobre todo
-            cuando había que unir varias tablas para llegar de EMPLOYEES hasta
-            REGIONS. Luego le agarramos la idea y las consultas nos salieron.
-          </p>
+          <p>Los JOIN costaron al inicio, sobre todo para llegar de EMPLOYEES a REGIONS. Luego le agarramos la idea.</p>
         </div>
       </section>
 
@@ -219,7 +212,7 @@ GROUP BY R.REGION_NAME;`,
   }
 
   .back-link {
-    display: inline-block;
+    display: table;
     font-size: 0.85rem;
     color: var(--text-secondary);
     margin-bottom: 1.5rem;
@@ -286,7 +279,7 @@ GROUP BY R.REGION_NAME;`,
     display: grid;
     grid-template-columns: 2.5rem 1fr;
     gap: 1.25rem;
-    padding: 1.5rem 0;
+    padding: 1.1rem 0;
     border-bottom: 1px solid var(--border-color);
   }
 
@@ -350,5 +343,33 @@ GROUP BY R.REGION_NAME;`,
       grid-template-columns: 1fr;
       gap: 0.4rem;
     }
+  }
+
+  .desplegable summary {
+    cursor: pointer;
+    list-style: none;
+    font-size: 0.82rem;
+    color: var(--text-tertiary);
+    margin-top: 0.4rem;
+  }
+
+  .desplegable summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .desplegable summary::before {
+    content: '▸ ';
+  }
+
+  .desplegable[open] summary::before {
+    content: '▾ ';
+  }
+
+  .desplegable summary:hover {
+    color: var(--color-primary);
+  }
+
+  .desplegable[open] summary {
+    margin-bottom: 0.75rem;
   }
 </style>

@@ -10,7 +10,6 @@ import { siteConfig } from '../../../config';
 
   <main class="container" style="padding-top: 6rem;">
     <article class="doc">
-
       <a href="/evidencias" class="back-link">← Volver a Evidencias</a>
 
       <span class="eyebrow">Proyecto · Fase 1</span>
@@ -19,87 +18,50 @@ import { siteConfig } from '../../../config';
 
       <h2>Problemática</h2>
       <p>
-        La Liga BetPlay genera constantemente información de equipos,
-        jugadores, entrenadores, partidos, resultados, árbitros y tarjetas,
-        pero no es administrada de forma centralizada por una única
-        organización — está dispersa entre medios, apps de terceros y portales
-        de estadísticas, cada uno con sus propios registros. Esto hace que un
-        mismo dato (como el número de tarjetas de un jugador) pueda variar
-        según la fuente, sin un registro único y confiable como referencia.
+        Los datos de la Liga BetPlay (equipos, jugadores, partidos, árbitros,
+        tarjetas) están repartidos entre medios y apps distintas, y un mismo
+        dato puede cambiar según la fuente.
       </p>
 
-      <h2>Justificación</h2>
+      <h2>Objetivo</h2>
       <p>
-        El dominio de la Liga BetPlay ofrece una cantidad natural de entidades
-        y relaciones (equipos, jugadores, partidos, árbitros, resultados,
-        tarjetas, torneos) que permiten construir un modelo entidad-relación
-        suficientemente complejo, con relaciones 1:1, 1:N y N:M, y que exige un
-        proceso de normalización cuidadoso para evitar redundancia y
-        anomalías. El proyecto se plantea como un sistema interno para una
-        sola organización, acotando el alcance a un dominio manejable.
-      </p>
-
-      <h2>Objetivo general</h2>
-      <p>
-        Diseñar e implementar un sistema de gestión de bases de datos
-        relacional que permita a una única organización centralizar y
-        administrar de forma interna la información de la Liga BetPlay,
-        aplicando modelado entidad-relación, normalización y consulta de datos
-        mediante álgebra relacional.
+        Diseñar e implementar una base de datos relacional para que una sola
+        organización centralice esa información.
       </p>
 
       <h2>Objetivos específicos</h2>
       <ul class="lista-conceptos">
-        <li>Modelar, con notación Peter Chen, las entidades y relaciones de la liga (equipos, jugadores, entrenadores, partidos, resultados, árbitros, tarjetas, torneos y tabla de posiciones).</li>
-        <li>Normalizar el modelo hasta 3FN, evitando redundancias y anomalías.</li>
-        <li>Implementar la base de datos en un RDBMS distinto a SQL Server, sobre una máquina virtual con Linux.</li>
-        <li>Formular consultas con álgebra relacional (uniones, proyecciones, selecciones) para obtener la tabla de posiciones, estadísticas de un jugador o el historial de un equipo.</li>
-        <li>Desarrollar una aplicación web sencilla de uso interno que se conecte a la base de datos.</li>
-        <li>Gestionar el desarrollo a través de un repositorio en GitHub con contribuciones de todo el equipo.</li>
+        <li>Modelar la liga con notación Chen.</li>
+        <li>Normalizar hasta 3FN.</li>
+        <li>Implementarla en un RDBMS distinto a SQL Server, en una VM con Linux.</li>
+        <li>Consultarla con álgebra relacional y SQL.</li>
+        <li>Hacer una app web de uso interno conectada a la base.</li>
+        <li>Trabajar en GitHub con aportes de todo el equipo.</li>
       </ul>
 
       <h2>Alcance</h2>
       <p>
-        El sistema está orientado exclusivamente a la Liga BetPlay — no a
-        múltiples ligas o países — y pensado como herramienta de uso interno
-        para la organización del torneo, no como plataforma pública. Quedan
-        fuera del alcance: venta de boletería, transmisión en vivo, pagos en
-        línea, inscripciones, integración con otras ligas o redes sociales.
+        Solo la Liga BetPlay, como herramienta interna. Fuera del alcance:
+        boletería, transmisiones, pagos e integración con otras ligas.
       </p>
 
-      <h2>Entidades principales identificadas</h2>
-      <ul class="lista-conceptos">
-        <li><strong>Torneo:</strong> información general de una temporada (nombre, año, fechas).</li>
-        <li><strong>Equipo:</strong> nombre, ciudad, estadio, entrenador asociado.</li>
-        <li><strong>Jugador:</strong> nombre, posición, número, fecha de nacimiento, equipo.</li>
-        <li><strong>Entrenador:</strong> cuerpo técnico de cada equipo.</li>
-        <li><strong>Partido:</strong> fecha, hora, estadio, jornada, equipos enfrentados.</li>
-        <li><strong>Resultado:</strong> marcador y detalles de cada partido jugado.</li>
-        <li><strong>Árbitro:</strong> árbitros asignados a cada partido.</li>
-        <li><strong>Tarjeta / Sanción:</strong> amonestaciones de un jugador en un partido.</li>
-        <li><strong>Tabla de Posiciones:</strong> puntos, partidos jugados/ganados/empatados/perdidos y goles, calculados a partir de los resultados.</li>
-      </ul>
-
-      <h2>Requerimientos funcionales principales</h2>
-      <ul class="lista-conceptos">
-        <li>Registrar, consultar, actualizar y eliminar equipos, jugadores, entrenadores y árbitros.</li>
-        <li>Programar partidos asignando equipos, árbitros, fecha, hora y lugar.</li>
-        <li>Registrar resultados y actualizar automáticamente la tabla de posiciones.</li>
-        <li>Registrar tarjetas o sanciones de los jugadores por partido.</li>
-        <li>Consultar estadísticas de un jugador (partidos, goles, tarjetas).</li>
-        <li>Consultar el historial de resultados de un equipo.</li>
-        <li>Generar la tabla de posiciones de un torneo en un momento dado.</li>
-      </ul>
-
-      <h2>Consideraciones finales</h2>
-      <p>
-        Esta propuesta sienta las bases conceptuales del proyecto del
-        semestre. La problemática de la Liga BetPlay ofrece la complejidad
-        suficiente para aplicar de forma integral el modelado, la
-        normalización, la consulta de datos y la implementación de una base de
-        datos relacional, manteniendo un dominio acotado y coherente.
+      <h2>Entidades principales</h2>
+      <p class="entidades">
+        Torneo · Equipo · Jugador · Técnico · Partido · Resultado · Árbitro ·
+        Tarjeta · Tabla de posiciones
       </p>
 
+      <h2>Requerimientos</h2>
+      <ul class="lista-conceptos">
+        <li>Registrar, consultar, editar y borrar equipos, jugadores, técnicos y árbitros.</li>
+        <li>Programar partidos y registrar resultados y tarjetas.</li>
+        <li>Generar la tabla de posiciones y las estadísticas de cada jugador.</li>
+        <li>Consultar el historial de un equipo.</li>
+      </ul>
+
+      <p class="siguiente">
+        Lo que vino después: <a href="/evidencias/proyecto/modelos">modelos</a>, <a href="/evidencias/proyecto/base-de-datos">base de datos</a>, <a href="/evidencias/proyecto/aplicacion">aplicación</a> y <a href="/evidencias/proyecto/bitacora">bitácora</a>.
+      </p>
     </article>
   </main>
 
@@ -113,7 +75,7 @@ import { siteConfig } from '../../../config';
   }
 
   .back-link {
-    display: inline-block;
+    display: table;
     font-size: 0.85rem;
     color: var(--text-secondary);
     margin-bottom: 1.5rem;
@@ -169,5 +131,16 @@ import { siteConfig } from '../../../config';
 
   .lista-conceptos li {
     margin-bottom: 0.5rem;
+  }
+  .entidades {
+    font-size: 0.92rem;
+    line-height: 1.9;
+  }
+
+  .siguiente {
+    margin-top: 2.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.9rem;
   }
 </style>

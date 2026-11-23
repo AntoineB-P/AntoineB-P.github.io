@@ -10,70 +10,41 @@ import { siteConfig } from '../../../config';
 
   <main class="container" style="padding-top: 6rem;">
     <article class="doc">
-
       <a href="/evidencias" class="back-link">← Volver a Evidencias</a>
 
       <span class="eyebrow">Modelado · 01</span>
-      <h1>Conceptos y fuentes</h1>
+      <h1>Conceptos</h1>
 
-      <h2>¿Qué es un gestor de base de datos?</h2>
-      <p>
-        Un gestor de base de datos (o SGBD) es el software que se pone en medio
-        de todo: conecta al usuario, las aplicaciones y los datos guardados, sin
-        que el usuario tenga que saber cómo está organizada la información por
-        dentro. Para funcionar necesita cuatro piezas trabajando juntas: el software (el gestor en sí), el hardware
-        (donde se guarda todo físicamente), los datos y los usuarios que los consultan o modifican.
-      </p>
-      <p>
-        El flujo es bastante simple si lo pienso como una cadena: una
-        solicitud (por ejemplo, una consulta desde una app) llega
-        al gestor, y es el gestor el que decide y dirige esa
-        solicitud hacia los datos o archivos necesarios para
-        responderla — el usuario nunca accede directo a los archivos, siempre pasa
-        por el gestor.
-      </p>
-
-      <h2>Atributo</h2>
-      <p>
-        Es una característica o propiedad de una entidad. Por ejemplo, si la
-        entidad es "Jugador", sus atributos podrían ser nombre, edad y número de
-        camiseta.
-      </p>
-
-      <h2>Cardinalidad</h2>
-      <p>
-        Indica cuántas veces puede participar una entidad en una relación —
-        tanto el mínimo como el máximo. Se suele escribir como un par
-        (mínimo, máximo), por ejemplo (0,N), y es lo que después define si una
-        relación es 1:1, 1:N o N:M.
-      </p>
-
-      <h2>Clave primaria</h2>
-      <p>
-        Es el atributo (o conjunto de atributos) que identifica de forma única a
-        cada instancia de una entidad — no puede repetirse ni quedar vacío.
-      </p>
-
-      <h2>Atributo multivaluado</h2>
-      <p>
-        Es un atributo que puede tener más de un valor para una misma entidad. Por
-        ejemplo, una persona puede tener varios números de teléfono.
-      </p>
-
-      <h2>Atributo derivado</h2>
-      <p>
-        Es un atributo cuyo valor se puede calcular a partir de otro atributo, en
-        vez de guardarlo directamente. Por ejemplo, la edad se puede derivar de la
-        fecha de nacimiento.
-      </p>
-
-      <h2>Base de datos relacional</h2>
-      <p>
-        Es un tipo de base de datos que organiza la información en tablas
-        (filas y columnas), donde cada tabla representa una entidad y las
-        relaciones entre tablas se hacen a través de claves. Es el modelo más
-        usado actualmente.
-      </p>
+      <dl class="definiciones">
+        <div class="def">
+          <dt>Gestor de BD (SGBD)</dt>
+          <dd>El software que está entre el usuario y los datos. Toda consulta pasa por él; nadie toca los archivos directo.</dd>
+        </div>
+        <div class="def">
+          <dt>Atributo</dt>
+          <dd>Una característica de una entidad. JUGADOR tiene nombre, edad y dorsal.</dd>
+        </div>
+        <div class="def">
+          <dt>Cardinalidad</dt>
+          <dd>Cuántas veces participa una entidad en una relación, como (mínimo, máximo). Define si es 1:1, 1:N o N:M.</dd>
+        </div>
+        <div class="def">
+          <dt>Clave primaria</dt>
+          <dd>Lo que identifica a cada registro. No se repite ni queda vacía.</dd>
+        </div>
+        <div class="def">
+          <dt>Multivaluado</dt>
+          <dd>Un atributo con varios valores, como los teléfonos de una persona.</dd>
+        </div>
+        <div class="def">
+          <dt>Derivado</dt>
+          <dd>Se calcula a partir de otro, como la edad desde la fecha de nacimiento.</dd>
+        </div>
+        <div class="def">
+          <dt>BD relacional</dt>
+          <dd>Guarda todo en tablas, y las tablas se relacionan por sus claves.</dd>
+        </div>
+      </dl>
 
       <h2>Segundo MER: vuelos</h2>
       <img src="/images/mer-vuelos.png" alt="Modelo entidad-relación de vuelos, con avión, piloto, tripulación y vuelo" class="img-doc" />
@@ -82,31 +53,24 @@ import { siteConfig } from '../../../config';
         <div class="bitacora-fila">
           <span class="bitacora-label">En clase</span>
           <p>
-            Estos conceptos los explicó el profe en clase; aquí los resumo con
-            mis palabras. El MER de vuelos, con avión, piloto, tripulación y
-            vuelo, fue mi segundo modelo: lo hice en otra clase, después del
-            <a href="/evidencias/modelado-torneo">MER del torneo</a>, para poner
-            estos conceptos en práctica.
+            El profe explicó estos conceptos. El MER de vuelos fue mi segundo
+            modelo, después del <a href="/evidencias/modelado-torneo">MER del torneo</a>.
           </p>
         </div>
         <div class="bitacora-fila">
           <span class="bitacora-label">Lo que aprendí</span>
           <p>
-            Al inicio el atributo derivado me confundió un poco, pero lo que más
-            me costó fueron las cardinalidades y cómo se leen. Con la práctica
-            entendí que leer bien el mínimo y el máximo de cada lado es lo que
-            después define si una relación es 1:1, 1:N o N:M.
+            El atributo derivado me confundió al inicio, pero lo que más me
+            costó fue leer las cardinalidades.
           </p>
         </div>
       </section>
 
       <h2>Fuentes</h2>
       <ul class="fuentes">
-        <li>Universidad Europea — "Gestor de base de datos: qué es, funciones y tipos"</li>
-        <li>Wikipedia — "Sistema de gestión de bases de datos"</li>
-        <li>Jorge Sánchez — "Manual de Administración de Bases de Datos"</li>
+        <li><a href="https://es.wikipedia.org/wiki/Sistema_de_gestión_de_bases_de_datos" target="_blank" rel="noopener">Wikipedia — Sistema de gestión de bases de datos</a></li>
+        <li><a href="https://es.wikipedia.org/wiki/Modelo_entidad-relación" target="_blank" rel="noopener">Wikipedia — Modelo entidad-relación</a></li>
       </ul>
-
     </article>
   </main>
 
@@ -120,7 +84,7 @@ import { siteConfig } from '../../../config';
   }
 
   .back-link {
-    display: inline-block;
+    display: table;
     font-size: 0.85rem;
     color: var(--text-secondary);
     margin-bottom: 1.5rem;
@@ -204,6 +168,38 @@ import { siteConfig } from '../../../config';
     .bitacora-fila {
       grid-template-columns: 1fr;
       gap: 0.4rem;
+    }
+  }
+  .definiciones {
+    margin: 0;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .def {
+    display: grid;
+    grid-template-columns: 11rem 1fr;
+    gap: 1.25rem;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .def dt {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 0.92rem;
+  }
+
+  .def dd {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 600px) {
+    .def {
+      grid-template-columns: 1fr;
+      gap: 0.2rem;
     }
   }
 </style>

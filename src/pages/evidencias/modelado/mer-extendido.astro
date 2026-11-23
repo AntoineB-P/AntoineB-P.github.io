@@ -10,85 +10,59 @@ import { siteConfig } from '../../../config';
 
   <main class="container" style="padding-top: 6rem;">
     <article class="doc">
-
       <a href="/evidencias" class="back-link">← Volver a Evidencias</a>
 
       <span class="eyebrow">Modelado · 02</span>
       <h1>MER extendido</h1>
 
       <p class="intro">
-        El modelo entidad-relación extendido (MER extendido o EER) le agrega al
-        MER normal la posibilidad de representar jerarquías entre entidades:
-        cuándo una entidad es en realidad un "tipo" de otra más general.
+        Le agrega al MER las jerarquías: cuándo una entidad es un "tipo" de otra
+        más general.
       </p>
 
-      <h2>Generalización</h2>
-      <p>
-        Es el proceso de identificar atributos comunes entre varias entidades
-        para agruparlas en una entidad más general (superclase). Por ejemplo, si
-        tengo "Jugador local" y "Jugador visitante" con atributos parecidos,
-        puedo generalizarlos en una única entidad "Jugador".
-      </p>
+      <dl class="definiciones">
+        <div class="def">
+          <dt>Generalización</dt>
+          <dd>Juntar entidades parecidas en una más general.</dd>
+        </div>
+        <div class="def">
+          <dt>Especialización</dt>
+          <dd>Lo contrario: dividir una entidad en subtipos con atributos propios.</dd>
+        </div>
+        <div class="def">
+          <dt>Exclusividad</dt>
+          <dd>Si una instancia solo puede ser de un subtipo a la vez (disjunta).</dd>
+        </div>
+        <div class="def">
+          <dt>Participación</dt>
+          <dd>Total (línea doble) si toda instancia tiene que estar en un subtipo; parcial (línea sencilla) si no.</dd>
+        </div>
+      </dl>
 
-      <h2>Especialización</h2>
-      <p>
-        Es el proceso contrario: parto de una entidad general (supertipo) y la
-        divido en subtipos con atributos propios y distintos. Por ejemplo,
-        "Persona" se puede especializar en "Jugador" y "Árbitro", cada uno con
-        atributos específicos que el otro no tiene.
-      </p>
-
-      <h2>Exclusividad</h2>
-      <p>
-        Dos o más subtipos son exclusivos cuando una instancia solo puede
-        pertenecer a uno de ellos, nunca a varios al mismo tiempo. Por ejemplo, un
-        "Jugador" no puede ser al mismo tiempo "Árbitro" — son roles excluyentes.
-        Cuando esto pasa, se dice que la especialización es disjunta.
-      </p>
-
-      <h2>Participación (total o parcial)</h2>
-      <p>
-        Indica si todas las instancias de la superclase deben pertenecer
-        obligatoriamente a algún subtipo (<strong>participación total</strong>,
-        se dibuja con línea doble) o si pueden existir instancias que no
-        pertenezcan a ningún subtipo (<strong>participación parcial</strong>,
-        línea sencilla).
-      </p>
-
+      <h2>En el proyecto</h2>
       <div class="img-placeholder">
-      
-              <img src="/images/especializacion-liga.png" alt="Especialización de JUGADOR en ATACANTE, MEDIOCAMPISTA, DEFENSA y PORTERO en el MER extendido de la Liga BetPlay" class="img-doc" />
+        <img src="/images/especializacion-liga.png" alt="Especialización de JUGADOR en ATACANTE, MEDIOCAMPISTA, DEFENSA y PORTERO en el MER extendido de la Liga BetPlay" class="img-doc" />
       </div>
 
       <section class="bitacora">
         <div class="bitacora-fila">
           <span class="bitacora-label">En clase</span>
           <p>
-            Vimos cómo el MER extendido permite mostrar jerarquías entre
-            entidades. Después lo aplicamos en el
-            <a href="/evidencias/proyecto/propuesta">proyecto de la Liga BetPlay</a>:
-            ahí JUGADOR se especializa en PORTERO, DEFENSA, MEDIOCAMPISTA y
-            ATACANTE, y fue donde de verdad aprendimos a usar las especializaciones.
+            Lo aplicamos en el <a href="/evidencias/proyecto/modelos">proyecto</a>:
+            JUGADOR se especializa en PORTERO, DEFENSA, MEDIOCAMPISTA y ATACANTE.
           </p>
         </div>
         <div class="bitacora-fila">
           <span class="bitacora-label">Lo que aprendí</span>
-          <p>
-            Lo que más me costó fue diferenciar si la participación era total o
-            parcial, porque no se ve a simple vista: toca analizar bien el caso y
-            preguntarse si todas las instancias de la superclase tienen que
-            pertenecer a algún subtipo o no.
-          </p>
+          <p>Lo más difícil fue decidir si la participación era total o parcial: toca analizar bien el caso.</p>
         </div>
       </section>
 
       <h2>Fuentes</h2>
       <ul class="fuentes">
-        <li>Lucidchart — "Tutorial de diagramas ER extendidos"</li>
-        <li>ITCA — "Modelo Entidad Relación extendida"</li>
-        <li>Pablo Delgado Flores — "El modelo Entidad-Relación extendido"</li>
+        <li><a href="https://es.wikipedia.org/wiki/Modelo_entidad-relación" target="_blank" rel="noopener">Wikipedia — Modelo entidad-relación</a></li>
+        <li><a href="https://es.wikipedia.org/wiki/Herencia_(informática)" target="_blank" rel="noopener">Wikipedia — Herencia</a></li>
       </ul>
-
     </article>
   </main>
 
@@ -108,7 +82,7 @@ import { siteConfig } from '../../../config';
   }
 
   .back-link {
-    display: inline-block;
+    display: table;
     font-size: 0.85rem;
     color: var(--text-secondary);
     margin-bottom: 1.5rem;
@@ -201,6 +175,38 @@ import { siteConfig } from '../../../config';
     .bitacora-fila {
       grid-template-columns: 1fr;
       gap: 0.4rem;
+    }
+  }
+  .definiciones {
+    margin: 0;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .def {
+    display: grid;
+    grid-template-columns: 11rem 1fr;
+    gap: 1.25rem;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .def dt {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 0.92rem;
+  }
+
+  .def dd {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 600px) {
+    .def {
+      grid-template-columns: 1fr;
+      gap: 0.2rem;
     }
   }
 </style>

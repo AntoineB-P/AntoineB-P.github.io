@@ -5,41 +5,13 @@ import Footer from '../../../components/Footer.astro';
 import { siteConfig } from '../../../config';
 
 const formas = [
-  {
-    nombre: '1FN',
-    regla: 'Cada atributo debe tener un único valor (atómico) por fila — no se permiten grupos de valores repetidos en una misma celda.',
-    solucion: 'Se separan los valores repetidos en filas distintas o en una tabla aparte.',
-  },
-  {
-    nombre: '2FN',
-    regla: 'Estar en 1FN y que todo atributo no clave dependa de la clave primaria completa (no solo de una parte, en claves compuestas).',
-    solucion: 'Se separan en otra tabla los atributos que dependían solo de una parte de la clave.',
-  },
-  {
-    nombre: '3FN',
-    regla: 'Estar en 2FN y que ningún atributo no clave dependa de otro atributo no clave (dependencia transitiva).',
-    solucion: 'Se crea una tabla nueva para el atributo del que dependían los demás, dejando solo la clave que los conecta.',
-  },
-  {
-    nombre: 'FNBC',
-    regla: 'Estar en 3FN y que todo determinante de una dependencia funcional sea una clave candidata.',
-    solucion: 'Se descompone la tabla para que cada determinante que no era clave candidata quede en su propia tabla.',
-  },
-  {
-    nombre: '4FN',
-    regla: 'Estar en FNBC y no tener dependencias multivaluadas independientes entre sí.',
-    solucion: 'Se separan en tablas distintas los atributos multivaluados que no tienen relación entre sí.',
-  },
-  {
-    nombre: '5FN',
-    regla: 'Estar en 4FN y que la tabla no se pueda descomponer en tablas más pequeñas sin perder información (dependencias de combinación/join).',
-    solucion: 'Se descompone en varias tablas más pequeñas que, al unirlas (join), reconstruyen exactamente la información original.',
-  },
-  {
-    nombre: '6FN',
-    regla: 'Cada tabla solo contiene la clave primaria y un único atributo no clave — se usa sobre todo en modelos muy avanzados o data warehouses.',
-    solucion: 'Se descompone cada atributo en su propia tabla junto con la clave, nivel que casi nunca se aplica en proyectos normales.',
-  },
+  { nombre: '1FN', regla: 'Cada celda con un solo valor.', solucion: 'Los valores repetidos van a filas o a otra tabla.' },
+  { nombre: '2FN', regla: '1FN, y nada depende de solo una parte de la clave.', solucion: 'Lo que depende de una parte se va a otra tabla.' },
+  { nombre: '3FN', regla: '2FN, y nada depende de otro atributo que no es clave.', solucion: 'Se crea una tabla para ese atributo intermedio.' },
+  { nombre: 'FNBC', regla: '3FN, y todo determinante es clave candidata.', solucion: 'El determinante que no es clave se va a su propia tabla.' },
+  { nombre: '4FN', regla: 'FNBC, sin multivaluados independientes.', solucion: 'Cada multivaluado en su tabla.' },
+  { nombre: '5FN', regla: '4FN, y no se puede partir más sin perder datos.', solucion: 'Tablas pequeñas que al unirlas dan la original.' },
+  { nombre: '6FN', regla: 'Cada tabla: la clave y un solo atributo.', solucion: 'Casi nunca se usa; es de data warehouses.' },
 ];
 ---
 
@@ -55,10 +27,8 @@ const formas = [
       <h1>Formas normales</h1>
 
       <p class="intro">
-        Las formas normales son reglas progresivas: para cumplir una, primero
-        hay que cumplir la anterior. En la práctica, la mayoría de bases de
-        datos se quedan normalizadas hasta 3FN o FNBC — pasar de ahí depende de
-        qué tan compleja sea la información.
+        Son reglas en escalera: para cumplir una hay que cumplir la anterior. En
+        la práctica casi todo se queda en 3FN o FNBC.
       </p>
 
       <div class="formas">
@@ -76,26 +46,20 @@ const formas = [
       <section class="bitacora">
         <div class="bitacora-fila">
           <span class="bitacora-label">En clase</span>
-          <p>
-            El profe explicó las formas normales en clase, una por una y en orden.
-          </p>
+          <p>El profe las explicó una por una.</p>
         </div>
         <div class="bitacora-fila">
           <span class="bitacora-label">Lo que aprendí</span>
           <p>
-            Lo que más me costó fue hallar las dependencias y la llave primaria de
-            cada tabla, porque de eso depende saber en qué forma normal está. En el
-            <a href="/evidencias/proyecto/propuesta">proyecto de la Liga BetPlay</a>
-            llegamos hasta 3FN.
+            Lo difícil es hallar las dependencias y la PK. En el <a href="/evidencias/proyecto/modelos">proyecto</a> llegamos hasta 3FN.
           </p>
         </div>
       </section>
 
       <h2>Fuentes</h2>
       <ul class="fuentes">
-        <li>KeepCoding — "Formas normales de una base de datos: guía completa 2026"</li>
-        <li>ITCA — "Normalización"</li>
-        <li>Universidad de Sevilla — "Formas normales" (apuntes de curso)</li>
+        <li><a href="https://es.wikipedia.org/wiki/Tercera_forma_normal" target="_blank" rel="noopener">Wikipedia — Tercera forma normal</a></li>
+        <li><a href="https://es.wikipedia.org/wiki/Forma_normal_de_Boyce-Codd" target="_blank" rel="noopener">Wikipedia — Forma normal de Boyce-Codd</a></li>
       </ul>
 
     </article>
@@ -111,7 +75,7 @@ const formas = [
   }
 
   .back-link {
-    display: inline-block;
+    display: table;
     font-size: 0.85rem;
     color: var(--text-secondary);
     margin-bottom: 1.5rem;

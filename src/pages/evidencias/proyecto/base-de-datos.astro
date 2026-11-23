@@ -1,0 +1,323 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Navigation from '../../../components/Navigation.astro';
+import Footer from '../../../components/Footer.astro';
+import { siteConfig } from '../../../config';
+
+const grupos = [
+  {
+    titulo: 'Equipos y torneo',
+    tablas: [
+      { nombre: 'TECNICO', registros: 20, columnas: [{ nombre: 'id_tecnico', marca: 'PK' }, { nombre: 'nombres', marca: '' }, { nombre: 'apellidos', marca: '' }, { nombre: 'nacionalidad', marca: '' }, { nombre: 'fecha_nacimiento', marca: '' }] },
+      { nombre: 'ESTADIO', registros: 18, columnas: [{ nombre: 'id_estadio', marca: 'PK' }, { nombre: 'nombre_estadio', marca: '' }, { nombre: 'capacidad', marca: '' }, { nombre: 'direccion', marca: '' }, { nombre: 'ciudad_estadio', marca: '' }, { nombre: 'barrio', marca: '' }] },
+      { nombre: 'EQUIPO', registros: 20, columnas: [{ nombre: 'id_equipo', marca: 'PK' }, { nombre: 'nombre_equipo', marca: '' }, { nombre: 'fecha_fundacion', marca: '' }, { nombre: 'ciudad_equipo', marca: '' }, { nombre: 'id_tecnico', marca: 'FK' }, { nombre: 'id_sede', marca: 'FK' }, { nombre: 'escudo_url', marca: '' }] },
+      { nombre: 'EQUIPO_COLOR', registros: 44, columnas: [{ nombre: 'id_equipo', marca: 'PK FK' }, { nombre: 'color', marca: 'PK' }] },
+      { nombre: 'TORNEO', registros: 1, columnas: [{ nombre: 'id_torneo', marca: 'PK' }, { nombre: 'nombre_torneo', marca: '' }, { nombre: 'anio', marca: '' }, { nombre: 'semestre', marca: '' }, { nombre: 'fecha_inicio_torneo', marca: '' }, { nombre: 'fecha_fin_torneo', marca: '' }] },
+      { nombre: 'EQUIPO_TORNEO', registros: 20, columnas: [{ nombre: 'id_equipo', marca: 'PK FK' }, { nombre: 'id_torneo', marca: 'PK FK' }] },
+    ],
+  },
+  {
+    titulo: 'Jugadores',
+    tablas: [
+      { nombre: 'JUGADOR', registros: 640, columnas: [{ nombre: 'id_jugador', marca: 'PK' }, { nombre: 'nombres', marca: '' }, { nombre: 'apellidos', marca: '' }, { nombre: 'nacionalidad', marca: '' }, { nombre: 'fecha_nacimiento', marca: '' }, { nombre: 'posicion', marca: '' }] },
+      { nombre: 'ATACANTE', registros: 176, columnas: [{ nombre: 'id_jugador', marca: 'PK FK' }, { nombre: 'tiros_puerta', marca: '' }] },
+      { nombre: 'MEDIOCAMPISTA', registros: 237, columnas: [{ nombre: 'id_jugador', marca: 'PK FK' }, { nombre: 'pases', marca: '' }] },
+      { nombre: 'DEFENSA', registros: 164, columnas: [{ nombre: 'id_jugador', marca: 'PK FK' }, { nombre: 'entradas_oportunas', marca: '' }] },
+      { nombre: 'PORTERO', registros: 63, columnas: [{ nombre: 'id_jugador', marca: 'PK FK' }, { nombre: 'porteria_imbatida', marca: '' }] },
+      { nombre: 'INSCRIPCION', registros: 639, columnas: [{ nombre: 'id_equipo', marca: 'PK FK' }, { nombre: 'id_torneo', marca: 'PK FK' }, { nombre: 'id_jugador', marca: 'PK FK' }, { nombre: 'dorsal', marca: '' }, { nombre: 'fecha_inicio', marca: '' }, { nombre: 'fecha_fin', marca: '' }] },
+    ],
+  },
+  {
+    titulo: 'Partidos',
+    tablas: [
+      { nombre: 'ARBITRO', registros: 24, columnas: [{ nombre: 'cedula', marca: 'PK' }, { nombre: 'nombres', marca: '' }, { nombre: 'apellidos', marca: '' }, { nombre: 'ciudad_arbitro', marca: '' }, { nombre: 'categoria', marca: '' }] },
+      { nombre: 'PARTIDO', registros: 70, columnas: [{ nombre: 'id_partido', marca: 'PK' }, { nombre: 'fecha', marca: '' }, { nombre: 'hora', marca: '' }, { nombre: 'jornada', marca: '' }, { nombre: 'id_torneo', marca: 'FK' }, { nombre: 'id_estadio', marca: 'FK' }, { nombre: 'id_local', marca: 'FK' }, { nombre: 'id_visitante', marca: 'FK' }] },
+      { nombre: 'RESULTADO', registros: 60, columnas: [{ nombre: 'id_partido', marca: 'PK FK' }, { nombre: 'id_resultado', marca: 'PK' }, { nombre: 'goles_local', marca: '' }, { nombre: 'goles_visitante', marca: '' }] },
+      { nombre: 'ARBITRAJE', registros: 70, columnas: [{ nombre: 'id_partido', marca: 'PK FK' }, { nombre: 'cedula', marca: 'PK FK' }, { nombre: 'rol', marca: '' }] },
+      { nombre: 'PARTICIPACION', registros: 412, columnas: [{ nombre: 'id_participacion', marca: 'PK' }, { nombre: 'id_jugador', marca: 'FK' }, { nombre: 'id_partido', marca: 'FK' }, { nombre: 'titular', marca: '' }, { nombre: 'minutos_jugados', marca: '' }] },
+      { nombre: 'GOL', registros: 145, columnas: [{ nombre: 'id_participacion', marca: 'PK FK' }, { nombre: 'id_gol', marca: 'PK' }, { nombre: 'tipo_gol', marca: '' }, { nombre: 'minuto_gol', marca: '' }] },
+      { nombre: 'TIPO_TARJETA', registros: 2, columnas: [{ nombre: 'id_tipo', marca: 'PK' }, { nombre: 'color_tarjeta', marca: '' }] },
+      { nombre: 'TARJETA', registros: 319, columnas: [{ nombre: 'id_participacion', marca: 'PK FK' }, { nombre: 'id_tarjeta', marca: 'PK' }, { nombre: 'id_tipo', marca: 'FK' }, { nombre: 'motivo', marca: '' }, { nombre: 'minuto_tarjeta', marca: '' }] },
+    ],
+  },
+  {
+    titulo: 'Usuarios de la app',
+    tablas: [
+      { nombre: 'ROL', registros: 2, columnas: [{ nombre: 'id_rol', marca: 'PK' }, { nombre: 'nombre_rol', marca: '' }] },
+      { nombre: 'USUARIO', registros: 0, columnas: [{ nombre: 'id_usuario', marca: 'PK' }, { nombre: 'usuario', marca: '' }, { nombre: 'contrasenia', marca: '' }, { nombre: 'correo', marca: '' }, { nombre: 'id_rol', marca: 'FK' }, { nombre: 'id_equipo_favorito', marca: 'FK' }, { nombre: 'verificado', marca: '' }, { nombre: 'codigo_verificacion', marca: '' }, { nombre: 'expira_verificacion', marca: '' }] },
+    ],
+  },
+];
+
+const entorno = [
+  { dato: 'Máquina virtual', valor: 'VirtualBox con Oracle Linux 9' },
+  { dato: 'Gestor', valor: 'Oracle AI Database Free' },
+  { dato: 'Base', valor: 'FREEPDB1, puerto 1521' },
+  { dato: 'Esquema', valor: 'LIGA' },
+  { dato: 'Cliente', valor: 'SQL Developer' },
+];
+
+const scripts = [
+  { archivo: '01_creacion_objetos.sql', hace: 'Crea las 22 tablas con sus PK, FK, UNIQUE y NOT NULL.' },
+  { archivo: '02_insercion_registros.sql', hace: 'Inserta los datos del torneo II-2026 y termina con COMMIT.' },
+  { archivo: '03_scripts_varios.sql', hace: 'Consultas de revisión: conteos, tabla de posiciones y goleadores.' },
+];
+
+const decisiones = [
+  'RESULTADO, ARBITRAJE, GOL, TARJETA y EQUIPO_COLOR tienen ON DELETE CASCADE: sin su dueño no tienen sentido.',
+  'Las 4 posiciones usan el id_jugador como PK y FK a la vez.',
+  'La edad y la tabla de posiciones no se guardan: se calculan con consultas.',
+];
+---
+
+<BaseLayout title={'Base de datos del proyecto - ' + siteConfig.title}>
+  <Navigation />
+
+  <main class="container" style="padding-top: 6rem;">
+    <article class="doc">
+
+      <a href="/evidencias" class="back-link">← Volver a Evidencias</a>
+
+      <span class="eyebrow">Proyecto · Base de datos</span>
+      <h1>La base de datos en Oracle</h1>
+
+      <p class="intro">
+        El modelo relacional ya implementado: 22 tablas con los datos reales
+        de la liga.
+      </p>
+
+      <div class="entorno">
+        {entorno.map(e => (
+          <div class="entorno-fila">
+            <span>{e.dato}</span>
+            <strong>{e.valor}</strong>
+          </div>
+        ))}
+      </div>
+
+      {grupos.map((g, i) => (
+        <section class="grupo">
+          <div class="grupo-header">
+            <span class="grupo-num">{String(i + 1).padStart(2, '0')}</span>
+            <h2>{g.titulo}</h2>
+          </div>
+          <div class="tablas">
+            {g.tablas.map(t => (
+              <div class="tabla">
+                <div class="tabla-header">
+                  <span class="tabla-nombre">{t.nombre}</span>
+                  <span class="tabla-registros">{t.registros === 1 ? '1 registro' : t.registros > 0 ? t.registros + ' registros' : 'se llena desde la app'}</span>
+                </div>
+                <p class="columnas">
+                  {t.columnas.map(c => (
+                    <span class={c.marca ? 'col llave' : 'col'}>
+                      {c.nombre}{c.marca && <small>{c.marca}</small>}
+                    </span>
+                  ))}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+      ))}
+
+      <h2>Scripts</h2>
+      <div class="lista-filas">
+        {scripts.map(s => (
+          <div class="fila">
+            <code>{s.archivo}</code>
+            <span>{s.hace}</span>
+          </div>
+        ))}
+      </div>
+
+      <h2>Decisiones</h2>
+      <ul class="lista">
+        {decisiones.map(d => <li>{d}</li>)}
+      </ul>
+
+      <p class="siguiente">
+        Las consultas sobre estos datos están en <a href="/evidencias/sql/consultas-liga">Consultas sobre la Liga BetPlay</a>.
+      </p>
+
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .doc {
+    max-width: 760px;
+    padding: 1rem 0 3rem;
+  }
+
+  .back-link {
+    display: table;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+  }
+
+  .back-link:hover {
+    color: var(--color-primary);
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  h1 {
+    font-size: 2.25rem;
+    margin: 0 0 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+    margin: 2.25rem 0 0.75rem;
+  }
+
+  p {
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  .entorno {
+    margin-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .entorno-fila {
+    display: grid;
+    grid-template-columns: 10rem 1fr;
+    gap: 1rem;
+    padding: 0.55rem 0;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.88rem;
+  }
+
+  .entorno-fila span {
+    color: var(--text-tertiary);
+  }
+
+  .entorno-fila strong {
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+
+  .grupo-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-top: 2.5rem;
+  }
+
+  .grupo-header h2 {
+    margin: 0;
+  }
+
+  .grupo-num {
+    font-size: 0.9rem;
+    color: var(--text-tertiary);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .tablas {
+    margin-top: 0.75rem;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .tabla {
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .tabla-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+  }
+
+  .tabla-nombre {
+    font-weight: 600;
+    font-size: 0.92rem;
+    color: var(--text-primary);
+  }
+
+  .tabla-registros {
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+    white-space: nowrap;
+  }
+
+  .columnas {
+    margin: 0.4rem 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 0.9rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.76rem;
+    line-height: 1.5;
+  }
+
+  .col {
+    color: var(--text-secondary);
+  }
+
+  .col.llave {
+    color: var(--text-primary);
+  }
+
+  .col small {
+    margin-left: 0.3rem;
+    font-size: 0.65rem;
+    color: var(--color-primary);
+  }
+
+  .lista-filas {
+    border-top: 1px solid var(--border-color);
+  }
+
+  .fila {
+    display: grid;
+    grid-template-columns: 14rem 1fr;
+    gap: 1rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+  }
+
+  .fila code {
+    font-size: 0.8rem;
+    color: var(--text-primary);
+  }
+
+  .lista {
+    color: var(--text-secondary);
+    line-height: 1.8;
+    padding-left: 1.25rem;
+    font-size: 0.92rem;
+  }
+
+  .siguiente {
+    margin-top: 2rem;
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 600px) {
+    .entorno-fila,
+    .fila {
+      grid-template-columns: 1fr;
+      gap: 0.2rem;
+    }
+  }
+</style>

@@ -1,0 +1,184 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Navigation from '../../../components/Navigation.astro';
+import Footer from '../../../components/Footer.astro';
+import { siteConfig } from '../../../config';
+
+const partes = [
+  { parte: 'Frontend', usa: 'Angular' },
+  { parte: 'Backend', usa: 'Spring Boot con JDBC, sin ORM' },
+  { parte: 'Seguridad', usa: 'Login con JWT y verificación por correo' },
+  { parte: 'Base de datos', usa: 'Oracle, esquema LIGA' },
+];
+
+const pantallas = [
+  { nombre: 'Dashboard', hace: 'Resumen de la liga: posiciones, goleadores, cifras, estadios y árbitros.', imagen: '' },
+  { nombre: 'Posiciones', hace: 'La tabla del torneo, calculada con los resultados.', imagen: '' },
+  { nombre: 'Equipos y jugadores', hace: 'Cada equipo con su escudo, técnico, estadio y plantilla.', imagen: '' },
+  { nombre: 'Partidos', hace: 'Resultados por jornada y los próximos partidos.', imagen: '' },
+  { nombre: 'Árbitros, estadios y torneos', hace: 'Consulta de cada uno.', imagen: '' },
+  { nombre: 'Login y registro', hace: 'Crear cuenta, verificar el correo y escoger equipo favorito.', imagen: '' },
+  { nombre: 'Panel de administrador', hace: 'Crear, editar y borrar datos de la liga. Solo para el rol ADMIN.', imagen: '' },
+];
+---
+
+<BaseLayout title={'Aplicación del proyecto - ' + siteConfig.title}>
+  <Navigation />
+
+  <main class="container" style="padding-top: 6rem;">
+    <article class="doc">
+
+      <a href="/evidencias" class="back-link">← Volver a Evidencias</a>
+
+      <span class="eyebrow">Proyecto · Aplicación</span>
+      <h1>La aplicación web</h1>
+
+      <p class="intro">
+        Una app de uso interno conectada a <a href="/evidencias/proyecto/base-de-datos">la base de datos</a>.
+        Cualquiera consulta; solo el administrador modifica.
+      </p>
+
+      <div class="partes">
+        {partes.map(p => (
+          <div class="parte">
+            <span>{p.parte}</span>
+            <strong>{p.usa}</strong>
+          </div>
+        ))}
+      </div>
+
+      <h2>Pantallas</h2>
+      <div class="pantallas">
+        {pantallas.map((p, i) => (
+          <section class="pantalla">
+            <span class="pantalla-num">{String(i + 1).padStart(2, '0')}</span>
+            <div>
+              <h3>{p.nombre}</h3>
+              <p>{p.hace}</p>
+              {p.imagen && <img src={p.imagen} alt={'Pantalla ' + p.nombre} class="img-doc" />}
+            </div>
+          </section>
+        ))}
+      </div>
+
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .doc {
+    max-width: 860px;
+    padding: 1rem 0 3rem;
+  }
+
+  .back-link {
+    display: table;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+  }
+
+  .back-link:hover {
+    color: var(--color-primary);
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  h1 {
+    font-size: 2.25rem;
+    margin: 0 0 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+    margin: 2.25rem 0 0.75rem;
+  }
+
+  p {
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  .partes {
+    margin-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .parte {
+    display: grid;
+    grid-template-columns: 10rem 1fr;
+    gap: 1rem;
+    padding: 0.55rem 0;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.88rem;
+  }
+
+  .parte span {
+    color: var(--text-tertiary);
+  }
+
+  .parte strong {
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+
+  .pantallas {
+    border-top: 1px solid var(--border-color);
+  }
+
+  .pantalla {
+    display: grid;
+    grid-template-columns: 2.5rem 1fr;
+    gap: 1.25rem;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .pantalla > div {
+    min-width: 0;
+  }
+
+  .pantalla-num {
+    font-size: 0.9rem;
+    color: var(--text-tertiary);
+    font-variant-numeric: tabular-nums;
+    padding-top: 0.1rem;
+  }
+
+  .pantalla h3 {
+    font-size: 1rem;
+    margin: 0 0 0.25rem;
+  }
+
+  .pantalla p {
+    margin: 0;
+    font-size: 0.92rem;
+  }
+
+  .img-doc {
+    display: block;
+    width: 100%;
+    margin-top: 1rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+  }
+
+  @media (max-width: 600px) {
+    .parte,
+    .pantalla {
+      grid-template-columns: 1fr;
+      gap: 0.3rem;
+    }
+  }
+</style>

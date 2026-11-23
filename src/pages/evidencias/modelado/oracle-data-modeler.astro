@@ -10,78 +10,44 @@ import { siteConfig } from '../../../config';
 
   <main class="container" style="padding-top: 6rem;">
     <article class="doc">
-
       <a href="/evidencias" class="back-link">← Volver a Evidencias</a>
 
       <span class="eyebrow">Modelado · 04</span>
-      <h1>Uso de Oracle Data Modeler</h1>
+      <h1>Oracle Data Modeler</h1>
 
-      <p class="intro">
-        Oracle Data Modeler usa la notación <strong>crowfoot</strong> (pata de
-        gallo) para representar el modelo lógico. Estos son los símbolos que más
-        uso al modelar ahí.
-      </p>
+      <p class="intro">Usa la notación pata de gallo. Estos son los símbolos que más uso.</p>
 
-      <h2>Símbolos de atributos</h2>
-      <ul class="simbolos">
-        <li><code>#</code> — identificador primario (clave primaria)</li>
-        <li><code>*</code> — atributo obligatorio</li>
-        <li><code>o</code> — atributo opcional</li>
-        <li><code>U</code> — atributo único</li>
-      </ul>
+      <dl class="definiciones">
+        <div class="def"><dt><code>#</code></dt><dd>Clave primaria</dd></div>
+        <div class="def"><dt><code>*</code></dt><dd>Obligatorio</dd></div>
+        <div class="def"><dt><code>o</code></dt><dd>Opcional</dd></div>
+        <div class="def"><dt><code>U</code></dt><dd>Único</dd></div>
+        <div class="def"><dt><code>||</code></dt><dd>Exactamente uno</dd></div>
+        <div class="def"><dt><code>o|</code></dt><dd>Cero o uno</dd></div>
+        <div class="def"><dt><code>|&lt;</code></dt><dd>Uno o muchos</dd></div>
+        <div class="def"><dt><code>o&lt;</code></dt><dd>Cero o muchos</dd></div>
+      </dl>
+      <p class="nota">La FK siempre queda del lado de la pata de gallo (el lado de "muchos").</p>
 
-      <h2>Cómo se lee la participación en la línea</h2>
-      <p>
-        La notación combina dos símbolos por cada extremo de la relación: uno
-        indica la <strong>cardinalidad</strong> (cuántos) y otro la
-        <strong>opcionalidad</strong> (si es obligatorio o no).
-      </p>
-      <ul class="simbolos">
-        <li>Dos líneas verticales (||) — participa exactamente uno</li>
-        <li>Círculo + línea vertical (o|) — participa uno o ninguno (opcional)</li>
-        <li>Línea vertical + pata de gallo (|&lt;) — participan muchos, mínimo uno</li>
-        <li>Círculo + pata de gallo (o&lt;) — participan muchos o ninguno</li>
-      </ul>
-      <p>
-        La clave foránea siempre queda del lado donde está la pata de gallo (el
-        lado de "muchos").
-      </p>
-
-            <h2>Ejercicio realizado en la aplicación</h2>
-
-      <h3>Modelo lógico</h3>
+      <h2>Modelo lógico</h2>
       <img src="/images/Oracle1.png" alt="Modelo lógico en Oracle Data Modeler" class="img-doc" />
-
-      <h3>Modelo relacional</h3>
-      <img src="/images/Oracle2.png" alt="Modelo relacional en Oracle Data Modeler" class="img-doc" />
 
       <section class="bitacora">
         <div class="bitacora-fila">
           <span class="bitacora-label">En clase</span>
-          <p>
-            El ejercicio de las capturas lo hicimos con mis compañeros: lo
-            empezamos en clase y lo terminamos como tarea.
-          </p>
+          <p>Lo empezamos en grupo en clase y lo terminamos como tarea.</p>
         </div>
         <div class="bitacora-fila">
           <span class="bitacora-label">Lo que aprendí</span>
-          <p>
-            Al inicio me costó entender la notación de pata de gallo y el modelo
-            relacional, que al principio era muy confuso. También tuve que
-            aprender la notación propia de la aplicación: los círculos, los
-            asteriscos y los demás símbolos que muestra en cada atributo y en
-            cada línea.
-          </p>
+          <p>Al inicio me confundían la pata de gallo y los símbolos de la app. El paso al relacional está en <a href="/evidencias/modelado/modelorelacional">Modelo relacional</a>.</p>
         </div>
       </section>
 
       <h2>Fuentes</h2>
       <ul class="fuentes">
-        <li>Platzi — "Diagrama ER con notación crow's foot"</li>
-        <li>GitHub (juan-bol) — "Guía tutorial para el uso de Data Modeler"</li>
-        <li>Jorge Sánchez — "Manual de Gestión de Bases de Datos"</li>
+        <li><a href="https://www.oracle.com/database/sqldeveloper/technologies/sql-data-modeler/" target="_blank" rel="noopener">Oracle — SQL Developer Data Modeler</a></li>
+        <li><a href="https://es.wikipedia.org/wiki/Diagrama_entidad-relación" target="_blank" rel="noopener">Wikipedia — Diagrama entidad-relación</a></li>
       </ul>
-
     </article>
   </main>
 
@@ -107,7 +73,7 @@ import { siteConfig } from '../../../config';
     margin-bottom: 1.5rem;
   }
   .back-link {
-    display: inline-block;
+    display: table;
     font-size: 0.85rem;
     color: var(--text-secondary);
     margin-bottom: 1.5rem;
@@ -218,5 +184,43 @@ import { siteConfig } from '../../../config';
       grid-template-columns: 1fr;
       gap: 0.4rem;
     }
+  }
+  .definiciones {
+    margin: 0;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .def {
+    display: grid;
+    grid-template-columns: 11rem 1fr;
+    gap: 1.25rem;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .def dt {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 0.92rem;
+  }
+
+  .def dd {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 600px) {
+    .def {
+      grid-template-columns: 1fr;
+      gap: 0.2rem;
+    }
+  }
+
+  .nota {
+    font-size: 0.85rem;
+    color: var(--text-tertiary);
+    margin-top: 0.75rem;
   }
 </style>

@@ -10,80 +10,38 @@ import { siteConfig } from '../../../config';
 
   <main class="container" style="padding-top: 6rem;">
     <article class="doc">
-
       <a href="/evidencias" class="back-link">← Volver a Evidencias</a>
 
-      <span class="eyebrow">Normalización</span>
+      <span class="eyebrow">Normalización · 01</span>
       <h1>Conceptos</h1>
 
-      <h2>¿Qué es la normalización y para qué sirve?</h2>
-      <p>
-        Es el proceso de organizar las tablas de una base de datos para reducir
-        la redundancia de datos y evitar inconsistencias. Sirve, sobre todo, para
-        que la información no se repita innecesariamente y para que insertar,
-        actualizar o borrar datos no genere errores o datos "huérfanos".
-      </p>
+      <p class="intro">Normalizar es organizar las tablas para que los datos no se repitan ni se contradigan.</p>
 
-      <h2>Dependencia funcional</h2>
-      <p>
-        Es la relación que existe entre atributos de una tabla: un atributo
-        <strong>depende funcionalmente</strong> de otro si, conociendo el valor
-        del primero, se puede saber con certeza el valor del segundo.
-      </p>
-
-      <h2>Determinante y determinado</h2>
-      <p>
-        Dentro de una dependencia funcional X → Y, <strong>X es el
-        determinante</strong> (el que "manda") y <strong>Y es el
-        determinado</strong> (el que depende de X). Por ejemplo, si el cédula
-        determina el nombre de una persona, la cédula es el determinante y el
-        nombre es el determinado.
-      </p>
-
-      <h2>Anomalías</h2>
-      <p>
-        Son problemas que aparecen cuando una tabla no está bien normalizada.
-        Hay tres tipos principales:
-      </p>
-      <ul class="lista-conceptos">
-        <li><strong>Anomalía de inserción:</strong> no se puede agregar un dato sin tener que agregar también otro que no debería ser obligatorio en ese momento.</li>
-        <li><strong>Anomalía de actualización:</strong> al cambiar un dato repetido en varias filas, hay que actualizarlo en todas, y si se olvida alguna, la información queda inconsistente.</li>
-        <li><strong>Anomalía de borrado:</strong> al borrar una fila, se pierde información que en realidad no debería desaparecer.</li>
-      </ul>
-
-      <h2>Llave primaria</h2>
-      <p>
-        Es el atributo (o conjunto de atributos) que identifica de forma única
-        cada fila de una tabla — no admite valores nulos ni repetidos. Es la base
-        sobre la que se revisan todas las formas normales.
-      </p>
+      <dl class="definiciones">
+        <div class="def"><dt>Dependencia funcional</dt><dd>X → Y: si sé X, sé Y. Con la cédula sé el nombre.</dd></div>
+        <div class="def"><dt>Determinante</dt><dd>El lado izquierdo (X), el que "manda".</dd></div>
+        <div class="def"><dt>Llave primaria</dt><dd>Identifica cada fila. De ella parte toda la revisión.</dd></div>
+        <div class="def"><dt>Anomalía de inserción</dt><dd>No se puede agregar un dato sin inventar otro.</dd></div>
+        <div class="def"><dt>Anomalía de actualización</dt><dd>Un dato repetido hay que cambiarlo en todas partes.</dd></div>
+        <div class="def"><dt>Anomalía de borrado</dt><dd>Al borrar una fila se pierde información que no se quería perder.</dd></div>
+      </dl>
 
       <section class="bitacora">
         <div class="bitacora-fila">
           <span class="bitacora-label">En clase</span>
-          <p>
-            Estos conceptos los explicó el profe en clase, como base para poder
-            normalizar después.
-          </p>
+          <p>El profe los explicó como base para normalizar.</p>
         </div>
         <div class="bitacora-fila">
           <span class="bitacora-label">Lo que aprendí</span>
-          <p>
-            Al principio me costó encontrar las dependencias funcionales, porque
-            primero hay que tener clara la llave primaria y eso también podía ser
-            confuso. Entendí que si no sé qué determina a qué, no puedo saber qué
-            tablas sobran ni cuáles faltan.
-          </p>
+          <p>Encontrar las dependencias me costó al principio, porque antes hay que tener clara la llave primaria.</p>
         </div>
       </section>
 
       <h2>Fuentes</h2>
       <ul class="fuentes">
-        <li>KeepCoding — "Formas normales de una base de datos: guía completa"</li>
-        <li>manuel.cillero.es — "Normalización"</li>
-        <li>ITCA — "Normalización"</li>
+        <li><a href="https://es.wikipedia.org/wiki/Normalización_de_bases_de_datos" target="_blank" rel="noopener">Wikipedia — Normalización de bases de datos</a></li>
+        <li><a href="https://es.wikipedia.org/wiki/Dependencia_funcional" target="_blank" rel="noopener">Wikipedia — Dependencia funcional</a></li>
       </ul>
-
     </article>
   </main>
 
@@ -97,7 +55,7 @@ import { siteConfig } from '../../../config';
   }
 
   .back-link {
-    display: inline-block;
+    display: table;
     font-size: 0.85rem;
     color: var(--text-secondary);
     margin-bottom: 1.5rem;
@@ -186,6 +144,38 @@ import { siteConfig } from '../../../config';
     .bitacora-fila {
       grid-template-columns: 1fr;
       gap: 0.4rem;
+    }
+  }
+  .definiciones {
+    margin: 0;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .def {
+    display: grid;
+    grid-template-columns: 11rem 1fr;
+    gap: 1.25rem;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .def dt {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 0.92rem;
+  }
+
+  .def dd {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 600px) {
+    .def {
+      grid-template-columns: 1fr;
+      gap: 0.2rem;
     }
   }
 </style>

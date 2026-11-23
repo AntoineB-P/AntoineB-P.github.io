@@ -1,0 +1,194 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Navigation from '../../../components/Navigation.astro';
+import Footer from '../../../components/Footer.astro';
+import { siteConfig } from '../../../config';
+
+const modelos = [
+  {
+    titulo: 'MER',
+    herramienta: 'draw.io · notación Chen',
+    texto: 'Las entidades de la liga y cómo se relacionan: equipos, jugadores, partidos, árbitros, goles, tarjetas y usuarios.',
+    imagen: '/images/mer-liga.svg',
+  },
+  {
+    titulo: 'MER extendido',
+    herramienta: 'draw.io',
+    texto: 'JUGADOR se especializa en ATACANTE, MEDIOCAMPISTA, DEFENSA y PORTERO, cada uno con un dato propio.',
+    imagen: '/images/mere-liga.svg',
+  },
+  {
+    titulo: 'Reducción a tablas',
+    herramienta: 'draw.io',
+    texto: 'El MER pasado a tablas con sus PK y FK. Las relaciones N:M quedaron como tablas: INSCRIPCION, ARBITRAJE y EQUIPO_TORNEO.',
+    imagen: '/images/tablas-liga.svg',
+  },
+  {
+    titulo: 'Normalización',
+    herramienta: '3FN',
+    texto: 'Revisamos cada tabla hasta 3FN. La edad y la tabla de posiciones no se guardan porque se calculan.',
+    imagen: '',
+  },
+  {
+    titulo: 'Modelo lógico y relacional',
+    herramienta: 'Oracle Data Modeler',
+    texto: 'El mismo modelo en pata de gallo y como tablas, igual a la base que quedó en Oracle.',
+    imagen: '',
+  },
+];
+---
+
+<BaseLayout title={'Modelos del proyecto - ' + siteConfig.title}>
+  <Navigation />
+
+  <main class="container" style="padding-top: 6rem;">
+    <article class="doc">
+
+      <a href="/evidencias" class="back-link">← Volver a Evidencias</a>
+
+      <span class="eyebrow">Proyecto · Modelos</span>
+      <h1>Del MER a las tablas</h1>
+
+      <p class="intro">
+        Los modelos de la Liga BetPlay en el orden en que los hicimos. El
+        resultado final está en <a href="/evidencias/proyecto/base-de-datos">la base de datos</a>.
+      </p>
+
+      <div class="modelos">
+        {modelos.map((m, i) => (
+          <section class="modelo">
+            <div class="modelo-header">
+              <span class="modelo-num">{String(i + 1).padStart(2, '0')}</span>
+              <h2>{m.titulo}</h2>
+              <span class="modelo-herramienta">{m.herramienta}</span>
+            </div>
+            <p>{m.texto}</p>
+            {m.imagen && (
+              <a href={m.imagen} target="_blank" rel="noopener" class="img-link">
+                <img src={m.imagen} alt={m.titulo + ' de la Liga BetPlay'} class="img-doc" />
+                <span>Abrir en grande ↗</span>
+              </a>
+            )}
+          </section>
+        ))}
+      </div>
+
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .doc {
+    max-width: 860px;
+    padding: 1rem 0 3rem;
+  }
+
+  .back-link {
+    display: table;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+  }
+
+  .back-link:hover {
+    color: var(--color-primary);
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  h1 {
+    font-size: 2.25rem;
+    margin: 0 0 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  p {
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  .modelos {
+    margin-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .modelo {
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .modelo-header {
+    display: grid;
+    grid-template-columns: 2.5rem 1fr auto;
+    align-items: baseline;
+    gap: 1.25rem;
+  }
+
+  .modelo-header h2 {
+    font-size: 1.2rem;
+    margin: 0;
+  }
+
+  .modelo-num {
+    font-size: 0.9rem;
+    color: var(--text-tertiary);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .modelo-herramienta {
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+  }
+
+  .modelo p {
+    margin: 0.5rem 0 0;
+    padding-left: calc(2.5rem + 1.25rem);
+  }
+
+  .img-doc {
+    display: block;
+    width: 100%;
+    margin-top: 1rem;
+    border-radius: 14px;
+    border: 1px solid var(--border-color);
+  }
+
+  .img-link {
+    display: block;
+  }
+
+  .img-link span {
+    display: inline-block;
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--text-tertiary);
+  }
+
+  .img-link:hover span {
+    color: var(--color-primary);
+  }
+
+  @media (max-width: 600px) {
+    .modelo-header {
+      grid-template-columns: 2rem 1fr;
+    }
+
+    .modelo-herramienta {
+      grid-column: 2;
+    }
+
+    .modelo p {
+      padding-left: 0;
+    }
+  }
+</style>
